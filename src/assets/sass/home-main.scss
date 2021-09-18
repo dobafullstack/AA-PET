@@ -1,0 +1,41 @@
+@import "./variable.scss";
+
+.wrapper {
+    height: calc(100vh - 200px);
+    width: 100%;
+    position: relative;
+
+    background-image: url("../../assets/images/HomeBackground.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    padding-left: 20rem;
+
+    .slogan {
+        width: 18rem !important;
+        padding-top: 10em;
+        span {
+            color: white;
+            font-family: $primary-font;
+            font-size: 2.5rem;
+        }
+    }
+
+    .btn-explore{
+        position: absolute;
+        top: 40%;
+        
+        background-color: $purple-color;
+
+        border-radius: 40px;
+
+        padding: 1em 2em;
+
+        p{
+            margin: 0;
+            color: white;
+            font-family: $primary-font;
+            font-size: 1rem;
+        }
+    }
+}
