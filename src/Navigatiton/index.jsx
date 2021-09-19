@@ -3,6 +3,8 @@ import { Switch, Route, } from "react-router-dom";
 
 import Main from '../pages/Main'
 import Home from '../pages/Home'
+import Login from '../pages/Login';
+import Register from '../pages/Register'
 
 export default function index() {
     return (
@@ -12,6 +14,12 @@ export default function index() {
             </Route>
             <Route path='/home' exact>
                 <Home />
+            </Route>
+            <Route path='/login' exact>
+                <Login />
+            </Route>
+            <Route path='/register' exact>
+                <Register />
             </Route>
         </Switch>
     );

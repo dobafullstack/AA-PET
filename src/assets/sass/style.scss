@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap');
 @import './header.scss';
 @import './footer.scss';
+@import './login.scss';
+@import './register.scss';
 
+main{
+    min-height: calc(100vh - 200px);
+    font-family: $primary-font;
+}

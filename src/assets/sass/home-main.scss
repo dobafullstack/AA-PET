@@ -5,36 +5,36 @@
     width: 100%;
     position: relative;
 
-    background-image: url("../../assets/images/HomeBackground.png");
+    background-image: url("../../assets/images/HomeBackGround.png");
     background-repeat: no-repeat;
     background-size: cover;
 
     padding-left: 20rem;
 
     .slogan {
-        width: 18rem !important;
+        width: 22rem !important;
         padding-top: 10em;
         span {
             color: white;
-            font-family: $primary-font;
-            font-size: 2.5rem;
+
+            font-size: 3rem;
         }
     }
 
-    .btn-explore{
+    .btn-explore {
         position: absolute;
         top: 40%;
-        
+
         background-color: $purple-color;
 
         border-radius: 40px;
 
         padding: 1em 2em;
 
-        p{
+        p {
             margin: 0;
             color: white;
-            font-family: $primary-font;
+
             font-size: 1rem;
         }
     }
