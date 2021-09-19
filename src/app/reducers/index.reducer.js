@@ -1,5 +1,7 @@
-import productReducer from "./product.reducer";
+import productReducer from './product.reducer';
 
-export default {
+const rootReducer = {
     product: productReducer,
-}
+};
+
+export default rootReducer;

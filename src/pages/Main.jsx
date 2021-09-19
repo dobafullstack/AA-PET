@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../assets/css/home-main.css";
 
-export default function HomeMain() {
+export function HomeMain() {
     return (
         <div className='wrapper'>
             <div className='slogan'>

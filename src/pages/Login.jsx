@@ -1,11 +1,10 @@
-import '../assets/css/login.css';
 import React from 'react'
 import {Link} from 'react-router-dom'
 
 import FacebookIcon from '../assets/images/facebook.png'
 import GoogleIcon from '../assets/images/google.png'
 
-export default function Login() {
+export function Login() {
     return (
         <div className='login-wrapper'>
             <div className='login'>

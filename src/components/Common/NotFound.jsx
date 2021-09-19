@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Home() {
+export function NotFound() {
     return (
         <div>
-            This is home
+            Not Found
         </div>
     )
 }

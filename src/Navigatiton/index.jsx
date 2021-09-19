@@ -1,25 +1,29 @@
-import React from 'react'
-import { Switch, Route, } from "react-router-dom";
-
-import Main from '../pages/Main'
-import Home from '../pages/Home'
-import Login from '../pages/Login';
-import Register from '../pages/Register'
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Home, Login, HomeMain, Register } from '../pages/';
+import { NotFound, PrivateRoute } from '../components/Common';
+import Admin from '../components/Layout/Admin';
 
 export default function index() {
     return (
         <Switch>
-            <Route path='/' exact>
-                <Main />
+            <Route path="/" exact>
+                <HomeMain />
             </Route>
-            <Route path='/home' exact>
+            <Route path="/home" exact>
                 <Home />
             </Route>
-            <Route path='/login' exact>
+            <Route path="/login" exact>
                 <Login />
             </Route>
-            <Route path='/register' exact>
+            <Route path="/register" exact>
                 <Register />
+            </Route>
+            <PrivateRoute path="/admin">
+                <Admin />
+            </PrivateRoute>
+            <Route>
+                <NotFound />
             </Route>
         </Switch>
     );
