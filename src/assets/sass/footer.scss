@@ -1,4 +1,4 @@
-@import "./variable.scss";
+@import './variable.scss';
 
 footer {
     background-image: linear-gradient(
@@ -32,6 +32,21 @@ footer {
 
         i {
             margin-right: 0.5rem;
+        }
+    }
+}
+
+@media (max-width: 376px) {
+    footer {
+        padding: 0 1rem;
+        .footer-item {
+            a {
+                font-size: .8rem;
+            }
+
+            i{
+                font-size: .8rem;
+            }
         }
     }
 }

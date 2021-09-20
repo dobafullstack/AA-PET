@@ -1,11 +1,11 @@
-@import "./variable.scss";
+@import './variable.scss';
 
 .wrapper {
     height: calc(100vh - 200px);
     width: 100%;
     position: relative;
 
-    background-image: url("../images/HomeBackground.png");
+    background-image: url('../images/HomeBackground.png');
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -13,7 +13,7 @@
 
     .slogan {
         width: 22rem !important;
-        
+
         position: absolute;
         top: 10%;
 
@@ -23,8 +23,8 @@
             font-size: 3rem;
         }
     }
-    
-    .left-slogan{
+
+    .left-slogan {
         width: 22rem !important;
 
         position: absolute;
@@ -33,7 +33,7 @@
 
         span {
             color: white;
-    
+
             font-size: 3rem;
         }
     }
@@ -53,6 +53,34 @@
             color: white;
 
             font-size: 1rem;
+        }
+    }
+}
+
+@media(max-width: 769px){
+    .wrapper{
+        background-position: center;
+
+        .slogan{
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+
+            text-align: center;
+
+            span{
+                font-size: 1.5rem;
+            }
+        }
+
+        .left-slogan{
+            display: none;
+        }
+
+        .btn-explore{
+            left: 50%;
+            top: 70%;
+            transform: translateX(-50%);
         }
     }
 }

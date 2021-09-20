@@ -1,41 +1,84 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
 header {
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   background-image: linear-gradient(#0B79A0, #2B85A7, #046D96);
   z-index: 10;
+  padding: 8px 10rem;
+}
+header .desktop-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 10rem;
 }
-header .header-left {
+header .desktop-wrapper .header-left {
   display: flex;
   align-items: center;
 }
-header .header-left img {
+header .desktop-wrapper .header-left img {
   margin-right: 1rem;
 }
-header .header-left a {
+header .desktop-wrapper .header-left a {
   text-decoration: none;
 }
-header .header-left a p {
+header .desktop-wrapper .header-left a p {
   text-transform: lowercase;
   color: #FBFBFB;
   font-size: 2.5rem;
 }
-header .header-right {
+header .desktop-wrapper .header-right {
   color: white;
   font-size: 1.2rem;
 }
-header .header-right i {
+header .desktop-wrapper .header-right i {
   margin-right: 0.5rem;
 }
-header .header-right span a {
+header .desktop-wrapper .header-right i.bar {
+  display: none;
+}
+header .desktop-wrapper .header-right span a {
   color: white;
   text-decoration: none;
 }
 
+@media (max-width: 769px) {
+  header {
+    position: relative;
+    min-height: 70px;
+    padding: 0.5rem 1rem;
+  }
+  header .desktop-wrapper .header-left img {
+    height: 3rem;
+  }
+  header .desktop-wrapper .header-left a p {
+    font-size: 1.5rem;
+  }
+  header .desktop-wrapper .header-right i {
+    display: none;
+  }
+  header .desktop-wrapper .header-right i.bar {
+    display: block;
+    font-size: 2rem;
+  }
+  header .desktop-wrapper .header-right span {
+    display: none;
+  }
+  header .header-collapse {
+    width: calc(100% + 2rem);
+    padding: 1rem 1.5rem;
+    color: white;
+    z-index: 999;
+  }
+  header .header-collapse ul {
+    list-style: none;
+  }
+  header .header-collapse ul li i {
+    min-width: 1.5rem;
+  }
+  header .header-collapse ul li a {
+    color: white;
+  }
+}
 footer {
   background-image: linear-gradient(#0B79A0, #2B85A7, #046D96);
   z-index: 10;
@@ -61,6 +104,17 @@ footer .footer-item i {
   margin-right: 0.5rem;
 }
 
+@media (max-width: 376px) {
+  footer {
+    padding: 0 1rem;
+  }
+  footer .footer-item a {
+    font-size: 0.8rem;
+  }
+  footer .footer-item i {
+    font-size: 0.8rem;
+  }
+}
 .login-wrapper {
   width: 100%;
   height: calc(100vh - 200px);
@@ -245,6 +299,28 @@ footer .footer-item i {
   font-size: 1rem;
 }
 
+@media (max-width: 769px) {
+  .wrapper {
+    background-position: center;
+  }
+  .wrapper .slogan {
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+  }
+  .wrapper .slogan span {
+    font-size: 1.5rem;
+  }
+  .wrapper .left-slogan {
+    display: none;
+  }
+  .wrapper .btn-explore {
+    left: 50%;
+    top: 70%;
+    transform: translateX(-50%);
+  }
+}
 .notfound-wrapper {
   width: 100%;
   height: calc(100vh - 200px);
@@ -276,42 +352,46 @@ footer .footer-item i {
 }
 
 header#main-header {
-  max-height: 100px;
   background-image: none !important;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+header#main-header .main-header-desktop-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
-header#main-header .left a {
+header#main-header .main-header-desktop-wrapper .left a {
   color: black;
 }
-header#main-header .left a span {
+header#main-header .main-header-desktop-wrapper .left a span {
   font-size: 2rem;
 }
-header#main-header .middle {
+header#main-header .main-header-desktop-wrapper .middle {
   position: relative;
 }
-header#main-header .middle a {
+header#main-header .main-header-desktop-wrapper .middle a {
   margin: 0 2rem;
   color: black;
   font-size: 1.2rem;
 }
-header#main-header .middle a:hover {
+header#main-header .main-header-desktop-wrapper .middle a:hover {
   color: #E18847;
 }
-header#main-header .right i {
+header#main-header .main-header-desktop-wrapper .right i {
   margin: 0 2rem;
   font-size: 1.2rem;
 }
-header#main-header .right span a {
+header#main-header .main-header-desktop-wrapper .right span a {
   font-size: 1.2rem;
   color: black;
 }
-header#main-header .right span a:hover {
+header#main-header .main-header-desktop-wrapper .right span a:hover {
   color: #E18847;
 }
-header#main-header .sub-wrapper {
+header#main-header .main-header-desktop-wrapper i.bar {
+  display: none;
+}
+header#main-header .main-header-desktop-wrapper .sub-wrapper {
   width: 80%;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
   visibility: hidden;
@@ -327,23 +407,52 @@ header#main-header .sub-wrapper {
   display: flex;
   justify-content: space-around;
 }
-header#main-header .sub-wrapper .sub-item {
+header#main-header .main-header-desktop-wrapper .sub-wrapper .sub-item {
   display: flex;
   flex-direction: column;
 }
-header#main-header .sub-wrapper .sub-item a {
+header#main-header .main-header-desktop-wrapper .sub-wrapper .sub-item a {
   color: black;
   font-size: 1.5rem;
 }
-header#main-header .sub-wrapper .sub-item span {
+header#main-header .main-header-desktop-wrapper .sub-wrapper .sub-item span {
   color: rgba(0, 0, 0, 0.4);
   font-size: 1rem;
 }
-header#main-header .sub-wrapper.active {
+header#main-header .main-header-desktop-wrapper .sub-wrapper.active {
   visibility: visible;
   opacity: 1;
 }
+header#main-header .main-header-collapse {
+  visibility: hidden;
+}
 
+@media (max-width: 769px) {
+  header#main-header .main-header-desktop-wrapper .left img {
+    height: 3rem;
+  }
+  header#main-header .main-header-desktop-wrapper .left a span {
+    font-size: 1.7rem;
+  }
+  header#main-header .main-header-desktop-wrapper .right,
+header#main-header .main-header-desktop-wrapper .middle {
+    display: none;
+  }
+  header#main-header .main-header-desktop-wrapper i.bar {
+    font-size: 1.5rem;
+    display: block;
+  }
+  header#main-header .main-header-collapse {
+    padding: 0.7rem 2rem;
+    visibility: visible;
+  }
+  header#main-header .main-header-collapse ul {
+    list-style: none;
+  }
+  header#main-header .main-header-collapse ul li a {
+    color: black;
+  }
+}
 section.slider {
   display: flex;
   justify-content: center;
@@ -405,4 +514,11 @@ body main {
 }
 body a {
   text-decoration: none;
+}
+body p {
+  margin: 0;
+}
+body ul {
+  padding: 0;
+  margin: 0;
 }
