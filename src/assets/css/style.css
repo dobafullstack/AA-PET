@@ -215,9 +215,20 @@ footer .footer-item i {
 }
 .wrapper .slogan {
   width: 22rem !important;
-  padding-top: 3%;
+  position: absolute;
+  top: 10%;
 }
 .wrapper .slogan span {
+  color: white;
+  font-size: 3rem;
+}
+.wrapper .left-slogan {
+  width: 22rem !important;
+  position: absolute;
+  right: 10%;
+  top: 40%;
+}
+.wrapper .left-slogan span {
   color: white;
   font-size: 3rem;
 }
@@ -234,7 +245,164 @@ footer .footer-item i {
   font-size: 1rem;
 }
 
-main {
-  min-height: calc(100vh - 200px);
+.notfound-wrapper {
+  width: 100%;
+  height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("../images/LoginBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}
+.notfound-wrapper h1 {
+  font-size: 5rem;
+}
+.notfound-wrapper p {
+  width: 20%;
+  font-size: 1rem;
+  text-align: center;
+}
+.notfound-wrapper a {
+  text-decoration: none;
+  border: none !important;
+  outline: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 40px;
+  color: white;
+  background-image: linear-gradient(#0B79A0, #2B85A7, #046D96);
+}
+
+header#main-header {
+  max-height: 100px;
+  background-image: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+header#main-header .left a {
+  color: black;
+}
+header#main-header .left a span {
+  font-size: 2rem;
+}
+header#main-header .middle {
+  position: relative;
+}
+header#main-header .middle a {
+  margin: 0 2rem;
+  color: black;
+  font-size: 1.2rem;
+}
+header#main-header .middle a:hover {
+  color: #E18847;
+}
+header#main-header .right i {
+  margin: 0 2rem;
+  font-size: 1.2rem;
+}
+header#main-header .right span a {
+  font-size: 1.2rem;
+  color: black;
+}
+header#main-header .right span a:hover {
+  color: #E18847;
+}
+header#main-header .sub-wrapper {
+  width: 80%;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.8s;
+  z-index: 100;
+  background-color: white;
+  padding: 8px 10rem 4rem 10rem;
+  position: absolute;
+  left: 50%;
+  top: 110px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-around;
+}
+header#main-header .sub-wrapper .sub-item {
+  display: flex;
+  flex-direction: column;
+}
+header#main-header .sub-wrapper .sub-item a {
+  color: black;
+  font-size: 1.5rem;
+}
+header#main-header .sub-wrapper .sub-item span {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 1rem;
+}
+header#main-header .sub-wrapper.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+section.slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+section.slider i {
+  font-size: 3rem;
+  position: absolute;
+  cursor: pointer;
+  transition: color 0.5s;
+}
+section.slider i:hover {
+  color: white;
+}
+section.slider i.left {
+  left: 3%;
+  top: 50%;
+}
+section.slider i.right {
+  right: 3%;
+  top: 50%;
+}
+section.slider .slide {
+  opacity: 0;
+  transition-duration: 0.5s ease;
+}
+section.slider .slide-active {
+  opacity: 1;
+  transition-duration: 0.5s;
+  flex-grow: 1;
+}
+section.slider .slider-controller {
+  background-color: transparent;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+section.slider .slider-controller .item {
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  border-radius: 100%;
+  margin: 0 16px;
+  cursor: pointer;
+}
+section.slider .slider-controller .item.active {
+  background-color: #E18847;
+}
+
+body {
   font-family: "Righteous", cursive;
+}
+body main {
+  min-height: calc(100vh - 200px);
+}
+body a {
+  text-decoration: none;
 }

@@ -1,23 +1,29 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import './assets/css/style.css'
-import { BrowserRouter as Router } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Navigation from "./Navigatiton/index";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './assets/css/style.css';
+import Navigation from './Navigatiton/index';
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+}
 
 function App() {
     return (
         <Router>
-            <Header />
-            <main>
-                <Navigation />
-            </main>
-            <Footer />
+            <ScrollToTop />
+            <Navigation />
 
             <ToastContainer
-                position='bottom-left'
+                position="bottom-left"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

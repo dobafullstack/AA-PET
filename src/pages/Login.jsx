@@ -6,28 +6,28 @@ import GoogleIcon from '../assets/images/google.png'
 
 export function Login() {
     return (
-        <div className='login-wrapper'>
-            <div className='login'>
+        <div className="login-wrapper">
+            <div className="login">
                 <h3>Login</h3>
-                <div className='login-form-group'>
-                    <i className='fas fa-user'></i>
-                    <input type='text' placeholder='Username' />
+                <div className="login-form-group">
+                    <i className="fas fa-user"></i>
+                    <input type="text" placeholder="Username" />
                 </div>
-                <div className='login-form-group'>
-                    <i className='fas fa-lock'></i>
-                    <input type='password' placeholder='Password' />
+                <div className="login-form-group">
+                    <i className="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" />
                 </div>
-                <div className='login-form-group check'>
-                    <input type='checkbox' id='remember-me' className="check-remember"/>
-                    <label for='remember-me'>Remember me</label>
+                <div className="login-form-group check">
+                    <input type="checkbox" id="remember-me" className="check-remember" />
+                    <label htmlFor="remember-me">Remember me</label>
                 </div>
                 <button>Login</button>
-                <div className='social-group'>
-                    <Link>
-                        <img src={FacebookIcon} alt="" className="facebook-icon"/>
+                <div className="social-group">
+                    <Link to="/login">
+                        <img src={FacebookIcon} alt="" className="facebook-icon" />
                     </Link>
-                    <Link>
-                        <img src={GoogleIcon} alt="" className="google-icon"/>
+                    <Link to="/login">
+                        <img src={GoogleIcon} alt="" className="google-icon" />
                     </Link>
                 </div>
                 <span>Can't sign in?</span>

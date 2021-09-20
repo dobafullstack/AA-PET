@@ -13,10 +13,27 @@
 
     .slogan {
         width: 22rem !important;
-        padding-top: 3%;
+        
+        position: absolute;
+        top: 10%;
+
         span {
             color: white;
 
+            font-size: 3rem;
+        }
+    }
+    
+    .left-slogan{
+        width: 22rem !important;
+
+        position: absolute;
+        right: 10%;
+        top: 40%;
+
+        span {
+            color: white;
+    
             font-size: 3rem;
         }
     }
