@@ -49,65 +49,65 @@ export default function MainHeader() {
                     onMouseLeave={() => setIsHover(false)}
                 >
                     <div className="sub-item">
-                        <Link>Dresses</Link>
-                        <Link>
+                        <Link to="/category/Dresses">Dresses</Link>
+                        <Link to="/category/Dresses/Outdoor">
                             <span>Outdoor</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Dresses/Indoor">
                             <span>Indoor</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Dresses/Sport">
                             <span>Sport</span>
                         </Link>
                     </div>
                     <div className="sub-item">
-                        <Link>Food</Link>
-                        <Link>
+                        <Link to="/category/Food">Food</Link>
+                        <Link to="/category/Food/Royal">
                             <span>Royal</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Food/Hill's">
                             <span>Hill's</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Food/Purina">
                             <span>Purina</span>
                         </Link>
                     </div>
                     <div className="sub-item">
-                        <Link>Accessories</Link>
-                        <Link>
+                        <Link to="/category/Accessories">Accessories</Link>
+                        <Link to="/category/Accessories/Groom">
                             <span>Groom</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Accessories/Nail cutter">
                             <span>Nail cutter</span>
                         </Link>
                     </div>
                     <div className="sub-item">
-                        <Link>Colar Belt</Link>
-                        <Link>
+                        <Link to="/category/Colar Belt">Colar Belt</Link>
+                        <Link to="/category/Colar Belt/Leather">
                             <span>Leather</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Colar Belt/Fabrics">
                             <span>Fabrics</span>
                         </Link>
                     </div>
                     <div className="sub-item">
-                        <Link>Leashes</Link>
-                        <Link>
+                        <Link to="/category/Leashes">Leashes</Link>
+                        <Link to="/category/Leashes/Chain">
                             <span>Chain</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Leashes/Rubber">
                             <span>Rubber</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Leashes/Leather">
                             <span>Leather</span>
                         </Link>
                     </div>
                     <div className="sub-item">
-                        <Link>Bowl</Link>
-                        <Link>
+                        <Link to="/category/Bowl">Bowl</Link>
+                        <Link to="/category/Bowl/Steel">
                             <span>Steel</span>
                         </Link>
-                        <Link>
+                        <Link to="/category/Bowl/Plastic">
                             <span>Plastic</span>
                         </Link>
                     </div>

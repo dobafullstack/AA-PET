@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { NotFound, PrivateRoute } from '../components/Common';
 import Admin from '../components/Layout/Admin';
 import MainLayout from '../components/Layout/MainLayout';
-import { Home, HomeMain, Login, Register, Category } from '../pages/';
+import { Category, Home, HomeMain, Login, Register, Product } from '../pages/';
 
 export default function index() {
     return (
@@ -28,18 +28,21 @@ export default function index() {
                     <Register />
                 </MainLayout>
             </Route>
-            <Route path="/category" exact>
+            <Route path="/category">
                 <MainLayout>
                     <Category />
+                </MainLayout>
+            </Route>
+            <Route path="/product/:productId">
+                <MainLayout>
+                    <Product />
                 </MainLayout>
             </Route>
             <PrivateRoute path="/admin">
                 <Admin />
             </PrivateRoute>
             <Route>
-                <MainLayout>
-                    <NotFound />
-                </MainLayout>
+                <NotFound />
             </Route>
         </Switch>
     );

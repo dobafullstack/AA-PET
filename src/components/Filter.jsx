@@ -2,9 +2,11 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import '../assets/css/Filter.css';
+import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/all';
 
 export default function Filter() {
     const [isVisibleFilter, setIsVisibleFilter] = useState(false);
+    const [isGrid, setIsGrid] = useState(false);
 
     const filterOptionClassname = classNames('filter-option', {
         active: isVisibleFilter,
@@ -22,17 +24,29 @@ export default function Filter() {
                     />
                     <span onClick={() => setIsVisibleFilter(!isVisibleFilter)}>Filter</span>
                 </div>
+
                 <div className="d-flex">
-                    <img
-                        alt="icon"
-                        className="me-4"
-                        src={require('../assets/images/list-item.png').default}
+                    <HiOutlineViewList
+                        style={{
+                            fontSize: '1.5rem',
+                            cursor: 'pointer',
+                            color: isGrid ? 'rgb(169 166 166)' : 'black',
+                        }}
+                        className="mx-2"
+                        onClick={() => setIsGrid(false)}
                     />
-                    <img alt="icon" src={require('../assets/images/group-item.png').default} />
+                    <HiOutlineViewGrid
+                        style={{
+                            fontSize: '1.5rem',
+                            cursor: 'pointer',
+                            color: isGrid ? 'black' : 'rgb(169 166 166)',
+                        }}
+                        className="mx-2"
+                        onClick={() => setIsGrid(true)}
+                    />
                 </div>
                 <div>
                     <span className="best-seller me-1">Bestseller</span>
-                    <img alt="icon" src={require('../assets/images/down-arrow.png').default} />
                 </div>
             </div>
             <div className={filterOptionClassname}>

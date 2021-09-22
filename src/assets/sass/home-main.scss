@@ -59,6 +59,7 @@
 
 @media(max-width: 769px){
     .wrapper{
+        height: calc(100vh - 140px);
         background-position: center;
 
         .slogan{

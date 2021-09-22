@@ -7,10 +7,14 @@ header#main-header {
         align-items: center;
         justify-content: space-between;
         .left {
+            display: flex;
+            align-items: center;
+
             a {
                 color: black;
                 span {
                     font-size: 2rem;
+                    margin-left: 0.5rem;
                 }
             }
         }
