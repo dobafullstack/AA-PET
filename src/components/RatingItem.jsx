@@ -1,5 +1,5 @@
 import React from 'react';
-import MyRating from './MyRating';
+import { MyRating } from './Common';
 
 export default function RatingItem() {
     return (

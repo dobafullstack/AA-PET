@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../assets/images/LogoHeader.png';
 import { Collapse } from 'reactstrap';
 
-export default function Header() {
+export default function Header({ isLogin }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -14,14 +14,20 @@ export default function Header() {
                         <img src={Logo} alt="" />
                     </Link>
                     <Link to="/">
-                        <p>Mòe</p>
+                        <span>Mòe</span>
                     </Link>
                 </div>
                 <div className="header-right">
                     <i className="fas fa-user-circle"></i>
-                    <span>
-                        <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
-                    </span>
+                    {isLogin ? (
+                        <span>
+                            <Link to="/personal">My Account</Link>
+                        </span>
+                    ) : (
+                        <span>
+                            <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+                        </span>
+                    )}
                     <i className="fal fa-bars bar" onClick={() => setIsOpen(!isOpen)}></i>
                 </div>
             </div>

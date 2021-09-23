@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { NotFound, PrivateRoute } from '../components/Common';
 import Admin from '../components/Layout/Admin';
 import MainLayout from '../components/Layout/MainLayout';
-import { Category, Home, HomeMain, Login, Register, Product } from '../pages/';
+import { Category, Home, HomeMain, Login, Product, Register, Cart, Personal } from '../pages/';
 
 export default function index() {
     return (
@@ -33,13 +33,25 @@ export default function index() {
                     <Category />
                 </MainLayout>
             </Route>
+            <Route path="/cart">
+                <MainLayout>
+                    <Cart />
+                </MainLayout>
+            </Route>
+            <PrivateRoute path="/personal">
+                <MainLayout>
+                    <Personal />
+                </MainLayout>
+            </PrivateRoute>
             <Route path="/product/:productId">
                 <MainLayout>
                     <Product />
                 </MainLayout>
             </Route>
             <PrivateRoute path="/admin">
-                <Admin />
+                <MainLayout>
+                    <Admin />
+                </MainLayout>
             </PrivateRoute>
             <Route>
                 <NotFound />

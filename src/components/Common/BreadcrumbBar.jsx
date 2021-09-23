@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../assets/css/Breadcrumb.css';
+import '../../assets/css/Breadcrumb.css';
 
-export default function BreadcrumbBar({ breadcrumbs }) {
+export function BreadcrumbBar({ breadcrumbs }) {
 
     return (
         <div className="breadcrumb-wrapper">

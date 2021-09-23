@@ -4,9 +4,8 @@ import { Col, Container, Row } from 'reactstrap';
 import '../assets/css/Filter.css';
 import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/all';
 
-export default function Filter() {
+export default function Filter({ isGrid, setIsGrid }) {
     const [isVisibleFilter, setIsVisibleFilter] = useState(false);
-    const [isGrid, setIsGrid] = useState(false);
 
     const filterOptionClassname = classNames('filter-option', {
         active: isVisibleFilter,
@@ -46,7 +45,10 @@ export default function Filter() {
                     />
                 </div>
                 <div>
-                    <span className="best-seller me-1">Bestseller</span>
+                    <span className="best-seller me-1">
+                        Bestseller <i className="fas fa-chevron-down"></i>
+                    </span>
+                        <div className="option"></div>
                 </div>
             </div>
             <div className={filterOptionClassname}>

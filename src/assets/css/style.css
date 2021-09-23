@@ -21,8 +21,8 @@ header .desktop-wrapper .header-left img {
 header .desktop-wrapper .header-left a {
   text-decoration: none;
 }
-header .desktop-wrapper .header-left a p {
-  text-transform: lowercase;
+header .desktop-wrapper .header-left a span {
+  text-transform: capitalize;
   color: #FBFBFB;
   font-size: 2.5rem;
 }
@@ -580,6 +580,43 @@ section.slider .slider-controller .item.active {
   font-weight: 300 !important;
   font-size: 1.3rem;
   margin: 0.5rem 0;
+}
+.category-wrapper .list-wrapper .list-item-wrapper a.product-name {
+  color: black;
+}
+.category-wrapper .list-wrapper p.description {
+  font-family: Roboto;
+}
+.category-wrapper .btn-group {
+  display: flex;
+  align-items: center;
+}
+.category-wrapper .btn-group button {
+  border: none;
+  outline: none;
+  background-color: black;
+  color: white;
+  padding: 0.2rem 1rem;
+}
+.category-wrapper .btn-group .favorite {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.45rem 0.5rem;
+}
+.category-wrapper .btn-group .favorite i.active {
+  display: none;
+}
+.category-wrapper .btn-group .favorite:hover {
+  background-color: #e31b23;
+}
+.category-wrapper .btn-group .favorite:hover i {
+  display: none;
+  color: white;
+}
+.category-wrapper .btn-group .favorite:hover i.active {
+  display: inline-block;
 }
 
 .product-page .product-wrapper {

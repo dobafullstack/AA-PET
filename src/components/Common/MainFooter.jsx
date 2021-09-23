@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Footer() {
+export function MainFooter() {
     return (
         <footer style={{backgroundImage: 'none', backgroundColor: 'black'}}>
             <div className="footer-item">

@@ -2,7 +2,7 @@ import Rating from 'react-rating';
 
 import React from 'react'
 
-export default function MyRating({readonly, point}) {
+export function MyRating({readonly, point}) {
     return (
         <Rating
             readonly={readonly}

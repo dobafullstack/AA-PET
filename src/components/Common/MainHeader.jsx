@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Collapse } from 'reactstrap';
-import LogoHeader from '../assets/images/MainLogoHeader.png';
-import { Link } from 'react-router-dom';
 import classnames from 'classnames';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Collapse } from 'reactstrap';
+import LogoHeader from '../../assets/images/MainLogoHeader.png';
 
-export default function MainHeader() {
+export function MainHeader({ isLogin }) {
     const [isHover, setIsHover] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,10 +38,18 @@ export default function MainHeader() {
                 </div>
                 <div className="main-header-item right">
                     <i className="fas fa-user-circle"></i>
-                    <span>
-                        <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
-                    </span>
-                    <i className="fal fa-shopping-cart"></i>
+                    {isLogin ? (
+                        <span>
+                            <Link to="/personal">My Account</Link>
+                        </span>
+                    ) : (
+                        <span>
+                            <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+                        </span>
+                    )}
+                    <Link to="/cart" style={{ color: 'black' }}>
+                        <i className="fal fa-shopping-cart"></i>
+                    </Link>
                 </div>
                 <div
                     className={subClassName}

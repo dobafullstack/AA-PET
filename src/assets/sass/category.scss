@@ -55,14 +55,14 @@
 
                         cursor: pointer;
 
-                        transition: all .5s;
+                        transition: all 0.5s;
                         .focus {
                             display: none;
                         }
                     }
 
                     .favorite:hover {
-                        background-color:#e31b23;
+                        background-color: #e31b23;
                         i {
                             display: none;
                             color: white;
@@ -90,6 +90,58 @@
 
                     margin: 0.5rem 0;
                 }
+            }
+        }
+    }
+
+    .list-wrapper {
+        .list-item-wrapper {
+            a.product-name {
+                color: black;
+            }
+        }
+
+        p.description {
+            font-family: Roboto;
+        }
+    }
+
+    .btn-group {
+        display: flex;
+        align-items: center;
+
+        button {
+            border: none;
+            outline: none;
+            background-color: black;
+            color: white;
+            padding: 0.2rem 1rem;
+        }
+
+        .favorite {
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 0.45rem 0.5rem;
+
+            i.active {
+                display: none;
+            }
+        }
+
+        .favorite:hover {
+            background-color: $heart-color;
+            
+            i {
+                display: none;
+                color: white;
+            }
+
+            i.active {
+                display: inline-block;
             }
         }
     }

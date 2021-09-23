@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import BreadcrumbBar from '../components/BreadcrumbBar';
+import { BreadcrumbBar } from '../components/Common';
 import Filter from '../components/Filter';
-import ProductItem from '../components/ProductItem';
+import GridItem from '../components/GridItem';
+import ListItem from '../components/ListItem';
 import StaticProducts from '../utils/StaticProduct';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 export function Category() {
     const match = useRouteMatch();
@@ -25,11 +26,12 @@ export function Category() {
     );
 }
 
-const CategoryItem = ({products}) => {
+const CategoryItem = ({ products }) => {
     const match = useRouteMatch();
     const breadcrumbs = useBreadcrumbs();
+    const [isGrid, setIsGrid] = useState(true);
 
-    console.log(match)
+    console.log(match);
 
     return (
         <div className="category-wrapper">
@@ -37,17 +39,25 @@ const CategoryItem = ({products}) => {
             <div className="title-top mb-3">
                 <span>{breadcrumbs[breadcrumbs.length - 1].breadcrumb}</span>
             </div>
-            <Filter />
+            <Filter isGrid={isGrid} setIsGrid={setIsGrid} />
 
-            <Container className="grid-wrapper mt-5">
-                <Row>
+            {isGrid ? (
+                <Container className="grid-wrapper mt-5">
+                    <Row>
+                        {products.map((item) => (
+                            <Col xl={3} lg={3} md={4} sm={4} className="my-2">
+                                <GridItem item={item} />
+                            </Col>
+                        ))}
+                    </Row>
+                </Container>
+            ) : (
+                <Container className="list-wrapper mt-5">
                     {products.map((item) => (
-                        <Col xl={3} lg={3} md={4} sm={4} className="my-2">
-                            <ProductItem item={item} />
-                        </Col>
+                        <ListItem item={item} />
                     ))}
-                </Row>
-            </Container>
+                </Container>
+            )}
         </div>
     );
-}
+};

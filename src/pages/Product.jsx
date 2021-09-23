@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import BreadcrumbBar from '../components/BreadcrumbBar';
-import MyRating from '../components/MyRating';
+import { BreadcrumbBar, MyRating } from '../components/Common';
+import ProductCarousel from '../components/ProductCarousel';
+import RatingItem from '../components/RatingItem';
 import VND from '../configs/VNDCurrency';
 import StaticProducts from '../utils/StaticProduct';
-import RatingItem from '../components/RatingItem';
-import ProductCarousel from '../components/ProductCarousel';
 
 export function Product() {
     const breadcrumbs = useBreadcrumbs(breadCrumbConfig);
