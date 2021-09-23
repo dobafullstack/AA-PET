@@ -31,10 +31,8 @@ const CategoryItem = ({ products }) => {
     const breadcrumbs = useBreadcrumbs();
     const [isGrid, setIsGrid] = useState(true);
 
-    console.log(match);
-
     return (
-        <div className="category-wrapper">
+        <div className="category-wrapper mb-5">
             <BreadcrumbBar breadcrumbs={breadcrumbs} />
             <div className="title-top mb-3">
                 <span>{breadcrumbs[breadcrumbs.length - 1].breadcrumb}</span>

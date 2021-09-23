@@ -4,8 +4,6 @@ import VND from '../configs/VNDCurrency';
 import { MyRating } from './Common';
 
 export default function ProductItem({ item, type = 'grid' }) {
-    switch (type) {
-    }
     return (
         <div className="product-item-wrapper">
             <div className="img-wrapper">

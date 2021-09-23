@@ -10,8 +10,6 @@ export default function MainLayout({ children }) {
     const isLogin = useVerifyToken();
     const { path } = match;
     let isMain = false;
-    
-    console.log(isLogin)
 
     if (path.includes('login') || path.includes('register') || path === '/') {
         isMain = false;
