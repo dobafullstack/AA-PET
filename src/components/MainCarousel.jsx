@@ -20,8 +20,8 @@ export default function MainCarousel() {
 
     return (
         <section className="slider">
-            <i class="fas fa-chevron-left left" onClick={() => prev()}></i>
-            <i class="fas fa-chevron-right right" onClick={() => next()}></i>
+            <i className="fas fa-chevron-left left" onClick={() => prev()}></i>
+            <i className="fas fa-chevron-right right" onClick={() => next()}></i>
             {slides.map((item, index) => (
                 <div key={index} className={index === current ? 'slide-active' : 'slide'}>
                     {index === current && (

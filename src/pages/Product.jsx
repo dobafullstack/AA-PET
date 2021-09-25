@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { BreadcrumbBar, MyRating } from '../components/Common';
+import { BreadcrumbBar, MyModal, MyRating } from '../components/Common';
 import ProductCarousel from '../components/ProductCarousel';
 import RatingItem from '../components/RatingItem';
 import VND from '../configs/VNDCurrency';
 import StaticProducts from '../utils/StaticProduct';
 
 export function Product() {
+    const [isOpen, setIsOpen] = useState(false);
     const breadcrumbs = useBreadcrumbs(breadCrumbConfig);
     const params = useParams();
     const product = StaticProducts.filter((item) => item._id === parseInt(params.productId))[0];
 
     return (
         <div className="product-page">
+            <MyModal isOpen={isOpen} setIsOpen={setIsOpen} />
             <BreadcrumbBar breadcrumbs={breadcrumbs} />
 
             <div className="product-wrapper mt-3">
@@ -56,7 +58,11 @@ export function Product() {
                                 <MyRating readonly point={product.rating_point} />
                                 <span className="ms-2">2 Reviews</span>
                             </div>
-                            <div className="d-flex align-items-center">
+                            <div
+                                className="d-flex align-items-center"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => setIsOpen(!isOpen)}
+                            >
                                 <i class="fal fa-comment-alt-lines me-2"></i>
                                 <span>Write a comment</span>
                             </div>

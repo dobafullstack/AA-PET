@@ -22,8 +22,8 @@ export default function ListItem({ item }) {
                 <div className="mt-3 btn-group">
                     <button>Add to cart</button>
                     <div className="favorite ms-2">
-                        <i class="fal fa-heart"></i>
-                        <i class="fas fa-heart active"></i>
+                        <i className="fal fa-heart"></i>
+                        <i className="fas fa-heart active"></i>
                     </div>
                 </div>
             </Col>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
 header {
   width: 100%;
   min-height: 100px;
@@ -702,6 +703,102 @@ section.slider .slider-controller .item.active {
 .rating-item-wrapper span.content {
   font-family: Roboto;
   font-size: 1.2rem;
+}
+
+.cart-wrapper h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: Roboto;
+}
+.cart-wrapper table {
+  font-family: Roboto;
+}
+.cart-wrapper table thead {
+  text-transform: uppercase;
+  color: #121212;
+  opacity: 0.6;
+  padding: 1rem 0;
+}
+.cart-wrapper table thead tr th {
+  border-bottom: 1px solid #dee2e6 !important;
+}
+.cart-wrapper table tbody tr td {
+  position: relative;
+}
+.cart-wrapper table tbody tr td img {
+  width: 10rem;
+  margin-right: 1rem;
+}
+.cart-wrapper table tbody tr td span:not(.item-name) {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cart-wrapper table tbody tr td i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.cart-wrapper table tbody tr td .counter-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.cart-wrapper table tbody tr td .counter-wrapper p {
+  padding: 3px 10px;
+}
+.cart-wrapper table tbody tr td .counter-wrapper .plus, .cart-wrapper table tbody tr td .counter-wrapper .minus {
+  background-color: #f8f8f8;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.cart-wrapper table tbody tr td .counter-wrapper .plus:hover, .cart-wrapper table tbody tr td .counter-wrapper .minus:hover {
+  background-color: #d4d4d4;
+}
+.cart-wrapper .order-summary {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  background-color: #f8f8f8;
+}
+.cart-wrapper .order-summary .header, .cart-wrapper .order-summary .footer {
+  padding: 1.5rem;
+}
+.cart-wrapper .order-summary .order-item {
+  display: flex;
+  justify-content: space-between;
+}
+.cart-wrapper .order-summary .order-item .title {
+  font-size: 1rem;
+}
+.cart-wrapper .order-summary .order-item .price {
+  font-weight: bold;
+}
+.cart-wrapper .order-summary .header {
+  border-bottom: 1px solid #dee2e6;
+}
+.cart-wrapper .order-summary .header span {
+  font-size: 1.5rem;
+}
+.cart-wrapper .order-summary .footer {
+  border-top: 1px solid #dee2e6;
+}
+.cart-wrapper .order-summary .footer .title {
+  font-size: 1.4rem;
+}
+.cart-wrapper .btn-checkout {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: #6184C7;
+  color: white;
+  font-family: Roboto;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  text-transform: uppercase;
 }
 
 body {

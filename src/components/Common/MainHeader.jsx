@@ -8,8 +8,6 @@ export function MainHeader({ isLogin }) {
     const [isHover, setIsHover] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log(isHover);
-
     const subClassName = classnames('sub-wrapper', {
         active: isHover === true,
     });
@@ -34,6 +32,7 @@ export function MainHeader({ isLogin }) {
                         Item <i className="fas fa-chevron-down"></i>
                     </Link>
 
+                    <Link to="/category">Category</Link>
                     <Link to="/home">Pet</Link>
                 </div>
                 <div className="main-header-item right">

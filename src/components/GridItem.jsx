@@ -13,8 +13,8 @@ export default function ProductItem({ item, type = 'grid' }) {
                 <div className="sub-wrapper">
                     <button className="add-to-cart">Add to cart</button>
                     <div className="favorite">
-                        <i class="far fa-heart "></i>
-                        <i class="fas fa-heart focus"></i>
+                        <i className="far fa-heart "></i>
+                        <i className="fas fa-heart focus"></i>
                     </div>
                 </div>
             </div>

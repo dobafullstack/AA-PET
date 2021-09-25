@@ -1,4 +1,4 @@
-export default [
+const slideData = [
     { img: 'https://kienthucbonphuong.com/images/202006/pet-la-gi/pet-la-gi.jpg' },
     { img: 'https://lvpet.vn/thumbs/797x462x1/upload/photo/slide-2460.jpg' },
     {
@@ -8,3 +8,5 @@ export default [
         img: 'https://maplestoresvn.com/wp-content/uploads/2020/10/chon-noi-that-tich-hop-cho-nghi-ngoi-cho-pet-maple-store-vn.jpg',
     },
 ];
+
+export default slideData;

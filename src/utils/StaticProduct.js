@@ -1,4 +1,4 @@
-export default [
+const productData = [
     {
         _id: 1,
         name: 'This is a cat',
@@ -112,3 +112,5 @@ export default [
         rating_point: 5,
     },
 ];
+
+export default productData;

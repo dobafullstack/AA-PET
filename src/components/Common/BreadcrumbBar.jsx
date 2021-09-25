@@ -14,14 +14,14 @@ export function BreadcrumbBar({ breadcrumbs }) {
                             {index === breadcrumbs.length - 1 ? (
                                 ''
                             ) : (
-                                <i class="fas fa-caret-right"></i>
+                                <i className="fas fa-caret-right"></i>
                             )}
                         </Link>
                     </span>
                 ))}
             </div>
             <div className="group-share">
-                <i class="fas fa-share-alt"></i>
+                <i className="fas fa-share-alt"></i>
                 <span>Share</span>
             </div>
         </div>
