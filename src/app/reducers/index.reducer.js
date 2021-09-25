@@ -1,5 +1,9 @@
-import productReducer from "./product.reducer";
+import productReducer from './product.reducer';
+import cartReducer from './cart.reducer';
 
-export default {
+const rootReducer = {
     product: productReducer,
-}
+    cart: cartReducer,
+};
+
+export default rootReducer;
