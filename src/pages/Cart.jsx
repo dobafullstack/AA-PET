@@ -2,11 +2,25 @@ import React from 'react';
 import { Col, Row, Table, Container } from 'reactstrap';
 import CartItem from '../components/CartItem';
 import products from '../utils/StaticProduct';
+import { useHistory } from 'react-router-dom';
+import useVerifyToken from '../hooks/useVerifyToken';
+import { toast } from 'react-toastify';
 
 export function Cart() {
+    const history = useHistory();
+    const isLogin = useVerifyToken();
+
     const onUpdateCart = (index, value) => {
-        console.log(index, value)
-    }
+        console.log(index, value);
+    };
+
+    const handleCheckout = () => {
+        if (!isLogin) {
+            toast.error('Bạn chưa đăng nhập');
+        } else {
+            history.push('/cart/checkout');
+        }
+    };
 
     return (
         <div className="cart-wrapper">
@@ -28,7 +42,12 @@ export function Cart() {
                             </thead>
                             <tbody>
                                 {products.slice(0, 2).map((item, index) => (
-                                    <CartItem item={item} index={index} onUpdateCart={onUpdateCart} key={item._id}/>
+                                    <CartItem
+                                        item={item}
+                                        index={index}
+                                        onUpdateCart={onUpdateCart}
+                                        key={item._id}
+                                    />
                                 ))}
                             </tbody>
                         </Table>
@@ -53,7 +72,9 @@ export function Cart() {
                                 </div>
                             </div>
                         </div>
-                        <button className="mt-2 btn-checkout">Checkout</button>
+                        <button className="mt-2 btn-checkout" onClick={() => handleCheckout()}>
+                            Checkout
+                        </button>
                     </Col>
                 </Row>
             </Container>

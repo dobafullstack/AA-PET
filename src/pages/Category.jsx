@@ -3,7 +3,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import CategoryWrapper from '../components/CategoryWrapper';
-import { BreadcrumbBar } from '../components/Common';
+import { BreadcrumbBar, TopTitle } from '../components/Common';
 import Filter from '../components/Filter';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
@@ -34,9 +34,7 @@ const CategoryItem = ({ products }) => {
     return (
         <div className="category-wrapper mb-5">
             <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <div className="title-top mb-3">
-                <span>{breadcrumbs[breadcrumbs.length - 1].breadcrumb}</span>
-            </div>
+            <TopTitle />
             <Filter isGrid={isGrid} setIsGrid={setIsGrid} />
 
             {isGrid ? (

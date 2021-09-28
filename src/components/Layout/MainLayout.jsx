@@ -11,7 +11,7 @@ export default function MainLayout({ children }) {
     const { path } = match;
     let isMain = false;
 
-    if (path.includes('login') || path.includes('register') || path === '/') {
+    if (path === '/') {
         isMain = false;
     } else {
         isMain = true;

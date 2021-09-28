@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { NotFound, PrivateRoute } from '../components/Common';
 import Admin from '../components/Layout/Admin';
 import MainLayout from '../components/Layout/MainLayout';
-import { Category, Home, HomeMain, Login, Product, Register, Cart, Personal } from '../pages/';
+import { Category, Home, HomeMain, Login, Product, Register, Cart, Personal, Checkout, Success, Fail } from '../pages/';
 
 export default function index() {
     return (
@@ -33,21 +33,38 @@ export default function index() {
                     <Category />
                 </MainLayout>
             </Route>
-            <Route path="/cart">
+            <Route path="/cart" exact>
                 <MainLayout>
                     <Cart />
                 </MainLayout>
             </Route>
-            <PrivateRoute path="/personal">
-                <MainLayout>
-                    <Personal />
-                </MainLayout>
-            </PrivateRoute>
             <Route path="/product/:productId">
                 <MainLayout>
                     <Product />
                 </MainLayout>
             </Route>
+
+            {/* Private Route */}
+            <PrivateRoute path="/personal" exact>
+                <MainLayout>
+                    <Personal />
+                </MainLayout>
+            </PrivateRoute>
+            <PrivateRoute path="/cart/checkout" exact>
+                <MainLayout>
+                    <Checkout />
+                </MainLayout>
+            </PrivateRoute>
+            <PrivateRoute path="/cart/checkout/success" exact>
+                <MainLayout>
+                    <Success />
+                </MainLayout>
+            </PrivateRoute>
+            <PrivateRoute path="/cart/checkout/fail" exact>
+                <MainLayout>
+                    <Fail />
+                </MainLayout>
+            </PrivateRoute>
             <PrivateRoute path="/admin">
                 <MainLayout>
                     <Admin />

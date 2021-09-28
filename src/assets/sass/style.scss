@@ -12,6 +12,8 @@
 @import './product.scss';
 @import './rating-item.scss';
 @import './cart.scss';
+@import './personal.scss';
+@import './checkout.scss';
 
 body {
     font-family: $primary-font;
@@ -55,6 +57,22 @@ body {
     hr {
         color: #bebdbd;
         height: 2px !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        border: 1px solid #d5d5d5;
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 100px;
+        background: #eeeeee;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 100px;
+        background: #b0b0b0;
     }
 }
 
