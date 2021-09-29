@@ -13,7 +13,7 @@ export function Login() {
 
     const handleLogin = async () => {
         const token = await GetUser(username, password);
-
+        console.log(token)
         if (token) {
             localStorage.setItem('access_token', token);
 

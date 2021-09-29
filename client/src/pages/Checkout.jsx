@@ -95,7 +95,7 @@ function Delivery({user}){
     );
 }
 
-function Payment({}){
+function Payment(){
     const [paymentMethod, setPaymentMethod] = useState('ATM');
 
     return (

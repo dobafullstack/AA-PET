@@ -28,7 +28,7 @@
     color: white;
 }
 
-.done-wrapper .done button{
+.done-wrapper .done a{
     background-color: #6184c7;
     border: none;
     outline: none;
@@ -38,6 +38,6 @@
     margin-top: 2rem;
 }
 
-.done-wrapper .done button.err{
+.done-wrapper .done a.err{
     background-color: #e31b23;
 }
