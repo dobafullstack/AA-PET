@@ -8,7 +8,7 @@ export default function ProductItem({ item, type = 'grid' }) {
         <div className="product-item-wrapper">
             <div className="img-wrapper">
                 <Link className="img" to={`/product/${item._id}`}>
-                    <img src={item.images[0]} alt="" className="img-fluid" />
+                    <img src={item.img[0]} alt="" className="img-fluid" />
                 </Link>
                 <div className="sub-wrapper">
                     <button className="add-to-cart">Add to cart</button>

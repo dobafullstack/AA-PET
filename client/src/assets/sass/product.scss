@@ -5,17 +5,23 @@
         .left {
             .main-img {
                 position: relative;
-
                 display: flex;
                 justify-content: center;
-                align-items: center;
+
+                .img{
+                    height: 400px;
+                    width: 100%;
+                    background-repeat: no-repeat;
+                    background-size:contain;
+                    background-position:center;
+                }
 
                 i {
                     position: absolute;
                     top: 50%;
                     transform: translateY(50%);
                     font-size: 1.5rem;
-                    color: white;
+                    color: black;
                     cursor: pointer;
                 }
 

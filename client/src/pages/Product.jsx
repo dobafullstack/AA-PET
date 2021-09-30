@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
@@ -7,12 +7,26 @@ import ProductCarousel from '../components/ProductCarousel';
 import RatingItem from '../components/RatingItem';
 import VND from '../configs/VNDCurrency';
 import StaticProducts from '../utils/StaticProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetProductById } from '../app/actions/product.action';
 
 export function Product() {
     const [isOpen, setIsOpen] = useState(false);
+    const [product, setProduct] = useState({});
     const breadcrumbs = useBreadcrumbs(breadCrumbConfig);
+    const dispatch = useDispatch();
     const params = useParams();
-    const product = StaticProducts.filter((item) => item._id === parseInt(params.productId))[0];
+    const {productId} = params;
+    
+    useEffect(() => {
+        const getProduct = async () => {
+            const data = await dispatch(GetProductById(productId));
+
+            setProduct(data);
+        }
+
+        getProduct();
+    }, [productId])
 
     return (
         <div className="product-page">
@@ -76,11 +90,15 @@ export function Product() {
     );
 }
 
-const DynamicUserBreadcrumb = ({ match }) => (
-    <span>
-        {StaticProducts.filter((item) => item._id === parseInt(match.params.productId))[0].name}
-    </span>
-);
+const DynamicUserBreadcrumb = ({ match }) => {
+    const product = useSelector((state) => state.product.product);
+
+    return (
+        <span>
+            {product.name}
+        </span>
+    );
+};
 
 const breadCrumbConfig = [
     {

@@ -627,14 +627,20 @@ section.slider .slider-controller .item.active {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+}
+.product-page .product-wrapper .left .main-img .img {
+  height: 400px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 .product-page .product-wrapper .left .main-img i {
   position: absolute;
   top: 50%;
   transform: translateY(50%);
   font-size: 1.5rem;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 .product-page .product-wrapper .left .main-img i.fa-arrow-left {

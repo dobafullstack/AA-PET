@@ -5,15 +5,17 @@ export const GetUser = async (username, password) => {
     let access_token = '';
 
     try {
-        const { result } = await axiosClient.post('/auth/login', {
+        const data = await axiosClient.post('/auth/login', {
             username,
             password,
         });
 
-        if (!result.accessToken) {
-            toast.error(result);
+        console.log(data);
+
+        if (data.error !== null) {
+            toast.error(data.error.message);
         } else {
-            access_token = result.accessToken;
+            access_token = data.result.accessToken;
         }
     } catch (error) {
         console.log(error.message);

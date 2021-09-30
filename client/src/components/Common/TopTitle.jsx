@@ -2,8 +2,7 @@ import React from 'react'
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 
 
-export function TopTitle() {
-    const breadcrumbs = useBreadcrumbs();
+export function TopTitle({breadcrumbs}) {
 
     return (
         <div className="title-top mb-3">

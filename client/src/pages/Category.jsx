@@ -1,59 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { Col, Container, Row } from 'reactstrap';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import CategoryWrapper from '../components/CategoryWrapper';
-import { BreadcrumbBar, TopTitle } from '../components/Common';
-import Filter from '../components/Filter';
-import GridItem from '../components/GridItem';
-import ListItem from '../components/ListItem';
 import StaticProducts from '../utils/StaticProduct';
+import {CategoryPage} from '../components/Layout/CategoryPage'
+import { CategoryDetailPage } from '../components/Layout/CategoryDetailPage';
+import {useSelector} from 'react-redux';
 
 export function Category() {
     const match = useRouteMatch();
+    const products = useSelector((state) => state.product.products)
 
     return (
         <Switch>
             <Route path={match.path} exact>
                 <CategoryWrapper />
             </Route>
-            <Route path={`${match.path}/:category`} exact>
-                <CategoryItem products={StaticProducts} />
+            <Route path={`${match.path}/:category_id`} exact>
+                <CategoryPage products={products} />
             </Route>
-            <Route path={`${match.path}/:category/:category_detail`} exact>
-                <CategoryItem products={StaticProducts} />
+            <Route path={`${match.path}/:category_id/:category_detail_id`} exact>
+                <CategoryDetailPage products={products} />
             </Route>
         </Switch>
     );
 }
 
-const CategoryItem = ({ products }) => {
-    const breadcrumbs = useBreadcrumbs();
-    const [isGrid, setIsGrid] = useState(true);
-
-    return (
-        <div className="category-wrapper mb-5">
-            <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <TopTitle />
-            <Filter isGrid={isGrid} setIsGrid={setIsGrid} />
-
-            {isGrid ? (
-                <Container className="grid-wrapper mt-5">
-                    <Row>
-                        {products.map((item) => (
-                            <Col xl={3} lg={3} md={4} sm={4} className="my-2" key={item._id}>
-                                <GridItem item={item} />
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
-            ) : (
-                <Container className="list-wrapper mt-5">
-                    {products.map((item) => (
-                        <ListItem item={item} key={item._id}/>
-                    ))}
-                </Container>
-            )}
-        </div>
-    );
-};

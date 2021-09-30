@@ -1,12 +1,26 @@
 import classnames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
+import {
+    GetAllCategoriesAction,
+    GetAllDetailCategoriesAction
+} from '../../app/actions/category.action';
 import LogoHeader from '../../assets/images/MainLogoHeader.png';
+import { capitalize } from '../../configs/TextFormat';
 
 export function MainHeader({ isLogin }) {
     const [isHover, setIsHover] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const categories = useSelector((state) => state.category.categories);
+    const detail_categories = useSelector((state) => state.category.detail_categories);
+
+    useEffect(() => {
+        dispatch(GetAllCategoriesAction());
+        dispatch(GetAllDetailCategoriesAction());
+    }, []);
 
     const subClassName = classnames('sub-wrapper', {
         active: isHover === true,
@@ -55,69 +69,27 @@ export function MainHeader({ isLogin }) {
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                 >
-                    <div className="sub-item">
-                        <Link to="/category/Dresses">Dresses</Link>
-                        <Link to="/category/Dresses/Outdoor">
-                            <span>Outdoor</span>
-                        </Link>
-                        <Link to="/category/Dresses/Indoor">
-                            <span>Indoor</span>
-                        </Link>
-                        <Link to="/category/Dresses/Sport">
-                            <span>Sport</span>
-                        </Link>
-                    </div>
-                    <div className="sub-item">
-                        <Link to="/category/Food">Food</Link>
-                        <Link to="/category/Food/Royal">
-                            <span>Royal</span>
-                        </Link>
-                        <Link to="/category/Food/Hill's">
-                            <span>Hill's</span>
-                        </Link>
-                        <Link to="/category/Food/Purina">
-                            <span>Purina</span>
-                        </Link>
-                    </div>
-                    <div className="sub-item">
-                        <Link to="/category/Accessories">Accessories</Link>
-                        <Link to="/category/Accessories/Groom">
-                            <span>Groom</span>
-                        </Link>
-                        <Link to="/category/Accessories/Nail cutter">
-                            <span>Nail cutter</span>
-                        </Link>
-                    </div>
-                    <div className="sub-item">
-                        <Link to="/category/Colar Belt">Colar Belt</Link>
-                        <Link to="/category/Colar Belt/Leather">
-                            <span>Leather</span>
-                        </Link>
-                        <Link to="/category/Colar Belt/Fabrics">
-                            <span>Fabrics</span>
-                        </Link>
-                    </div>
-                    <div className="sub-item">
-                        <Link to="/category/Leashes">Leashes</Link>
-                        <Link to="/category/Leashes/Chain">
-                            <span>Chain</span>
-                        </Link>
-                        <Link to="/category/Leashes/Rubber">
-                            <span>Rubber</span>
-                        </Link>
-                        <Link to="/category/Leashes/Leather">
-                            <span>Leather</span>
-                        </Link>
-                    </div>
-                    <div className="sub-item">
-                        <Link to="/category/Bowl">Bowl</Link>
-                        <Link to="/category/Bowl/Steel">
-                            <span>Steel</span>
-                        </Link>
-                        <Link to="/category/Bowl/Plastic">
-                            <span>Plastic</span>
-                        </Link>
-                    </div>
+                    {categories.map((category) => (
+                        <div className="sub-item" key={category._id}>
+                            <Link
+                                to={`/category/${category._id}`}
+                                style={{ textTransform: 'capitalize' }}
+                            >
+                                {category.name}
+                            </Link>
+                            {detail_categories
+                                .filter((detail) => detail.category_id._id === category._id)
+                                .map((item) => (
+                                    <Link
+                                        to={`/category/${category._id}/${item._id}`}
+                                        style={{ textTransform: 'capitalize' }}
+                                        key={item._id}
+                                    >
+                                        <span>{item.name}</span>
+                                    </Link>
+                                ))}
+                        </div>
+                    ))}
                 </div>
                 <i className="fal fa-bars bar" onClick={() => setIsOpen(!isOpen)}></i>
             </div>

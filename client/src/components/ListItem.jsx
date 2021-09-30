@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 export default function ListItem({ item }) {
     return (
         <Row className="list-item-wrapper my-4">
-            <Col xl={4} lg={4}>
+            <Col xl={4} lg={4} className="d-flex justify-content-center align-item-center">
                 <Link to={`/product/${item._id}`}>
-                    <img src={item.images[0]} alt="" className="img-fluid" />
+                    <img src={item.img[0]} alt="" className="img-fluid" />
                 </Link>
             </Col>
             <Col xl={8} lg={8}>
