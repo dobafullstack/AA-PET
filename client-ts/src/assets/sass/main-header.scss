@@ -1,0 +1,147 @@
+header#main-header {
+    background-image: none !important;
+
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    .main-header-desktop-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left {
+            display: flex;
+            align-items: center;
+
+            a {
+                color: black;
+                span {
+                    font-size: 2rem;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        .middle {
+            position: relative;
+
+            a {
+                margin: 0 2rem;
+                color: black;
+                font-size: 1.2rem;
+            }
+
+            a:hover {
+                color: $primary-hover-color;
+            }
+        }
+
+        .right {
+            i {
+                margin: 0 2rem;
+                font-size: 1.2rem;
+            }
+
+            span {
+                a {
+                    font-size: 1.2rem;
+                    color: black;
+                }
+
+                a:hover {
+                    color: $primary-hover-color;
+                }
+            }
+        }
+
+        i.bar{
+            display: none;
+        }
+
+        .sub-wrapper {
+            width: 80%;
+
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.8s;
+            z-index: 100;
+            background-color: white;
+
+            padding: 8px 10rem 4rem 10rem;
+
+            position: absolute;
+            left: 50%;
+            top: 110px;
+            transform: translateX(-50%);
+
+            display: flex;
+            justify-content: space-around;
+
+            // visibility: hidden;
+
+            .sub-item {
+                display: flex;
+                flex-direction: column;
+                a {
+                    color: black;
+                    font-size: 1.5rem;
+                }
+
+                span {
+                    color: $gray-color;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .sub-wrapper.active {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+
+    .main-header-collapse{
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 769px) {
+    header#main-header {
+        .main-header-desktop-wrapper {
+            .left{
+                img{
+                    height: 3rem;
+                }
+
+                a{
+                    span{
+                        font-size: 1.7rem;
+                    }
+                }
+            }
+
+            .right,
+            .middle {
+                display: none;
+            }
+
+            i.bar{
+                font-size: 1.5rem;
+                display: block;
+            }
+
+        }
+        .main-header-collapse{
+            padding: .7rem 2rem;
+            visibility: visible;
+
+            ul{
+                list-style: none;
+
+                li{
+                    a{
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}

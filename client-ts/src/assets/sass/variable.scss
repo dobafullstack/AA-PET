@@ -1,0 +1,23 @@
+$primary-color: #fbfbfb;
+$start-gradient-color: #0b79a0;
+$stop-gradient-color: #2b85a7;
+$end-gradient-color: #046d96;
+
+$radial-gradient-color: radial-gradient(
+    98.75% 98.75% at 50% 0%,
+    #dcdcdc 0%,
+    rgba(232, 235, 237, 0.433334) 46.77%,
+    rgba(41, 121, 166, 0) 100%
+);
+
+$primary-font: 'Righteous', cursive;
+$second-font: Spartan;
+
+$main-height: calc(100vh - 200px);
+
+$primary-hover-color: #e18847;
+$heart-color: #e31b23;
+$purple-color: #6184c7;
+$gray-color: rgba(0, 0, 0, 0.4);
+$success-color: #5FDF4A;
+$danger-color: #FF0000;
