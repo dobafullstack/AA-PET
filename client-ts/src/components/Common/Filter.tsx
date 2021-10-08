@@ -1,10 +1,15 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import '../assets/css/Filter.css';
+import '../../assets/css/Filter.css';
 import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/all';
 
-export default function Filter({ isGrid, setIsGrid }) {
+interface FilterProps {
+    isGrid?: boolean;
+    setIsGrid?: any;
+}
+
+export function Filter({ isGrid, setIsGrid }: FilterProps) {
     const [isVisibleFilter, setIsVisibleFilter] = useState(false);
 
     const filterOptionClassname = classNames('filter-option', {
@@ -17,7 +22,7 @@ export default function Filter({ isGrid, setIsGrid }) {
                 <div>
                     <img
                         alt="icon"
-                        src={require('../assets/images/filter.png').default}
+                        src={require('../../assets/images/filter.png').default}
                         className="me-2"
                         onClick={() => setIsVisibleFilter(!isVisibleFilter)}
                     />

@@ -9,6 +9,11 @@ import ShipCodImg from '../assets/images/shipcod.png';
 import VND from '../configs/VNDCurrency';
 import useGetUser from '../hooks/useGetUser';
 import { useHistory } from 'react-router-dom';
+import UserType from '../types/UserType';
+
+interface CommonProps{
+    user: UserType
+}
 
 export function Checkout() {
     const breadcrumbs = useBreadcrumbs();
@@ -46,7 +51,7 @@ export function Checkout() {
     );
 }
 
-function Delivery({user}){
+function Delivery({ user }: CommonProps) {
     const [name, setName] = useState(user.name);
     const [address, setAddress] = useState(user.address);
     const [phone, setPhone] = useState(user.phone);
@@ -60,19 +65,36 @@ function Delivery({user}){
                         <Label>
                             Name <strong className="text-danger">*</strong>
                         </Label>
-                        <Input type="text" placeholder="Name" className="w-75" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <Input
+                            type="text"
+                            placeholder="Name"
+                            className="w-75"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
                     </FormGroup>
                     <FormGroup className="my-3">
                         <Label>
                             Address <strong className="text-danger">*</strong>
                         </Label>
-                        <Input type="address" placeholder="Address" className="w-75" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                        <Input
+                            placeholder="Address"
+                            className="w-75"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
                     </FormGroup>
                     <FormGroup className="my-3">
                         <Label>
                             Phone number <strong className="text-danger">*</strong>
                         </Label>
-                        <Input type="tel" placeholder="Phone" className="w-75" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                        <Input
+                            type="tel"
+                            placeholder="Phone"
+                            className="w-75"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
                     </FormGroup>
                 </Col>
                 <Col xl={6}>
@@ -87,7 +109,12 @@ function Delivery({user}){
                     </FormGroup>
                     <FormGroup className="my-3">
                         <Label className="mb-1">Delivery fee</Label>
-                        <Input type="text" disabled style={{ width: '6.2%' }} value={VND(1)} />
+                        <Input
+                            type="text"
+                            disabled
+                            style={{ width: '6.2%' }}
+                            value={VND(1) as string}
+                        />
                     </FormGroup>
                 </Col>
             </Row>

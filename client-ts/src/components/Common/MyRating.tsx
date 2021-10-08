@@ -1,9 +1,9 @@
 import Rating from 'react-rating';
 
-import React from 'react'
+import React from 'react';
 
-export function MyRating(props) {
-    const {point} = props;
+export function MyRating(props: any) {
+    const { point } = props;
 
     return (
         <Rating

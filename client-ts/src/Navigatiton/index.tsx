@@ -1,9 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { NotFound, PrivateRoute } from '../components/Common';
+import { MainLayout, PrivateRoute } from '../components/Layout';
 import Admin from '../components/Layout/Admin';
-import MainLayout from '../components/Layout/MainLayout';
-import { Category, Home, HomeMain, Login, Product, Register, Cart, Personal, Checkout, Success, Fail } from '../pages';
+import {
+    Cart, Category, Checkout, Fail, Home,
+    HomeMain,
+    Login, NotFound, Personal, Product,
+    Register, Success
+} from '../pages';
 
 export default function index() {
     return (

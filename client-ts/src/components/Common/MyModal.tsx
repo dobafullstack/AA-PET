@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 import { MyRating } from './index';
 
-export const MyModal = ({ isOpen, setIsOpen }) => {
+interface MyModalProps {
+    isOpen: boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const MyModal = ({ isOpen, setIsOpen }: MyModalProps) => {
     const [point, setPoint] = useState(0);
     const [comment, setComment] = useState('');
 
@@ -20,19 +25,23 @@ export const MyModal = ({ isOpen, setIsOpen }) => {
         setComment('');
     }, [isOpen]);
 
-
     return (
         <Modal isOpen={isOpen} toggle={toggle} style={{ fontFamily: 'Spartan' }}>
             <ModalHeader toggle={toggle} close={closeBtn}>
                 Write a comment
             </ModalHeader>
             <ModalBody>
-                <Input type="textarea" className="mb-3" value={comment} onChange={(e) => setComment(e.target.value)} />
+                <Input
+                    type="textarea"
+                    className="mb-3"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                />
                 <div className="d-flex justify-content-center">
                     <MyRating
                         readonly={false}
                         point={point}
-                        onChange={(value) => setPoint(value)}
+                        onChange={(value: number) => setPoint(value)}
                     />
                 </div>
             </ModalBody>

@@ -1,27 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import {DynamicCategoryBreadcrumb} from './CategoryPage'
-import { useSelector } from 'react-redux';
-import { capitalize } from '../../configs/TextFormat';
-import { Col, Container, Row } from 'reactstrap';
-import { BreadcrumbBar, TopTitle } from '../Common';
-import Filter from '../Filter';
-import GridItem from '../GridItem';
-import ListItem from '../ListItem';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {GetProductByCategoryDetailIdAction} from '../../app/actions/product.action'
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { GetProductByCategoryDetailIdAction } from '../../app/actions/product.action';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { capitalize } from '../../configs/TextFormat';
+import CategoryDetailType from '../../types/CategoryDetailType';
+import ProductType from '../../types/ProductType';
+import { BreadcrumbBar, Filter, GridItem, ListItem, TopTitle } from '../Common';
+import { DynamicCategoryBreadcrumb } from './CategoryPage';
 
-export const CategoryDetailPage = ({ products }) => {
+interface CategoryDetailPageProps{
+    products: ProductType[]
+}
+
+export const CategoryDetailPage = ({ products }: CategoryDetailPageProps) => {
     const breadcrumbs = useBreadcrumbs(breadCrumbCategoryDetailConfig);
     const [isGrid, setIsGrid] = useState(true);
     const params = useParams();
-    const {category_detail_id} = params;
-    const dispatch = useDispatch();
+    const { category_detail_id }: any = params;
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(GetProductByCategoryDetailIdAction(category_detail_id));
-    }, [category_detail_id])
+    }, [category_detail_id]);
 
     return (
         <div className="category-wrapper mb-5">
@@ -50,13 +53,13 @@ export const CategoryDetailPage = ({ products }) => {
     );
 };
 
-export const DynamicCategoryDetailBreadcrumb = ({ match }) => {
-    const category_detail = useSelector((state) => state.category.detail_categories);
+export const DynamicCategoryDetailBreadcrumb = ({ match }: any) => {
+    const category_detail = useAppSelector((state) => state.category.detail_categories);
 
     return (
         <span>
             {capitalize(
-                category_detail.filter((item) => item._id === match.params.category_detail_id)[0]
+                category_detail.filter((item: CategoryDetailType) => item._id === match.params.category_detail_id)[0]
                     .name
             )}
         </span>
@@ -77,4 +80,3 @@ export const breadCrumbCategoryDetailConfig = [
         breadcrumb: DynamicCategoryDetailBreadcrumb,
     },
 ];
-

@@ -1,10 +1,15 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import VND from '../configs/VNDCurrency';
-import { MyRating } from './Common';
+import VND from '../../configs/VNDCurrency';
+import { MyRating } from './index';
 import { Link } from 'react-router-dom';
+import ProductType from '../../types/ProductType';
 
-export default function ListItem({ item }) {
+interface ListItemProps{
+    item: ProductType
+}
+
+export function ListItem({ item }: ListItemProps) {
     return (
         <Row className="list-item-wrapper my-4">
             <Col xl={4} lg={4} className="d-flex justify-content-center align-item-center">

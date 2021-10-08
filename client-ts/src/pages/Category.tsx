@@ -1,14 +1,13 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import CategoryWrapper from '../components/CategoryWrapper';
-import StaticProducts from '../utils/StaticProduct';
-import {CategoryPage} from '../components/Layout/CategoryPage'
+import { useAppSelector } from '../app/hooks';
+import { CategoryWrapper } from '../components/Common';
 import { CategoryDetailPage } from '../components/Layout/CategoryDetailPage';
-import {useSelector} from 'react-redux';
+import { CategoryPage } from '../components/Layout/CategoryPage';
 
 export function Category() {
     const match = useRouteMatch();
-    const products = useSelector((state) => state.product.products)
+    const products = useAppSelector((state) => state.product.products);
 
     return (
         <Switch>
@@ -24,4 +23,3 @@ export function Category() {
         </Switch>
     );
 }
-

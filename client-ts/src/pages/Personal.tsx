@@ -8,6 +8,8 @@ import useGetUser from '../hooks/useGetUser';
 import StaticOrder from '../utils/StaticOrder';
 import VND from '../configs/VNDCurrency';
 import formatDate from '../configs/FormatDateTime';
+import UserType from '../types/UserType';
+import OrderType from '../types/OrderType';
 
 export function Personal() {
     const user = useGetUser();
@@ -75,7 +77,11 @@ export function Personal() {
     );
 }
 
-function Profile({ user }) {
+interface ProfileProps {
+    user: UserType;
+}
+
+function Profile({ user }: ProfileProps) {
     const [isEdit, setIsEdit] = useState(false);
     const [address, setAddress] = useState(user.address);
     const [phone, setPhone] = useState(user.phone);
@@ -157,69 +163,12 @@ function Profile({ user }) {
     );
 }
 
-function History({ orders }) {
-    const getTotalPrice = (index) => {
-        let totalPrice = 0;
-
-        orders[index].products.forEach(item => {
-            totalPrice += item.product.price;
-        });
-
-        return VND(totalPrice);
-    }
-
-    return (
-        <div className="history-wrapper">
-            {orders.map((item, index) => (
-                <div className="history-item me-5" key={item._id}>
-                    <h3>#{item._id}</h3>
-                    <div className="header">
-                        <p>{formatDate(item.createdAt)}</p>
-                        <p>{item.user_id.address}</p>
-                    </div>
-                    <hr />
-                    {item.products.map((historyItem) => (
-                        <div className="product-item" key={historyItem.product._id}>
-                            <div className="history-left">
-                                <img
-                                    src={historyItem.product.images[0]}
-                                    alt=""
-                                    className="img-fluid"
-                                />
-                                <div>
-                                    <p>{historyItem.product.name}</p>
-                                    <p>{VND(historyItem.product.price)}</p>
-                                </div>
-                            </div>
-                            <span>x{historyItem.count}</span>
-                        </div>
-                    ))}
-                    <hr />
-                    <div className="footer">
-                        <div className="f-left">
-                            <p>
-                                x{item.products.length}{' '}
-                                {item.products.length === 1 ? 'item' : 'items'}
-                            </p>
-                            <p>{getTotalPrice(index)}</p>
-                        </div>
-                        <div className="f-right">
-                            {item.status === 0 ? (
-                                <span className="text-danger">Cancel</span>
-                            ) : (
-                                <span className="text-success">Delivered</span>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+interface OrderProps {
+    orders: OrderType[];
 }
 
-function Order({ orders }) {
-
-    const getTotalPrice = (index) => {
+function History({ orders }: OrderProps) {
+    const getTotalPrice = (index: number) => {
         let totalPrice = 0;
 
         orders[index].products.forEach((item) => {
@@ -243,7 +192,67 @@ function Order({ orders }) {
                         <div className="product-item" key={historyItem.product._id}>
                             <div className="history-left">
                                 <img
-                                    src={historyItem.product.images[0]}
+                                    src={historyItem.product.img[0]}
+                                    alt=""
+                                    className="img-fluid"
+                                />
+                                <div>
+                                    <p>{historyItem.product.name}</p>
+                                    <p>{VND(historyItem.product.price)}</p>
+                                </div>
+                            </div>
+                            <span>x{historyItem.count}</span>
+                        </div>
+                    ))}
+                    <hr />
+                    <div className="footer">
+                        <div className="f-left">
+                            <p>
+                                x{item.products.length}{' '}
+                                {item.products.length === 1 ? 'item' : 'items'}
+                            </p>
+                            <p>{getTotalPrice(index)}</p>
+                        </div>
+                        <div className="f-right">
+                            {item.status === 'cancel' ? (
+                                <span className="text-danger">Cancel</span>
+                            ) : (
+                                <span className="text-info">Pending</span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function Order({ orders }: OrderProps) {
+    const getTotalPrice = (index: number) => {
+        let totalPrice = 0;
+
+        orders[index].products.forEach((item) => {
+            totalPrice += item.product.price;
+        });
+
+        return VND(totalPrice);
+    };
+
+    return (
+        <div className="history-wrapper">
+            {orders.map((item, index) => (
+                <div className="history-item me-5" key={item._id}>
+                    <h3>#{item._id}</h3>
+                    <div className="header">
+                        <p>{formatDate(item.createdAt)}</p>
+                        <p>{item.user_id.address}</p>
+                    </div>
+                    <hr />
+                    {item.products.map((historyItem) => (
+                        <div className="product-item" key={historyItem.product._id}>
+                            <div className="history-left">
+                                <img
+                                    src={historyItem.product.img[0]}
                                     alt=""
                                     className="img-fluid"
                                 />

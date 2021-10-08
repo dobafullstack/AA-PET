@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import slides from '../utils/Slide.data';
+import slides from '../../utils/Slide.data';
 
-export default function MainCarousel() {
+export function MainCarousel() {
     const [current, setCurrent] = useState(0);
 
     if (!Array.isArray(slides) || slides.length <= 0) return null;
@@ -14,7 +14,7 @@ export default function MainCarousel() {
         setCurrent(current === 0 ? slides.length - 1 : current - 1);
     };
 
-    const chooseImg = (index) => {
+    const chooseImg = (index: number) => {
         setCurrent(index);
     };
 

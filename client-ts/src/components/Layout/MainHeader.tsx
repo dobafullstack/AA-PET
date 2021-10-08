@@ -1,21 +1,26 @@
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import {
     GetAllCategoriesAction,
     GetAllDetailCategoriesAction
 } from '../../app/actions/category.action';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoHeader from '../../assets/images/MainLogoHeader.png';
-import { capitalize } from '../../configs/TextFormat';
+import CategoryDetailType from '../../types/CategoryDetailType';
+import CategoryType from '../../types/CategoryType';
 
-export function MainHeader({ isLogin }) {
+interface MainHeaderProps{
+    isLogin: boolean;
+}
+
+export function MainHeader({ isLogin }: MainHeaderProps) {
     const [isHover, setIsHover] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const dispatch = useDispatch();
-    const categories = useSelector((state) => state.category.categories);
-    const detail_categories = useSelector((state) => state.category.detail_categories);
+    const dispatch = useAppDispatch();
+    const categories = useAppSelector((state) => state.category.categories);
+    const detail_categories = useAppSelector((state) => state.category.detail_categories);
 
     useEffect(() => {
         dispatch(GetAllCategoriesAction());
@@ -69,7 +74,7 @@ export function MainHeader({ isLogin }) {
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                 >
-                    {categories.map((category) => (
+                    {categories.map((category: CategoryType) => (
                         <div className="sub-item" key={category._id}>
                             <Link
                                 to={`/category/${category._id}`}
@@ -78,8 +83,8 @@ export function MainHeader({ isLogin }) {
                                 {category.name}
                             </Link>
                             {detail_categories
-                                .filter((detail) => detail.category_id._id === category._id)
-                                .map((item) => (
+                                .filter((detail: CategoryDetailType) => detail.category_id._id === category._id)
+                                .map((item: CategoryDetailType) => (
                                     <Link
                                         to={`/category/${category._id}/${item._id}`}
                                         style={{ textTransform: 'capitalize' }}

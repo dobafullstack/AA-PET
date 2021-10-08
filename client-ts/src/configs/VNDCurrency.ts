@@ -1,4 +1,4 @@
-const VND = (number) => {
+const VND = (number: number) => {
     if (typeof number !== 'number') {
         return null;
     }

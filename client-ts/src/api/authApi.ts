@@ -1,6 +1,5 @@
-import axiosClient, { ResponseType } from "./axiosClient";
-import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import axiosClient, { ResponseType } from "./axiosClient";
 
 export const GetUser = async (username: string, password: string) => {
   let access_token = "";

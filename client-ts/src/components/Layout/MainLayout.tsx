@@ -1,11 +1,13 @@
 import React from 'react';
-import Header from '../Header';
-import { MainHeader, MainFooter } from '../Common';
-import Footer from '../Footer';
+import { MainHeader, MainFooter, Footer, Header } from './';
 import { useRouteMatch } from 'react-router-dom';
 import useVerifyToken from '../../hooks/useVerifyToken';
 
-export default function MainLayout({ children }) {
+interface MainLayoutProps{
+    children: React.ReactNode
+}
+
+export function MainLayout({ children }: MainLayoutProps) {
     let match = useRouteMatch();
     const isLogin = useVerifyToken();
     const { path } = match;
@@ -19,9 +21,9 @@ export default function MainLayout({ children }) {
 
     return (
         <div>
-            {isMain ? <MainHeader isLogin={isLogin}/> : <Header isLogin={isLogin}/>}
+            {isMain ? <MainHeader isLogin={isLogin} /> : <Header isLogin={isLogin} />}
             <main>{children}</main>
-            {isMain ? <MainFooter/> : <Footer/>}
+            {isMain ? <MainFooter /> : <Footer />}
         </div>
     );
 }

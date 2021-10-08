@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/css/Breadcrumb.css';
 
-export function BreadcrumbBar({ breadcrumbs }) {
+export function BreadcrumbBar({ breadcrumbs }: any) {
 
     return (
         <div className="breadcrumb-wrapper">
             <div className="breadcrumb">
-                {breadcrumbs.map(({ breadcrumb, match }, index) => (
+                {breadcrumbs.map(({ breadcrumb, match }: any, index: number) => (
                     <span key={index}>
                         <Link to={match.url} className="me-1">
                             {breadcrumb}{' '}

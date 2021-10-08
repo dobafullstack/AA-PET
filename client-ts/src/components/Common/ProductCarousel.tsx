@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'reactstrap';
+import ProductType from '../../types/ProductType';
 
-export default function ProductCarousel({ product }) {
+interface ProductCarouselProps{
+    product: ProductType
+}
+
+export function ProductCarousel({ product }: ProductCarouselProps) {
     const [current, setCurrent] = useState(0);
 
     if (!Array.isArray(product.img) || product.img.length <= 0) return null;
@@ -11,15 +16,18 @@ export default function ProductCarousel({ product }) {
     };
 
     const prev = () => {
-        setCurrent(current === 0 ? product.images.length - 1 : current - 1);
+        setCurrent(current === 0 ? product.img.length - 1 : current - 1);
     };
 
     return (
         <div className="left">
             <div className="main-img">
-                <div className="img" style={{backgroundImage: `url(${product.img[current]})`}}></div>
-                <i class="fal fa-arrow-left" onClick={() => prev()}></i>
-                <i class="fal fa-arrow-right" onClick={() => next()}></i>
+                <div
+                    className="img"
+                    style={{ backgroundImage: `url(${product.img[current]})` }}
+                ></div>
+                <i className="fal fa-arrow-left" onClick={() => prev()}></i>
+                <i className="fal fa-arrow-right" onClick={() => next()}></i>
             </div>
 
             <Row className="sub-img mt-3">

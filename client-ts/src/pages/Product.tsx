@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { BreadcrumbBar, MyModal, MyRating } from '../components/Common';
-import ProductCarousel from '../components/ProductCarousel';
-import RatingItem from '../components/RatingItem';
-import VND from '../configs/VNDCurrency';
-import StaticProducts from '../utils/StaticProduct';
-import { useDispatch, useSelector } from 'react-redux';
 import { GetProductById } from '../app/actions/product.action';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { BreadcrumbBar, MyModal, MyRating, ProductCarousel, RatingItem } from '../components/Common';
+import VND from '../configs/VNDCurrency';
+import ProductType from '../types/ProductType';
+
+const initialProductState = {
+    _id: '',
+    name: '',
+    price: 0,
+    img: [],
+    rating_point: 0,
+    description: '',
+};
 
 export function Product() {
     const [isOpen, setIsOpen] = useState(false);
-    const [product, setProduct] = useState({});
+    const [product, setProduct] = useState(initialProductState as ProductType);
     const breadcrumbs = useBreadcrumbs(breadCrumbConfig);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const params = useParams();
-    const {productId} = params;
-    
+    const { productId }: any = params;
+
     useEffect(() => {
         const getProduct = async () => {
-            const data = await dispatch(GetProductById(productId));
+            // const data: any = dispatch(GetProductById(productId));
 
-            setProduct(data);
-        }
+            // setProduct(data as React.SetStateAction<ProductType>);
+        };
 
         getProduct();
-    }, [productId])
+    }, [productId]);
 
     return (
         <div className="product-page">
@@ -48,8 +56,8 @@ export function Product() {
                         <div className="d-flex mb-2">
                             <button>Add to cart</button>
                             <div className="favorite ms-2">
-                                <i class="fal fa-heart"></i>
-                                <i class="fas fa-heart active"></i>
+                                <i className="fal fa-heart"></i>
+                                <i className="fas fa-heart active"></i>
                             </div>
                         </div>
                         <hr />
@@ -77,7 +85,7 @@ export function Product() {
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => setIsOpen(!isOpen)}
                             >
-                                <i class="fal fa-comment-alt-lines me-2"></i>
+                                <i className="fal fa-comment-alt-lines me-2"></i>
                                 <span>Write a comment</span>
                             </div>
                         </div>
@@ -90,14 +98,10 @@ export function Product() {
     );
 }
 
-const DynamicUserBreadcrumb = ({ match }) => {
-    const product = useSelector((state) => state.product.product);
+const DynamicUserBreadcrumb = () => {
+    const product = useAppSelector((state) => state.product);
 
-    return (
-        <span>
-            {product.name}
-        </span>
-    );
+    return <span>{product.product.name}</span>;
 };
 
 const breadCrumbConfig = [

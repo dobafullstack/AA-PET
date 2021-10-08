@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/images/LogoHeader.png';
+import Logo from '../../assets/images/LogoHeader.png';
 import { Collapse } from 'reactstrap';
 
-export default function Header({ isLogin }) {
+interface HeaderProps{
+    isLogin?: boolean;
+}
+
+export function Header({ isLogin }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (

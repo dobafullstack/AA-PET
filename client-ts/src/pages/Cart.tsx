@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Table, Container } from 'reactstrap';
-import CartItem from '../components/CartItem';
+import CartItem from '../components/Common/CartItem';
 import products from '../utils/StaticProduct';
 import { useHistory } from 'react-router-dom';
 import useVerifyToken from '../hooks/useVerifyToken';
@@ -10,7 +10,7 @@ export function Cart() {
     const history = useHistory();
     const isLogin = useVerifyToken();
 
-    const onUpdateCart = (index, value) => {
+    const onUpdateCart = (index: number, value: -1 | 1) => {
         console.log(index, value);
     };
 

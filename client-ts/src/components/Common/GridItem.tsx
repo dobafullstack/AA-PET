@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import VND from '../configs/VNDCurrency';
-import { MyRating } from './Common';
+import VND from '../../configs/VNDCurrency';
+import { MyRating } from './index';
+import ProductType from '../../types/ProductType';
 
-export default function ProductItem({ item, type = 'grid' }) {
+interface GridItemProps{
+    item: ProductType;
+}
+
+export function GridItem({ item }: GridItemProps) {
     return (
         <div className="product-item-wrapper">
             <div className="img-wrapper">

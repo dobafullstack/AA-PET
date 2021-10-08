@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 const useVerifyToken = () => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token') || "";
     let result = false;
 
     if (!Boolean(token)) {

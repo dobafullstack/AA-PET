@@ -1,7 +1,7 @@
 import React from 'react';
-import { MyRating } from './Common';
+import { MyRating } from './index';
 
-export default function RatingItem() {
+export function RatingItem() {
     return (
         <div className="rating-item-wrapper my-4">
             <div className="d-flex justify-content-between">

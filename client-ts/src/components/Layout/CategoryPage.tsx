@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { capitalize } from '../../configs/TextFormat';
-import { Col, Container, Row } from 'reactstrap';
-import { BreadcrumbBar, TopTitle } from '../Common';
-import Filter from '../Filter';
-import GridItem from '../GridItem';
-import ListItem from '../ListItem';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {GetProductByCategoryIdAction} from '../../app/actions/product.action'
+import { useParams } from 'react-router-dom';
+import { Col, Container, Row } from 'reactstrap';
+import useBreadcrumbs from 'use-react-router-breadcrumbs';
+import { GetProductByCategoryIdAction } from '../../app/actions/product.action';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { capitalize } from '../../configs/TextFormat';
+import CategoryType from '../../types/CategoryType';
+import ProductType from '../../types/ProductType';
+import { BreadcrumbBar, Filter, GridItem, ListItem, TopTitle } from '../Common';
 
-export const CategoryPage = ({ products }) => {
+interface CategoryPageProps{
+    products: ProductType[]
+}
+
+export const CategoryPage = ({ products }: CategoryPageProps) => {
     const breadcrumbs = useBreadcrumbs(breadCrumbCategoryConfig);
     const [isGrid, setIsGrid] = useState(true);
     const params = useParams();
-    const {category_id} = params;
-    const dispatch = useDispatch()
+    const { category_id }: any = params;
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(GetProductByCategoryIdAction(category_id));
@@ -49,11 +52,11 @@ export const CategoryPage = ({ products }) => {
     );
 };
 
-export const DynamicCategoryBreadcrumb = ({ match }) => {
-    const categories = useSelector((state) => state.category.categories);
+export const DynamicCategoryBreadcrumb = ({ match }: any) => {
+    const categories = useAppSelector((state) => state.category.categories);
     return (
         <span>
-            {capitalize(categories.filter((item) => item._id === match.params.category_id)[0].name)}
+            {capitalize(categories.filter((item: CategoryType) => item._id === match.params.category_id)[0].name)}
         </span>
     );
 };

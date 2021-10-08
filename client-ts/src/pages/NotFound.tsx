@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import {Footer, Header} from '../components/Layout';
 
 export function NotFound() {
     return (
         <div>
-            <Header></Header>
+            <Header />
             <main>
                 <div className="notfound-wrapper">
                     <h1>Oops!</h1>
@@ -18,7 +17,7 @@ export function NotFound() {
                     <Link to="/">Go to homepage</Link>
                 </div>
             </main>
-            <Footer></Footer>
+            <Footer />
         </div>
     );
 }

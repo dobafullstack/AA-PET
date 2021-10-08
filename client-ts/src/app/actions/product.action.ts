@@ -30,7 +30,7 @@ export const GetProductByCategoryDetailIdAction = (id: string) => async (dispatc
     }
 };
 
-export const GetProductById = (id: string) => async (dispatch : AppDispatch, getState: RootState) => {
+export const GetProductById = (id: any) => async (dispatch : AppDispatch, getState: RootState) => {
     try {
         const product = await getProductByIdApi(id);
 
@@ -39,5 +39,5 @@ export const GetProductById = (id: string) => async (dispatch : AppDispatch, get
         console.log(error.message);
     }
 
-    return getState().product.product;
+    return getState.product.product;
 };

@@ -1,12 +1,18 @@
 import React from 'react';
-import VND from '../configs/VNDCurrency';
+import VND from '../../configs/VNDCurrency';
 
-export default function CartItem({ item, index, onUpdateCart }) {
+interface CartItemProps{
+    item: any;
+    index: number;
+    onUpdateCart: (index: number, value: 1 | -1) => void;
+}
+
+export default function CartItem({ item, index, onUpdateCart }: CartItemProps) {
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
-                    <img src={item.images[0]} alt="" className="img-fluid" />
+                    <img src={item.img[0]} alt="" className="img-fluid" />
                     <span className="item-name">{item.name}</span>
                 </div>
             </td>
