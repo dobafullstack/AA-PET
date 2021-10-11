@@ -1,0 +1,56 @@
+@import '../variable.scss';
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 10rem;
+    min-height: 80px;
+
+    background-color: white;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+
+    span {
+        font-family: Playball;
+        font-size: 2rem;
+    }
+
+    .right-side {
+        @include flex-center;
+
+        position: relative;
+
+        span {
+            @include fw-300;
+            margin-left: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .sub-options {
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.5s;
+            position: absolute;
+            top: 100%;
+            right: 0;
+
+            padding: 1rem;
+
+            background-color: white;
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+
+            display: flex;
+            flex-direction: column;
+
+            a {
+                color: black;
+            }
+        }
+    }
+    .right-side:hover .sub-options {
+        visibility: visible;
+        opacity: 1;
+    }
+}
