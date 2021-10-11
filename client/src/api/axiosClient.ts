@@ -12,6 +12,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async (config) => {
     //handle token here...
+    console.log(config)
 
     return config;
 });
@@ -34,5 +35,7 @@ export default axiosClient;
 export interface ResponseType {
     code: number;
     result: any;
-    error?: any;
+    error?: {
+        message: string;
+    };
 }

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Form } from 'reactstrap';
-import { RegisterApi } from '../api/authApi';  
+import { RegisterApi } from '../api/authApi';
+import { ResponseType } from '../api/axiosClient';
 
 export function Register() {
     const [username, setUsername] = useState('');
@@ -13,16 +14,37 @@ export function Register() {
     const [phone, setPhone] = useState('');
 
     const handleRegister = async () => {
-        if (password !== confirmPassword) {
-            toast.error('Mật khẩu xác nhận không đúng');
+        const { code, result, error }: ResponseType = await RegisterApi(
+            username,
+            name,
+            password,
+            phone,
+            email
+        );
 
+        if (password !== confirmPassword) {
+            toast.error('Confirm password is incorrect!');
             return;
         }
 
-        const result = await RegisterApi(username, name, password, phone, email);
+        if (error !== null) {
+            toast.error(error?.message);
+            return;
+        }
+
+        if (code !== 201) {
+            toast.error(result);
+            return;
+        }
 
         toast.success(result);
-    }
+        setUsername('');
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setPhone('');
+    };
 
     return (
         <div className="register-wrapper">

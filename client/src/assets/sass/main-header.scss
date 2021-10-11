@@ -1,3 +1,5 @@
+@import './variable.scss';
+
 header#main-header {
     background-image: none !important;
 
@@ -39,7 +41,7 @@ header#main-header {
                 font-size: 1.2rem;
             }
 
-            span {
+            span.account-wrapper {
                 a {
                     font-size: 1.2rem;
                     color: black;
@@ -48,10 +50,36 @@ header#main-header {
                 a:hover {
                     color: $primary-hover-color;
                 }
+
+                .account-collapse {
+                    position: absolute;
+                    top: 2.5rem;
+                    right: 0;
+                    background-color: white;
+                    padding: 5px 20px;
+                    z-index: 999;
+                    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all 0.5s;
+                    min-height: 150px;
+
+                    .option{
+                        cursor: pointer;
+                    }
+                    .option:hover{
+                        color: $primary-hover-color;
+                    }
+                }
+            }
+
+            span.account-wrapper:hover .account-collapse {
+                visibility: visible;
+                opacity: 1;
             }
         }
 
-        i.bar{
+        i.bar {
             display: none;
         }
 
@@ -98,7 +126,7 @@ header#main-header {
         }
     }
 
-    .main-header-collapse{
+    .main-header-collapse {
         visibility: hidden;
     }
 }
@@ -106,13 +134,13 @@ header#main-header {
 @media (max-width: 769px) {
     header#main-header {
         .main-header-desktop-wrapper {
-            .left{
-                img{
+            .left {
+                img {
                     height: 3rem;
                 }
 
-                a{
-                    span{
+                a {
+                    span {
                         font-size: 1.7rem;
                     }
                 }
@@ -123,21 +151,20 @@ header#main-header {
                 display: none;
             }
 
-            i.bar{
+            i.bar {
                 font-size: 1.5rem;
                 display: block;
             }
-
         }
-        .main-header-collapse{
-            padding: .7rem 2rem;
+        .main-header-collapse {
+            padding: 0.7rem 2rem;
             visibility: visible;
 
-            ul{
+            ul {
                 list-style: none;
 
-                li{
-                    a{
+                li {
+                    a {
                         color: black;
                     }
                 }

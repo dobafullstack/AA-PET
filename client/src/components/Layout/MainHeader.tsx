@@ -8,19 +8,25 @@ import {
 } from '../../app/actions/category.action';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoHeader from '../../assets/images/MainLogoHeader.png';
+import '../../assets/sass/main-header.scss';
 import CategoryDetailType from '../../types/CategoryDetailType';
 import CategoryType from '../../types/CategoryType';
 
-interface MainHeaderProps{
+interface MainHeaderProps {
     isLogin: boolean;
+    forceUpdate: () => void;
 }
 
-export function MainHeader({ isLogin }: MainHeaderProps) {
+export function MainHeader({ isLogin, forceUpdate }: MainHeaderProps) {
     const [isHover, setIsHover] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useAppDispatch();
     const categories = useAppSelector((state) => state.category.categories);
     const detail_categories = useAppSelector((state) => state.category.detail_categories);
+    const handleLogout = () => {
+        localStorage.removeItem('access_token');
+        forceUpdate();
+    };
 
     useEffect(() => {
         dispatch(GetAllCategoriesAction());
@@ -57,9 +63,17 @@ export function MainHeader({ isLogin }: MainHeaderProps) {
                 <div className="main-header-item right">
                     <i className="fas fa-user-circle"></i>
                     {isLogin ? (
-                        <span>
-                            <Link to="/personal">My Account</Link>
-                        </span>
+                        <>
+                            <span className="account-wrapper" style={{ position: 'relative' }}>
+                                <Link to="/personal">My Account</Link>
+                                <div className="account-collapse">
+                                    <div className="d-flex align-items-center justify-content-center option">
+                                        <i className="fal fa-sign-out-alt mx-1"></i>
+                                        <span onClick={() => handleLogout()}>Logout</span>
+                                    </div>
+                                </div>
+                            </span>
+                        </>
                     ) : (
                         <span>
                             <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
@@ -83,7 +97,10 @@ export function MainHeader({ isLogin }: MainHeaderProps) {
                                 {category.name}
                             </Link>
                             {detail_categories
-                                .filter((detail: CategoryDetailType) => detail.category_id._id === category._id)
+                                .filter(
+                                    (detail: CategoryDetailType) =>
+                                        detail.category_id._id === category._id
+                                )
                                 .map((item: CategoryDetailType) => (
                                     <Link
                                         to={`/category/${category._id}/${item._id}`}

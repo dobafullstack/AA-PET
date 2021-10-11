@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import FacebookIcon from '../assets/images/facebook.png';
 import GoogleIcon from '../assets/images/google.png';
-import { GetUser } from '../api/authApi';
+import { GetUser, LoginApi } from '../api/authApi';
 import useVerifyToken from '../hooks/useVerifyToken';
+import { ResponseType } from '../api/axiosClient';
+import { toast } from 'react-toastify';
 
 export function Login() {
     const [username, setUsername] = useState('');
@@ -12,13 +14,21 @@ export function Login() {
     const isLogin = useVerifyToken();
 
     const handleLogin = async () => {
-        const token = await GetUser(username, password);
-        console.log(token)
-        if (token) {
-            localStorage.setItem('access_token', token);
+        const { code, result, error }: ResponseType = await LoginApi(username, password);
 
-            history.push('/home');
+        if (error !== null){
+            toast.error(error?.message);
+            return;
         }
+
+        if (code !== 200){
+            toast.error(result);
+            return;
+        }
+
+        localStorage.setItem('access_token', result.token);
+
+        history.push('/home')
     };
 
     if (isLogin) return <Redirect to="/home" />;

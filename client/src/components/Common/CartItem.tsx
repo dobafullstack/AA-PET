@@ -1,7 +1,7 @@
 import React from 'react';
 import VND from '../../configs/VNDCurrency';
 
-interface CartItemProps{
+interface CartItemProps {
     item: any;
     index: number;
     onUpdateCart: (index: number, value: 1 | -1) => void;
