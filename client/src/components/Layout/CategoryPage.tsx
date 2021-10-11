@@ -10,8 +10,8 @@ import CategoryType from '../../types/CategoryType';
 import ProductType from '../../types/ProductType';
 import { BreadcrumbBar, Filter, GridItem, ListItem, TopTitle } from '../Common';
 
-interface CategoryPageProps{
-    products: ProductType[]
+interface CategoryPageProps {
+    products: ProductType[];
 }
 
 export const CategoryPage = ({ products }: CategoryPageProps) => {
@@ -22,7 +22,8 @@ export const CategoryPage = ({ products }: CategoryPageProps) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(GetProductByCategoryIdAction(category_id));
+        console.log(category_id)
+        // dispatch(GetProductByCategoryIdAction(category_id));
     }, [category_id]);
 
     return (
@@ -56,7 +57,10 @@ export const DynamicCategoryBreadcrumb = ({ match }: any) => {
     const categories = useAppSelector((state) => state.category.categories);
     return (
         <span>
-            {capitalize(categories.filter((item: CategoryType) => item._id === match.params.category_id)[0].name)}
+            {capitalize(
+                categories.filter((item: CategoryType) => item._id === match.params.category_id)[0]
+                    .name
+            )}
         </span>
     );
 };
