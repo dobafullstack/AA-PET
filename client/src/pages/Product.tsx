@@ -3,37 +3,26 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { GetProductById } from '../app/actions/product.action';
+import { GetProductByIdAction } from '../app/actions/product.action';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { BreadcrumbBar, MyModal, MyRating, ProductCarousel, RatingItem } from '../components/Common';
+import { capitalize } from '../configs/TextFormat';
 import VND from '../configs/VNDCurrency';
+import CategoryType from '../types/CategoryType';
 import ProductType from '../types/ProductType';
-
-const initialProductState = {
-    _id: '',
-    name: '',
-    price: 0,
-    img: [],
-    rating_point: 0,
-    description: '',
-};
 
 export function Product() {
     const [isOpen, setIsOpen] = useState(false);
-    const [product, setProduct] = useState(initialProductState as ProductType);
+    const product = useAppSelector(state => state.product.product);
     const breadcrumbs = useBreadcrumbs(breadCrumbConfig);
     const dispatch = useAppDispatch();
     const params = useParams();
     const { productId }: any = params;
 
+    console.log("Product PAGE")
+
     useEffect(() => {
-        const getProduct = async () => {
-            // const data: any = dispatch(GetProductById(productId));
-
-            // setProduct(data as React.SetStateAction<ProductType>);
-        };
-
-        getProduct();
+        dispatch(GetProductByIdAction(productId));
     }, [productId]);
 
     return (
@@ -98,19 +87,43 @@ export function Product() {
     );
 }
 
-const DynamicUserBreadcrumb = () => {
-    const product = useAppSelector((state) => state.product);
+const DynamicUserBreadcrumb = ({match}: any) => {
+    const product = useAppSelector((state) => state.product.product);
 
-    return <span>{product.product.name}</span>;
+    return <span>{product.name}</span>;
 };
+
+const DynamicCategoryBreadcrumb = ({match}: any) => {
+    const categories = useAppSelector(state => state.category.categories);
+    const {category_id} = match.params;
+    const index = categories.findIndex((item: CategoryType) => item._id === category_id);
+    return <span>{capitalize(categories[index].name)}</span>;
+}
+
+const DynamicCategoryDetailBreadcrumb = ({match}: any) => {
+    const categories_detail = useAppSelector(state => state.category.detail_categories);
+    const {category_detail_id} = match.params;
+    const index = categories_detail.findIndex(
+        (item: CategoryType) => item._id === category_detail_id
+    );
+    return <span>{capitalize(categories_detail[index].name)}</span>;
+}
 
 const breadCrumbConfig = [
     {
-        path: '/product',
-        breadcrumb: 'Product',
+        path: '/category',
+        breadcrumb: 'Category',
     },
     {
-        path: '/product/:productId',
+        path: '/category/:category_id',
+        breadcrumb: DynamicCategoryBreadcrumb,
+    },
+    {
+        path: '/category/:category_id/:category_detail_id',
+        breadcrumb: DynamicCategoryDetailBreadcrumb,
+    },
+    {
+        path: '/category/:category_id/:category_detail_id/:productId',
         breadcrumb: DynamicUserBreadcrumb,
     },
 ];

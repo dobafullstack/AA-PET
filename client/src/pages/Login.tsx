@@ -14,6 +14,10 @@ export function Login() {
     const isLogin = useVerifyToken();
 
     const handleLogin = async () => {
+        if (username === '' || password === ''){
+            return;
+        }
+
         const { code, result, error }: ResponseType = await LoginApi(username, password);
 
         if (error !== null){

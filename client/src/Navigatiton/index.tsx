@@ -42,11 +42,6 @@ export default function index() {
                     <Cart />
                 </MainLayout>
             </Route>
-            <Route path="/product/:productId">
-                <MainLayout>
-                    <Product />
-                </MainLayout>
-            </Route>
 
             {/* Private Route */}
             <PrivateRoute path="/personal" exact>

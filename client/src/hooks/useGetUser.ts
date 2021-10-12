@@ -1,15 +1,30 @@
+import { useEffect, useState } from 'react';
 import jwt from 'jsonwebtoken';
+import UserType from '../types/UserType';
+import { GetUser } from '../api/authApi';
 
 const useGetUser = () => {
-    const token = localStorage.getItem('access_token') || '';
+    const [user, setUser] = useState<UserType>({
+        _id: "",
+        address: "",
+        email: "",
+        name: "",
+        phone: ""
+    });
 
-    const decode: any = jwt.decode(token);
+    useEffect(() => {
+        const fetchUser = async () => {
+            const {result, error, code} = await GetUser();
 
-    delete decode.iat;
-    delete decode.exp;
-    delete decode.__v;
+            if (code === 200 && error == null){
+                setUser(result);
+            }
+        }
 
-    return decode;
+        fetchUser();
+    }, [])
+
+    return user;
 };
 
 export default useGetUser;

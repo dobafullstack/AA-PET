@@ -7,7 +7,15 @@ const initialProduct: ProductType = {
     price: 0,
     rating_point: 0,
     description: "",
-    img: []
+    img: [],
+    category_detail_id: {
+        _id: "",
+        name: "",
+        category_id: {
+            _id: "",
+            name: ""
+        }
+    }
 }
 
 const ProductSlice = createSlice({

@@ -45,8 +45,8 @@ export function Personal() {
                     </Col>
                     <Col xl={9} className="right">
                         {tab === 'profile' && <Profile user={user} />}
-                        {tab === 'history' && <History orders={StaticOrder} />}
-                        {tab === 'order' && <Order orders={StaticOrder} />}
+                        {/* {tab === 'history' && <History orders={StaticOrder} />}
+                        {tab === 'order' && <Order orders={StaticOrder} />} */}
                     </Col>
                     <div className="tab-controller">
                         <div

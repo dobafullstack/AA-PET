@@ -5,7 +5,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg',
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
@@ -19,7 +19,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
@@ -33,7 +33,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
@@ -47,7 +47,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',
@@ -61,7 +61,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg',
             'https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg',
             'https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg',
@@ -75,7 +75,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
             'https://www.thesprucepets.com/thmb/sfuyyLvyUx636_Oq3Fw5_mt-PIc=/3760x2820/smart/filters:no_upscale()/adorable-white-pomeranian-puppy-spitz-921029690-5c8be25d46e0fb000172effe.jpg',
@@ -89,7 +89,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
             'https://files.worldwildlife.org/wwfcmsprod/images/Tiger_resting_Bandhavgarh_National_Park_India/hero_small/6aofsvaglm_Medium_WW226365.jpg',
@@ -103,7 +103,7 @@ const productData = [
         price: 100000,
         description:
             'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet amet lorem ipsum dolor sit amet',
-        images: [
+        img: [
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',
             'https://images.immediate.co.uk/production/volatile/sites/3/2021/01/caeser-planet-apes-d37adc1.jpg?quality=90&resize=620%2C413',

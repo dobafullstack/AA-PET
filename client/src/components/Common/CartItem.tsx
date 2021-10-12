@@ -5,36 +5,42 @@ interface CartItemProps {
     item: any;
     index: number;
     onUpdateCart: (index: number, value: 1 | -1) => void;
+    onRemoveCart: (index: number) => void;
 }
 
-export default function CartItem({ item, index, onUpdateCart }: CartItemProps) {
+export default function CartItem({ item: { product, count }, index, onUpdateCart, onRemoveCart }: CartItemProps) {
     return (
         <tr>
             <td>
                 <div className="d-flex align-items-center">
-                    <img src={item.img[0]} alt="" className="img-fluid" />
-                    <span className="item-name">{item.name}</span>
+                    <img src={product.img[0]} alt="" className="img-fluid" />
+                    <span className="item-name">{product.name}</span>
                 </div>
             </td>
             <td>
-                <span>{VND(item.price)}</span>
+                <span>{VND(product.price)}</span>
             </td>
             <td style={{ position: 'relative' }}>
                 <div className="counter-wrapper">
-                    <p className="minus" onClick={() => onUpdateCart(index, -1)}>
+                    <p className="minus" onClick={() => {
+                        if (count === 1){
+                            return
+                        }
+                        onUpdateCart(index, -1);
+                    }}>
                         -
                     </p>
-                    <p>{item.count || 1}</p>
+                    <p>{count || 1}</p>
                     <p className="plus" onClick={() => onUpdateCart(index, 1)}>
                         +
                     </p>
                 </div>
             </td>
             <td>
-                <span>{VND(item.price * item.count || item.price)}</span>
+                <span className="me-5">{VND(product.price * count)}</span>
             </td>
             <td>
-                <i className="fas fa-trash text-danger"></i>
+                <i className="fas fa-trash text-danger" onClick={() => onRemoveCart(index)}></i>
             </td>
         </tr>
     );

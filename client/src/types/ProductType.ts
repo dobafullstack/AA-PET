@@ -1,3 +1,5 @@
+import CategoryDetailType from "./CategoryDetailType";
+
 export default interface ProductType {
     _id: string;
     name: string;
@@ -5,4 +7,5 @@ export default interface ProductType {
     price: number;
     rating_point: number;
     description: string;
+    category_detail_id: CategoryDetailType
 }

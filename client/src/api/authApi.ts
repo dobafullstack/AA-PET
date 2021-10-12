@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import axiosClient, { ResponseType } from './axiosClient';
 
-export const GetUser = async () => {
+export const GetUser = async (): Promise<ResponseType> => {
     return await axiosClient.get('/auth/token');
 };
 

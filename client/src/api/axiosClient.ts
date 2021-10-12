@@ -6,13 +6,12 @@ const axiosClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
         type: 'aa-pet',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     },
     paramsSerializer: (params) => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(async (config) => {
-    //handle token here...
-    console.log(config)
 
     return config;
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Product } from '.';
 import { useAppSelector } from '../app/hooks';
 import { CategoryWrapper } from '../components/Common';
 import { CategoryDetailPage } from '../components/Layout/CategoryDetailPage';
@@ -19,6 +20,10 @@ export function Category() {
             </Route>
             <Route path={`${match.path}/:category_id/:category_detail_id`} exact>
                 <CategoryDetailPage products={products} />
+            </Route>
+
+            <Route path={`${match.path}/:category_id/:category_detail_id/:productId`} exact>
+                <Product />
             </Route>
         </Switch>
     );

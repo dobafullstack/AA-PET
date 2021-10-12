@@ -23,7 +23,7 @@ export const CategoryPage = ({ products }: CategoryPageProps) => {
 
     useEffect(() => {
         console.log(category_id)
-        // dispatch(GetProductByCategoryIdAction(category_id));
+        dispatch(GetProductByCategoryIdAction(category_id));
     }, [category_id]);
 
     return (
