@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
@@ -9,7 +8,6 @@ import { BreadcrumbBar, MyModal, MyRating, ProductCarousel, RatingItem } from '.
 import { capitalize } from '../configs/TextFormat';
 import VND from '../configs/VNDCurrency';
 import CategoryType from '../types/CategoryType';
-import ProductType from '../types/ProductType';
 
 export function Product() {
     const [isOpen, setIsOpen] = useState(false);

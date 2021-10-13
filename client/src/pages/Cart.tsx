@@ -1,12 +1,12 @@
 import React from 'react';
-import { Col, Row, Table, Container } from 'reactstrap';
-import CartItem from '../components/Common/CartItem';
 import { useHistory } from 'react-router-dom';
-import useVerifyToken from '../hooks/useVerifyToken';
 import { toast } from 'react-toastify';
+import { Col, Row, Table } from 'reactstrap';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import VND from '../configs/VNDCurrency';
 import { removeCart, updateCart } from '../app/reducers/cart.reducer';
+import CartItem from '../components/Common/CartItem';
+import VND from '../configs/VNDCurrency';
+import useVerifyToken from '../hooks/useVerifyToken';
 
 export function Cart() {
     const history = useHistory();

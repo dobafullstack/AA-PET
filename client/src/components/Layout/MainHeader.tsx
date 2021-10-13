@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import {
     GetAllCategoriesAction,
@@ -23,9 +23,15 @@ export function MainHeader({ isLogin, forceUpdate }: MainHeaderProps) {
     const dispatch = useAppDispatch();
     const categories = useAppSelector((state) => state.category.categories);
     const detail_categories = useAppSelector((state) => state.category.detail_categories);
+    const match = useRouteMatch()
+    const history = useHistory();
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         forceUpdate();
+
+        if (match.url === '/personal') {
+            history.replace('/home');
+        }
     };
 
     useEffect(() => {

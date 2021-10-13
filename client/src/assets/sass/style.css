@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700&display=swap");
 header {
   width: 100%;
   min-height: 100px;
@@ -389,12 +403,35 @@ header#main-header .main-header-desktop-wrapper .right i {
   margin: 0 2rem;
   font-size: 1.2rem;
 }
-header#main-header .main-header-desktop-wrapper .right span a {
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper a {
   font-size: 1.2rem;
   color: black;
 }
-header#main-header .main-header-desktop-wrapper .right span a:hover {
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper a:hover {
   color: #e18847;
+}
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper .account-collapse {
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  background-color: white;
+  padding: 5px 20px;
+  z-index: 999;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s;
+  min-height: 150px;
+}
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper .account-collapse .option {
+  cursor: pointer;
+}
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper .account-collapse .option:hover {
+  color: #e18847;
+}
+header#main-header .main-header-desktop-wrapper .right span.account-wrapper:hover .account-collapse {
+  visibility: visible;
+  opacity: 1;
 }
 header#main-header .main-header-desktop-wrapper i.bar {
   display: none;
@@ -880,6 +917,8 @@ section.slider .slider-controller .item.active {
   box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
   padding: 1rem 2rem;
   min-width: 500px;
+  display: flex;
+  flex-direction: column;
 }
 .personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .header {
   display: flex;
@@ -889,17 +928,22 @@ section.slider .slider-controller .item.active {
   font-size: 0.8rem;
   font-family: Spartan;
 }
-.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .product-item {
+.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .item-wrapper {
+  overflow-y: auto;
+  max-height: 300px;
+  flex-grow: 1;
+}
+.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .item-wrapper .product-item {
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .product-item .history-left {
+.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .item-wrapper .product-item .history-left {
   display: flex;
   align-items: center;
 }
-.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .product-item .history-left img {
+.personal-wrapper .body-wrapper .row .right .history-wrapper .history-item .item-wrapper .product-item .history-left img {
   width: 70px;
   height: 70px;
   border-radius: 100%;

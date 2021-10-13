@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import jwt from 'jsonwebtoken';
-import UserType from '../types/UserType';
 import { GetUser } from '../api/authApi';
+import UserType from '../types/UserType';
 
 const useGetUser = () => {
     const [user, setUser] = useState<UserType>({
@@ -12,17 +11,19 @@ const useGetUser = () => {
         phone: ""
     });
 
+    const token = localStorage.getItem('access_token')
+
     useEffect(() => {
         const fetchUser = async () => {
-            const {result, error, code} = await GetUser();
+            const { result, error, code } = await GetUser();
 
-            if (code === 200 && error == null){
+            if (code === 200 && error === null) {
                 setUser(result);
             }
-        }
+        };
 
         fetchUser();
-    }, [])
+    }, [token]);
 
     return user;
 };

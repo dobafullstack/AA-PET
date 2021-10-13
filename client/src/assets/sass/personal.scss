@@ -1,3 +1,5 @@
+@import './variable.scss';
+
 .personal-wrapper {
     position: relative;
 
@@ -86,13 +88,12 @@
                     overflow-x: auto;
                     padding: 1rem;
 
-                    transform: translateY(25%);
-
                     .history-item {
                         box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
                         padding: 1rem 2rem;
-
                         min-width: 500px;
+                        display: flex;
+                        flex-direction: column;
 
                         .header {
                             display: flex;
@@ -104,22 +105,28 @@
                             }
                         }
 
-                        .product-item {
-                            margin-bottom: 1.5rem;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
+                        .item-wrapper {
+                            overflow-y: auto;
+                            max-height: 300px;
+                            flex-grow: 1;
 
-                            .history-left {
+                            .product-item {
+                                margin-bottom: 1.5rem;
                                 display: flex;
+                                justify-content: space-between;
                                 align-items: center;
 
-                                img {
-                                    width: 70px;
-                                    height: 70px;
-                                    border-radius: 100%;
-                                    box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
-                                    margin-right: 1.5rem;
+                                .history-left {
+                                    display: flex;
+                                    align-items: center;
+
+                                    img {
+                                        width: 70px;
+                                        height: 70px;
+                                        border-radius: 100%;
+                                        box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
+                                        margin-right: 1.5rem;
+                                    }
                                 }
                             }
                         }
@@ -144,22 +151,22 @@
                                     transition: color 0.2s;
                                 }
 
-                                .confirm{
+                                .confirm {
                                     border-color: $success-color;
                                     color: $success-color;
                                 }
 
-                                .confirm:hover{
+                                .confirm:hover {
                                     background-color: $success-color;
                                     color: white;
                                 }
 
-                                .remove{
+                                .remove {
                                     border-color: $danger-color;
                                     color: $danger-color;
                                 }
 
-                                .remove:hover{
+                                .remove:hover {
                                     background-color: $danger-color;
                                     color: white;
                                 }

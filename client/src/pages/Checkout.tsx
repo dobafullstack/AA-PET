@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BreadcrumbBar } from '../components/Common';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { Col, Row, Input, FormGroup, Label } from 'reactstrap';
@@ -10,29 +10,102 @@ import VND from '../configs/VNDCurrency';
 import useGetUser from '../hooks/useGetUser';
 import { useHistory } from 'react-router-dom';
 import UserType from '../types/UserType';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { toast } from 'react-toastify';
+import CreateOrderInput from '../types/CreateOrderInput';
+import { ResponseType } from '../api/axiosClient';
+import { createOrderApi } from '../api/orderApi';
+import { removeAll } from '../app/reducers/cart.reducer';
 
-interface CommonProps{
-    user: UserType
+interface CommonProps {
+    user?: UserType;
+    name?: string;
+    address?: string;
+    phone?: string;
+    setName?: React.Dispatch<React.SetStateAction<string>>;
+    setAddress?: React.Dispatch<React.SetStateAction<string>>;
+    setPhone?: React.Dispatch<React.SetStateAction<string>>;
+    paymentMethod?: string;
+    setPaymentMethod?: React.Dispatch<React.SetStateAction<string>>;
+    deliveryMethod?: string;
+    setDeliveryMethod?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export function Checkout() {
-    const breadcrumbs = useBreadcrumbs();
     const user = useGetUser();
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('ATM');
+    const [deliveryMethod, setDeliveryMethod] = useState('Viettel Post');
+    const breadcrumbs = useBreadcrumbs();
     const history = useHistory();
+    const cart = useAppSelector((state) => state.cart);
+    const dispatch = useAppDispatch();
+
+    const handleCheckout = async () => {
+        if (name === '' || address === '' || phone === '') {
+            toast.error('Mời nhập thông tin giao hàng');
+            return;
+        }
+        const products = cart.products.map((item) => {
+            return {
+                product_id: item.product._id,
+                count: item.count,
+            };
+        });
+
+        const body: CreateOrderInput = {
+            user_id: user._id,
+            products,
+            delivery_info: {
+                name,
+                address,
+                phone,
+            },
+            delivery_method: deliveryMethod,
+            payment_method: paymentMethod,
+            totalPrice: cart.totalPrice,
+        };
+
+        //create order
+        const { code, result, error } = await createOrderApi(body);
+
+        if (error !== null) {
+            toast.error(error?.message);
+            return;
+        }
+
+        if (code !== 200) {
+            toast.error(result);
+            return;
+        }
+        dispatch(removeAll());
+        history.push('/cart/checkout/success');
+    };
 
     return (
         <div className="checkout-wrapper">
             <BreadcrumbBar breadcrumbs={breadcrumbs} />
             <div className="checkout-body mt-5">
-                <Delivery user={user}/>
+                <Delivery
+                    setName={setName}
+                    setAddress={setAddress}
+                    setPhone={setPhone}
+                    name={name}
+                    address={address}
+                    phone={phone}
+                    deliveryMethod={deliveryMethod}
+                    setDeliveryMethod={setDeliveryMethod}
+                />
                 <hr />
-                <Payment />
+                <Payment paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
                 <hr />
                 <div className="checkout-footer">
                     <div className="confirm-wrapper">
                         <div className="d-flex justify-content-between confirm-item">
                             <span>Price</span>
-                            <strong>59$</strong>
+                            <strong>{VND(cart.totalPrice)}</strong>
                         </div>
                         <div className="d-flex justify-content-between confirm-item">
                             <span>Ship fee</span>
@@ -41,9 +114,11 @@ export function Checkout() {
                         <hr />
                         <div className="d-flex justify-content-between confirm-item">
                             <span>Total</span>
-                            <strong>60$</strong>
+                            <strong>{VND(cart.totalPrice)}</strong>
                         </div>
-                        <button className="mt-3 w-100" onClick={() => history.push('/cart/checkout/success')}>Confirm</button>
+                        <button className="mt-3 w-100" onClick={() => handleCheckout()}>
+                            Confirm
+                        </button>
                     </div>
                 </div>
             </div>
@@ -51,10 +126,14 @@ export function Checkout() {
     );
 }
 
-function Delivery({ user }: CommonProps) {
-    const [name, setName] = useState(user.name);
-    const [address, setAddress] = useState(user.address);
-    const [phone, setPhone] = useState(user.phone);
+function Delivery(props: CommonProps) {
+    const { name, address, phone } = props;
+    const setName = props.setName as React.Dispatch<React.SetStateAction<string>>;
+    const setAddress = props.setAddress as React.Dispatch<React.SetStateAction<string>>;
+    const setPhone = props.setPhone as React.Dispatch<React.SetStateAction<string>>;
+    const setDeliveryMethod = props.setDeliveryMethod as React.Dispatch<
+        React.SetStateAction<string>
+    >;
 
     return (
         <div className="delivery-wrapper">
@@ -100,7 +179,11 @@ function Delivery({ user }: CommonProps) {
                 <Col xl={6}>
                     <FormGroup className="my-3">
                         <Label className="mb-1">Delivery methods</Label>
-                        <Input type="select" className="w-50">
+                        <Input
+                            type="select"
+                            className="w-50"
+                            onChange={(e) => setDeliveryMethod(e.target.value)}
+                        >
                             <option value="Viettel Post">Viettel Post</option>
                             <option value="Best Express">Best Express</option>
                             <option value="Giao hàng nhanh">Giao hàng nhanh</option>
@@ -122,8 +205,9 @@ function Delivery({ user }: CommonProps) {
     );
 }
 
-function Payment(){
-    const [paymentMethod, setPaymentMethod] = useState('ATM');
+function Payment(props: CommonProps) {
+    const { paymentMethod } = props;
+    const setPaymentMethod = props.setPaymentMethod as React.Dispatch<React.SetStateAction<string>>;
 
     return (
         <div className="payment-wrapper">

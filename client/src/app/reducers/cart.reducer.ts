@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import ProductType from '../../types/ProductType';
 
 interface CartItemType {
@@ -48,6 +49,7 @@ const cartSlice = createSlice({
             }
             state.totalPrice += payload.price;
             localStorage.setItem('cart', JSON.stringify(state));
+            toast.success("Thêm vào giỏ hàng thành công")
         },
         updateCart(state, { payload }) {
             state.products[payload.index].count += payload.value;
@@ -56,18 +58,24 @@ const cartSlice = createSlice({
             } else {
                 state.totalPrice -= state.products[payload.index].product.price;
             }
-
+            
             localStorage.setItem('cart', JSON.stringify(state))
         },
         removeCart(state, {payload}){
             state.totalPrice -= state.products[payload.index].product.price * state.products[payload.index].count
             state.products.splice(payload.index, 1)
             localStorage.setItem('cart', JSON.stringify(state))
+            toast.error("Đã xóa sản phẩm")
+        },
+        removeAll(state){
+            state.products = [];
+            state.totalPrice = 0;
+            localStorage.setItem('cart', JSON.stringify(state))
         }
     },
 });
 
-export const { addToCart, updateCart, removeCart } = cartSlice.actions;
+export const { addToCart, updateCart, removeCart, removeAll } = cartSlice.actions;
 
 const cartReducer = cartSlice.reducer;
 

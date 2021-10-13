@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { MainHeader, MainFooter, Footer, Header } from './';
+import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import useVerifyToken from '../../hooks/useVerifyToken';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
+import useVerifyToken from '../../hooks/useVerifyToken';
+import { Footer, Header, MainFooter, MainHeader } from './';
 
 interface MainLayoutProps{
     children: React.ReactNode

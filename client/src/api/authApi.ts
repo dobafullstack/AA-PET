@@ -2,7 +2,11 @@ import { toast } from 'react-toastify';
 import axiosClient, { ResponseType } from './axiosClient';
 
 export const GetUser = async (): Promise<ResponseType> => {
-    return await axiosClient.get('/auth/token');
+    return await axiosClient.get('/auth/token', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token') as string}`,
+        },
+    });
 };
 
 export const LoginApi = async (username: string, password: string): Promise<ResponseType> => {
