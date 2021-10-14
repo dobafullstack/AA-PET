@@ -1,3 +1,3 @@
-export * from './Main'
+export * from './Dashboard'
 export * from './Order'
 export * from './User'

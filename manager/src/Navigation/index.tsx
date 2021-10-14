@@ -1,18 +1,18 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { Main, User, Order } from '../pages/index';
-import { PrivateRoute } from '../components/Layout';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import { Dashboard, User, Order } from "../pages/index";
+import { PrivateRoute } from "../components/Layout";
 
 export default function index() {
     return (
         <Switch>
-            <Route path="/" exact>
-                <Main />
+            <Route path='/' exact>
+                <Dashboard />
             </Route>
-            <Route path="/order" exact>
+            <Route path='/order' exact>
                 <Order />
             </Route>
-            <PrivateRoute path="/user" exact>
+            <PrivateRoute path='/user' exact>
                 <User />
             </PrivateRoute>
         </Switch>

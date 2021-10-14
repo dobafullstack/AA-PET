@@ -36,9 +36,19 @@ $red: #ff0000;
     align-items: center;
 }
 
+@mixin flex-between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @mixin flex-center-column {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+@mixin bs{
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }

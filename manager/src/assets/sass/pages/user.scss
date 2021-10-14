@@ -1,0 +1,37 @@
+@import '../variable.scss';
+
+.user-wrapper {
+    .box {
+        width: 100%;
+        min-height: calc(100vh - 250px);
+        background-color: white;
+        border-radius: 10px;
+        margin-top: 2rem;
+        padding: 2rem;
+        padding-left: 5rem;
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 3rem;
+
+            tr {
+                td {
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 20px;
+                    line-height: 23px;
+                }
+
+                td.profit{
+                    color: $light-green;
+                }
+
+                td.email{
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

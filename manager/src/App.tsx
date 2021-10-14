@@ -13,7 +13,7 @@ function App() {
                     <Col xl={2}>
                         <Sidebar />
                     </Col>
-                    <Col xl={10}>
+                    <Col xl={10} style={{paddingRight: '2rem'}}>
                         <Navigation />
                     </Col>
                 </Row>
