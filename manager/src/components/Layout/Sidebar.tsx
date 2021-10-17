@@ -25,16 +25,16 @@ export const Sidebar = () => {
                 </div>
                 <div className={subStorageMenuClass}>
                     <div className='sub-item'>
-                        <i className='far fa-gift'></i>
-                        <Link to='/'>Item 1</Link>
+                        <i className='fas fa-th'></i>
+                        <Link to='/category'>Category</Link>
                     </div>
                     <div className='sub-item'>
-                        <i className='far fa-gift'></i>
-                        <Link to='/'>Item 2</Link>
+                        <i className='far fa-bars'></i>
+                        <Link to='/category-detail'>Category Detail</Link>
                     </div>
                     <div className='sub-item'>
-                        <i className='far fa-gift'></i>
-                        <Link to='/'>Item 3</Link>
+                        <i className='far fa-paw'></i>
+                        <Link to='/product'>Product</Link>
                     </div>
                 </div>
             </div>

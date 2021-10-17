@@ -1,9 +1,15 @@
+import { Redirect } from "react-router-dom";
+import { Col, Row } from "reactstrap";
+import './assets/sass/style.scss';
 import { Header, Sidebar } from "./components/Layout/index";
-import { Row, Col } from "reactstrap";
+import { useCheckAuth } from "./hooks";
 import Navigation from "./Navigation/index";
-import './assets/sass/style.scss'
 
 function App() {
+    const isLogin = useCheckAuth();
+
+    if (!isLogin) return <Redirect to="/login"/>
+
     return (
         <div>
             <Header />

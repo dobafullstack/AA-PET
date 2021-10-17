@@ -1,14 +1,14 @@
 import React from "react";
 import { User1Img, User2Img, User3Img, UserColorImg } from "../assets/images";
 import "../assets/sass/pages/user.scss";
-import { TopTitle } from "../components/Common";
+import { LargeBox, TopTitle } from "../components/Common";
 
 export const User = () => {
     return (
         <div className='user-wrapper'>
             <TopTitle img={UserColorImg} title='User' subTitle='Manage user' />
 
-            <div className='box'>
+            <LargeBox>
                 <table>
                     <tbody>
                         <tr>
@@ -45,7 +45,7 @@ export const User = () => {
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </LargeBox>
         </div>
     );
 };
