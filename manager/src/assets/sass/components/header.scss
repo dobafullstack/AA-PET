@@ -52,5 +52,6 @@
     .right-side:hover .sub-options {
         visibility: visible;
         opacity: 1;
+        z-index: 999;
     }
 }

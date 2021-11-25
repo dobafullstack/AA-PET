@@ -2,19 +2,7 @@
 
 .user-wrapper {
     table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 3rem;
-
         tr {
-            td {
-                font-family: Roboto;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 20px;
-                line-height: 23px;
-            }
-
             td.profit {
                 color: $light-green;
             }

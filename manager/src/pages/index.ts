@@ -4,5 +4,5 @@ export * from './User'
 export * from './Login'
 export * from './Register'
 export * from './Category'
-export * from './CategoryDetail'
 export * from './Product'
+export * from "./Pet";

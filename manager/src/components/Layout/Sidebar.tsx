@@ -29,12 +29,12 @@ export const Sidebar = () => {
                         <Link to='/category'>Category</Link>
                     </div>
                     <div className='sub-item'>
-                        <i className='far fa-bars'></i>
-                        <Link to='/category-detail'>Category Detail</Link>
+                        <i className='fal fa-boxes'></i>
+                        <Link to='/product'>Product</Link>
                     </div>
                     <div className='sub-item'>
                         <i className='far fa-paw'></i>
-                        <Link to='/product'>Product</Link>
+                        <Link to='/pet'>Pet</Link>
                     </div>
                 </div>
             </div>

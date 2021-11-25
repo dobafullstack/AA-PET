@@ -6,16 +6,16 @@ interface Props {
     
 }
 
-export const Product = (props: Props) => {
+export const Pet = (props: Props) => {
     return (
-        <div className='product-wrapper'>
+        <div className='category-detail-wrapper'>
             <TopTitle
                 img={DashboardColorImg}
-                title='Product'
-                subTitle='Display all products'
+                title='Pet'
+                subTitle='Display all pets'
             />
             <LargeBox show_btn_add>
-
+                
             </LargeBox>
         </div>
     );
