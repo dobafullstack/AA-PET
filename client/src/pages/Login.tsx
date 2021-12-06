@@ -1,80 +1,89 @@
-import React, { useState } from 'react';
-import { Link, useHistory, Redirect } from 'react-router-dom';
-import FacebookIcon from '../assets/images/facebook.png';
-import GoogleIcon from '../assets/images/google.png';
-import { GetUser, LoginApi } from '../api/authApi';
-import useVerifyToken from '../hooks/useVerifyToken';
-import { ResponseType } from '../api/axiosClient';
+import React, { ReactElement, useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import authApi from '../api/authApi';
+import Breadcrumb from '../components/Layout/Breadcrumb';
 import { toast } from 'react-toastify';
+import useCheckAuth from '../hooks/useCheckAuth';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { AuthContext } from '../context/authContext';
 
-export function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const history = useHistory();
-    const isLogin = useVerifyToken();
+interface Props {}
 
-    const handleLogin = async () => {
-        if (username === '' || password === ''){
-            return;
-        }
+export default function Login({}: Props): ReactElement {
+  const [account, setAccount] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const { isLogin, setIsLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-        const { code, result, error }: ResponseType = await LoginApi(username, password);
+  if (isLogin) return <Navigate to='/' />;
 
-        if (error !== null){
-            toast.error(error?.message);
-            return;
-        }
+  const handleLogin = async () => {
+    try {
+      if (account === '' || password === '') return;
 
-        if (code !== 200){
-            toast.error(result);
-            return;
-        }
+      const { code, result, error } = await authApi.login({ username: account, password });
+      if (code !== 200 && error !== null) {
+        toast.error(error.message);
+      }
 
-        localStorage.setItem('access_token', result.token);
+      localStorage.setItem('access_token', result.token);
+      setIsLogin(true);
+      navigate('/', {
+        replace: true,
+      });
+    } catch (error: any) {
+      if (error.response) {
+        toast.error(error.response.message);
+      }
+    }
+  };
 
-        history.push('/home')
-    };
-
-    if (isLogin) return <Redirect to="/home" />;
-
-    return (
-        <div className="login-wrapper">
-            <div className="login">
-                <h3>Login</h3>
-                <div className="login-form-group">
-                    <i className="fas fa-user"></i>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+  return (
+    <>
+      <Breadcrumb title='Login'>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
+        <li>Login</li>
+      </Breadcrumb>
+      <div className='section section-margin'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-lg-7 col-md-8 m-auto'>
+              <div className='login-wrapper'>
+                <div className='section-content text-center mb-6'>
+                  <h2 className='title mb-2'>Login</h2>
                 </div>
-                <div className="login-form-group">
-                    <i className="fas fa-lock"></i>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className="login-form-group check">
-                    <input type="checkbox" id="remember-me" className="check-remember" />
-                    <label htmlFor="remember-me">Remember me</label>
-                </div>
-                <button onClick={handleLogin}>Login</button>
-                <div className="social-group">
-                    <Link to="/login">
-                        <img src={FacebookIcon} alt="" className="facebook-icon" />
-                    </Link>
-                    <Link to="/login">
-                        <img src={GoogleIcon} alt="" className="google-icon" />
-                    </Link>
-                </div>
-                <span>Can't sign in?</span>
-                <Link to="/register">Create an account</Link>
+
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='text' placeholder='Email or Username' value={account} onChange={(e) => setAccount(e.target.value)} />
+                  </div>
+
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='password' placeholder='Enter your Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                  </div>
+
+                  <div className='single-input-item mb-3'>
+                    <div className='login-reg-form-meta mb-n3'>
+                      <button className='btn btn btn-gray-deep btn-hover-primary mb-3' onClick={() => handleLogin()}>
+                        Sign In
+                      </button>
+                      <Link to='/forget-password' className='forget-pwd mb-3'>
+                        Forget Password?
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className='lost-password'>
+                    <Link to='/register'>Create Account</Link>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </>
+  );
 }

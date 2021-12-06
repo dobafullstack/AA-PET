@@ -1,30 +1,29 @@
-import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { Product } from '.';
-import { useAppSelector } from '../app/hooks';
-import { CategoryWrapper } from '../components/Common';
-import { CategoryDetailPage } from '../components/Layout/CategoryDetailPage';
-import { CategoryPage } from '../components/Layout/CategoryPage';
+import React, { ReactElement } from 'react'
+import { Link } from 'react-router-dom';
+import { CategorySidebar, CategoryWrapper } from '../components/Category'
+import Breadcrumb from '../components/Layout/Breadcrumb'
 
-export function Category() {
-    const match = useRouteMatch();
-    const products = useAppSelector((state) => state.product.products);
+interface Props {
+    
+}
 
+export default function Category({}: Props): ReactElement {
     return (
-        <Switch>
-            <Route path={match.path} exact>
-                <CategoryWrapper />
-            </Route>
-            <Route path={`${match.path}/:category_id`} exact>
-                <CategoryPage products={products} />
-            </Route>
-            <Route path={`${match.path}/:category_id/:category_detail_id`} exact>
-                <CategoryDetailPage products={products} />
-            </Route>
-
-            <Route path={`${match.path}/:category_id/:category_detail_id/:productId`} exact>
-                <Product />
-            </Route>
-        </Switch>
+        <>
+            <Breadcrumb title='Category'>
+                <li>
+                    <Link to='/'>Home</Link>
+                </li>
+                <li>Category name</li>
+            </Breadcrumb>
+            <div className='section section-margin'>
+                <div className='container'>
+                    <div className='row flex-row-reverse'>
+                        <CategoryWrapper />
+                        <CategorySidebar />
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

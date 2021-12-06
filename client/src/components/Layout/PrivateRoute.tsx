@@ -1,11 +1,22 @@
-import React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
-import useVerifyToken from '../../hooks/useVerifyToken';
+import React, { ReactElement, useContext } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/authContext';
 
-export function PrivateRoute(props: RouteProps) {
-    const isLogin = useVerifyToken();
+interface Props {
+  reverse?: boolean;
+  children: React.ReactNode;
+}
 
-    if (!isLogin) return <Redirect to="/login" />;
+export default function PrivateRoute({ reverse, children }: Props): ReactElement {
+  const { isLogin } =  useContext(AuthContext);
 
-    return <Route {...props} />;
+  if (reverse) {
+    if (isLogin) return <Navigate to='/' />;
+    console.log('reverse')
+  } else {
+    if (!isLogin) return <Navigate to='/login' />;
+    console.log('non-reverse')
+  }
+
+  return <>{children}</>;
 }

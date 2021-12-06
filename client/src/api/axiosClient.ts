@@ -5,36 +5,33 @@ const axiosClient = axios.create({
     baseURL: 'http://localhost:3500',
     headers: {
         'Content-Type': 'application/json',
-        type: 'aa-pet',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        'type': 'aa-pet'
     },
-    paramsSerializer: (params) => queryString.stringify(params),
+    paramsSerializer: params => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(async (config) => {
+    //handle token here...
 
     return config;
 });
 
-axiosClient.interceptors.response.use(
-    (res) => {
-        if (res && res.data) {
-            return res.data;
-        }
-
+axiosClient.interceptors.response.use((res) => {
+    if (res && res.data){
         return res.data;
-    },
-    (err) => {
-        throw err;
     }
-);
+
+    return res.data;
+}, err => {
+    throw err;
+});
 
 export default axiosClient;
 
-export interface ResponseType {
+export type ResponseType<T> = {
     code: number;
-    result: any;
-    error?: {
+    result: T;
+    error: {
         message: string;
-    };
+    } | null
 }

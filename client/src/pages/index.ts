@@ -1,12 +1,17 @@
-export * from './Home'
-export * from './Login'
-export * from './Register'
-export * from './Main'
-export * from './Category'
-export * from './Product'
-export * from './Cart'
-export * from './Personal'
-export * from './Checkout'
-export * from './Success'
-export * from './Fail'
-export * from './NotFound'
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as Cart } from './Cart';
+export { default as Checkout } from './Checkout';
+export { default as NotFound } from './NotFound';
+export { default as Category } from './Category';
+export { default as Product } from './Product';
+export { default as Blog } from './Blog';
+export { default as BlogDetail } from './BlogDetail';
+export { default as About } from './About';
+export { default as Contact } from './Contact';
+export { default as ForgetPassword } from './ForgetPassword';
+export { default as Wishlist } from './Wishlist';
+export { default as FAQs } from './FAQs';
+export { default as Account } from './Account';
+export { default as Compare } from './Compare';

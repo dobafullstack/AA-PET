@@ -1,298 +1,635 @@
-import React, { useEffect, useState } from 'react';
-import { BreadcrumbBar } from '../components/Common';
-import useBreadcrumbs from 'use-react-router-breadcrumbs';
-import { Col, Row, Input, FormGroup, Label } from 'reactstrap';
-import BankImg from '../assets/images/list-bank.png';
-import MomoImg from '../assets/images/momo.png';
-import ZaloPayImg from '../assets/images/zalopay.png';
-import ShipCodImg from '../assets/images/shipcod.png';
-import VND from '../configs/VNDCurrency';
-import useGetUser from '../hooks/useGetUser';
-import { useHistory } from 'react-router-dom';
-import UserType from '../types/UserType';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { toast } from 'react-toastify';
-import CreateOrderInput from '../types/CreateOrderInput';
-import { ResponseType } from '../api/axiosClient';
-import { createOrderApi } from '../api/orderApi';
-import { removeAll } from '../app/reducers/cart.reducer';
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import Breadcrumb from "../components/Layout/Breadcrumb";
 
-interface CommonProps {
-    user?: UserType;
-    name?: string;
-    address?: string;
-    phone?: string;
-    setName?: React.Dispatch<React.SetStateAction<string>>;
-    setAddress?: React.Dispatch<React.SetStateAction<string>>;
-    setPhone?: React.Dispatch<React.SetStateAction<string>>;
-    paymentMethod?: string;
-    setPaymentMethod?: React.Dispatch<React.SetStateAction<string>>;
-    deliveryMethod?: string;
-    setDeliveryMethod?: React.Dispatch<React.SetStateAction<string>>;
-}
+interface Props {}
 
-export function Checkout() {
-    const user = useGetUser();
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('ATM');
-    const [deliveryMethod, setDeliveryMethod] = useState('Viettel Post');
-    const breadcrumbs = useBreadcrumbs();
-    const history = useHistory();
-    const cart = useAppSelector((state) => state.cart);
-    const dispatch = useAppDispatch();
-
-    const handleCheckout = async () => {
-        if (name === '' || address === '' || phone === '') {
-            toast.error('Mời nhập thông tin giao hàng');
-            return;
-        }
-        const products = cart.products.map((item) => {
-            return {
-                product_id: item.product._id,
-                count: item.count,
-            };
-        });
-
-        const body: CreateOrderInput = {
-            user_id: user._id,
-            products,
-            delivery_info: {
-                name,
-                address,
-                phone,
-            },
-            delivery_method: deliveryMethod,
-            payment_method: paymentMethod,
-            totalPrice: cart.totalPrice,
-        };
-
-        //create order
-        const { code, result, error } = await createOrderApi(body);
-
-        if (error !== null) {
-            toast.error(error?.message);
-            return;
-        }
-
-        if (code !== 200) {
-            toast.error(result);
-            return;
-        }
-        dispatch(removeAll());
-        history.push('/cart/checkout/success');
-    };
-
+export default function Checkout({}: Props): ReactElement {
     return (
-        <div className="checkout-wrapper">
-            <BreadcrumbBar breadcrumbs={breadcrumbs} />
-            <div className="checkout-body mt-5">
-                <Delivery
-                    setName={setName}
-                    setAddress={setAddress}
-                    setPhone={setPhone}
-                    name={name}
-                    address={address}
-                    phone={phone}
-                    deliveryMethod={deliveryMethod}
-                    setDeliveryMethod={setDeliveryMethod}
-                />
-                <hr />
-                <Payment paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
-                <hr />
-                <div className="checkout-footer">
-                    <div className="confirm-wrapper">
-                        <div className="d-flex justify-content-between confirm-item">
-                            <span>Price</span>
-                            <strong>{VND(cart.totalPrice)}</strong>
+        <>
+            <Breadcrumb title='Checkout'>
+                <li>
+                    <Link to='/'>Home</Link>
+                </li>
+                <li>Cart</li>
+                <li>Checkout</li>
+            </Breadcrumb>
+
+            <div className='section section-margin'>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-12'>
+                            <div className='coupon-accordion'>
+                                <h3 className='title'>
+                                    Have a coupon?{" "}
+                                    <span id='showcoupon'>
+                                        Click here to enter your code
+                                    </span>
+                                </h3>
+
+                                <div
+                                    id='checkout_coupon'
+                                    className='coupon-checkout-content'>
+                                    <div className='coupon-info'>
+                                        <form action='#'>
+                                            <p className='checkout-coupon d-flex'>
+                                                <input
+                                                    placeholder='Coupon code'
+                                                    type='text'
+                                                />
+                                                <input
+                                                    className='btn btn-primary btn-hover-dark rounded-0'
+                                                    value='Apply Coupon'
+                                                    type='submit'
+                                                />
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="d-flex justify-content-between confirm-item">
-                            <span>Ship fee</span>
-                            <strong>1$</strong>
+                    </div>
+                    <div className='row mb-n4'>
+                        <div className='col-lg-6 col-12 mb-4'>
+                            <form action='#'>
+                                <div className='checkbox-form'>
+                                    <h3 className='title'>Billing Details</h3>
+
+                                    <div className='row'>
+                                        <div className='col-md-12 mb-6'>
+                                            <div className='country-select'>
+                                                <label>
+                                                    Country{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <select className='myniceselect nice-select wide rounded-0'>
+                                                    <option data-display='Bangladesh'>
+                                                        Bangladesh
+                                                    </option>
+                                                    <option value='uk'>
+                                                        London
+                                                    </option>
+                                                    <option value='rou'>
+                                                        Romania
+                                                    </option>
+                                                    <option value='fr'>
+                                                        French
+                                                    </option>
+                                                    <option value='de'>
+                                                        Germany
+                                                    </option>
+                                                    <option value='aus'>
+                                                        Australia
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    First Name{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder=''
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Last Name{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder=''
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-12'>
+                                            <div className='checkout-form-list'>
+                                                <label>Company Name</label>
+                                                <input
+                                                    placeholder=''
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-12'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Address{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder='Street address'
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-12'>
+                                            <div className='checkout-form-list'>
+                                                <input
+                                                    placeholder='Apartment, suite, unit etc. (optional)'
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-12'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Town / City{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input type='text' />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    State / County{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder=''
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Postcode / Zip{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder=''
+                                                    type='text'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Email Address{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder=''
+                                                    type='email'
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-6'>
+                                            <div className='checkout-form-list'>
+                                                <label>
+                                                    Phone{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input type='text' />
+                                            </div>
+                                        </div>
+
+                                        <div className='col-md-12'>
+                                            <div className='checkout-form-list create-acc'>
+                                                <input
+                                                    id='cbox'
+                                                    type='checkbox'
+                                                />
+                                                <label
+                                                    htmlFor='cbox'
+                                                    className='checkbox-label'>
+                                                    Create an account?
+                                                </label>
+                                            </div>
+                                            <div
+                                                id='cbox-info'
+                                                className='checkout-form-list create-account'>
+                                                <p className='mb-2'>
+                                                    Create an account by
+                                                    entering the information
+                                                    below. If you are a
+                                                    returning customer please
+                                                    login at the top of the
+                                                    page.
+                                                </p>
+                                                <label>
+                                                    Account password{" "}
+                                                    <span className='required'>
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <input
+                                                    placeholder='Password'
+                                                    type='password'
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className='different-address'>
+                                        <div className='ship-different-title'>
+                                            <div>
+                                                <input
+                                                    id='ship-box'
+                                                    type='checkbox'
+                                                />
+                                                <label
+                                                    htmlFor='ship-box'
+                                                    className='checkbox-label'>
+                                                    Ship to a different address?
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            id='ship-box-info'
+                                            className='row mt-2'>
+                                            <div className='col-md-12'>
+                                                <div className='myniceselect country-select clearfix'>
+                                                    <label>
+                                                        Country{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <select className='myniceselect nice-select wide rounded-0'>
+                                                        <option data-display='Bangladesh'>
+                                                            Bangladesh
+                                                        </option>
+                                                        <option value='uk'>
+                                                            London
+                                                        </option>
+                                                        <option value='rou'>
+                                                            Romania
+                                                        </option>
+                                                        <option value='fr'>
+                                                            French
+                                                        </option>
+                                                        <option value='de'>
+                                                            Germany
+                                                        </option>
+                                                        <option value='aus'>
+                                                            Australia
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        First Name{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Last Name{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>Company Name</label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Address{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder='Street address'
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <input
+                                                        placeholder='Apartment, suite, unit etc. (optional)'
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Town / City{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input type='text' />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        State / County{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Postcode / Zip{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='text'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Email Address{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        placeholder=''
+                                                        type='email'
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-md-12'>
+                                                <div className='checkout-form-list'>
+                                                    <label>
+                                                        Phone{" "}
+                                                        <span className='required'>
+                                                            *
+                                                        </span>
+                                                    </label>
+                                                    <input type='text' />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='order-notes mt-3 mb-n2'>
+                                            <div className='checkout-form-list checkout-form-list-2'>
+                                                <label>Order Notes</label>
+                                                <textarea
+                                                    id='checkout-mess'
+                                                    cols={30}
+                                                    rows={10}
+                                                    placeholder='Notes about your order, e.g. special notes for delivery.'></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <hr />
-                        <div className="d-flex justify-content-between confirm-item">
-                            <span>Total</span>
-                            <strong>{VND(cart.totalPrice)}</strong>
+
+                        <div className='col-lg-6 col-12 mb-4'>
+                            <div className='your-order-area border'>
+                                <h3 className='title'>Your order</h3>
+
+                                <div className='your-order-table table-responsive'>
+                                    <table className='table'>
+                                        <thead>
+                                            <tr className='cart-product-head'>
+                                                <th className='cart-product-name text-start'>
+                                                    Product
+                                                </th>
+                                                <th className='cart-product-total text-end'>
+                                                    Total
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr className='cart_item'>
+                                                <td className='cart-product-name text-start ps-0'>
+                                                    {" "}
+                                                    Some Winter Collections
+                                                    <strong className='product-quantity'>
+                                                        {" "}
+                                                        × 2
+                                                    </strong>
+                                                </td>
+                                                <td className='cart-product-total text-end pe-0'>
+                                                    <span className='amount'>
+                                                        £145.00
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr className='cart_item'>
+                                                <td className='cart-product-name text-start ps-0'>
+                                                    {" "}
+                                                    Small Scale Style
+                                                    <strong className='product-quantity'>
+                                                        {" "}
+                                                        × 4
+                                                    </strong>
+                                                </td>
+                                                <td className='cart-product-total text-end pe-0'>
+                                                    <span className='amount'>
+                                                        £204.00
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr className='cart-subtotal'>
+                                                <th className='text-start ps-0'>
+                                                    Cart Subtotal
+                                                </th>
+                                                <td className='text-end pe-0'>
+                                                    <span className='amount'>
+                                                        £349.00
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr className='order-total'>
+                                                <th className='text-start ps-0'>
+                                                    Order Total
+                                                </th>
+                                                <td className='text-end pe-0'>
+                                                    <strong>
+                                                        <span className='amount'>
+                                                            £349.00
+                                                        </span>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                                <div className='payment-accordion-order-button'>
+                                    <div className='payment-accordion'>
+                                        <div className='single-payment'>
+                                            <h5 className='panel-title mb-3'>
+                                                <a
+                                                    className='collapse-off'
+                                                    data-bs-toggle='collapse'
+                                                    href='#collapseExample'
+                                                    aria-expanded='false'
+                                                    aria-controls='collapseExample'>
+                                                    Direct Bank Transfer.
+                                                </a>
+                                            </h5>
+                                            <div
+                                                className='collapse show'
+                                                id='collapseExample'>
+                                                <div className='card card-body rounded-0'>
+                                                    <p>
+                                                        Make your payment
+                                                        directly into our bank
+                                                        account. Please use your
+                                                        Order ID as the payment
+                                                        reference. Your order
+                                                        won’t be shipped until
+                                                        the funds have cleared
+                                                        in our account.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='single-payment'>
+                                            <h5 className='panel-title mb-3'>
+                                                <a
+                                                    className='collapse-off'
+                                                    data-bs-toggle='collapse'
+                                                    href='#collapseExample-2'
+                                                    aria-expanded='false'
+                                                    aria-controls='collapseExample-2'>
+                                                    Cheque Payment.
+                                                </a>
+                                            </h5>
+                                            <div
+                                                className='collapse'
+                                                id='collapseExample-2'>
+                                                <div className='card card-body rounded-0'>
+                                                    <p>
+                                                        Make your payment
+                                                        directly into our bank
+                                                        account. Please use your
+                                                        Order ID as the payment
+                                                        reference. Your order
+                                                        won’t be shipped until
+                                                        the funds have cleared
+                                                        in our account.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='single-payment'>
+                                            <h5 className='panel-title mb-3'>
+                                                <a
+                                                    className='collapse-off'
+                                                    data-bs-toggle='collapse'
+                                                    href='#collapseExample-3'
+                                                    aria-expanded='false'
+                                                    aria-controls='collapseExample-3'>
+                                                    Paypal.
+                                                </a>
+                                            </h5>
+                                            <div
+                                                className='collapse'
+                                                id='collapseExample-3'>
+                                                <div className='card card-body rounded-0'>
+                                                    <p>
+                                                        Make your payment
+                                                        directly into our bank
+                                                        account. Please use your
+                                                        Order ID as the payment
+                                                        reference. Your order
+                                                        won’t be shipped until
+                                                        the funds have cleared
+                                                        in our account.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='order-button-payment'>
+                                        <button className='btn btn-primary btn-hover-secondary rounded-0 w-100'>
+                                            Place Order
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button className="mt-3 w-100" onClick={() => handleCheckout()}>
-                            Confirm
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function Delivery(props: CommonProps) {
-    const { name, address, phone } = props;
-    const setName = props.setName as React.Dispatch<React.SetStateAction<string>>;
-    const setAddress = props.setAddress as React.Dispatch<React.SetStateAction<string>>;
-    const setPhone = props.setPhone as React.Dispatch<React.SetStateAction<string>>;
-    const setDeliveryMethod = props.setDeliveryMethod as React.Dispatch<
-        React.SetStateAction<string>
-    >;
-
-    return (
-        <div className="delivery-wrapper">
-            <h1 className="text-center mb-5">Delivery</h1>
-            <Row>
-                <Col xl={6}>
-                    <FormGroup className="my-3">
-                        <Label>
-                            Name <strong className="text-danger">*</strong>
-                        </Label>
-                        <Input
-                            type="text"
-                            placeholder="Name"
-                            className="w-75"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup className="my-3">
-                        <Label>
-                            Address <strong className="text-danger">*</strong>
-                        </Label>
-                        <Input
-                            placeholder="Address"
-                            className="w-75"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup className="my-3">
-                        <Label>
-                            Phone number <strong className="text-danger">*</strong>
-                        </Label>
-                        <Input
-                            type="tel"
-                            placeholder="Phone"
-                            className="w-75"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                    </FormGroup>
-                </Col>
-                <Col xl={6}>
-                    <FormGroup className="my-3">
-                        <Label className="mb-1">Delivery methods</Label>
-                        <Input
-                            type="select"
-                            className="w-50"
-                            onChange={(e) => setDeliveryMethod(e.target.value)}
-                        >
-                            <option value="Viettel Post">Viettel Post</option>
-                            <option value="Best Express">Best Express</option>
-                            <option value="Giao hàng nhanh">Giao hàng nhanh</option>
-                            <option value="Giao hàng tiết kiệm">Giao hàng tiết kiệm</option>
-                        </Input>
-                    </FormGroup>
-                    <FormGroup className="my-3">
-                        <Label className="mb-1">Delivery fee</Label>
-                        <Input
-                            type="text"
-                            disabled
-                            style={{ width: '6.2%' }}
-                            value={VND(1) as string}
-                        />
-                    </FormGroup>
-                </Col>
-            </Row>
-        </div>
-    );
-}
-
-function Payment(props: CommonProps) {
-    const { paymentMethod } = props;
-    const setPaymentMethod = props.setPaymentMethod as React.Dispatch<React.SetStateAction<string>>;
-
-    return (
-        <div className="payment-wrapper">
-            <h1 className="text-center mb-5">Payment</h1>
-            <Row>
-                <Col
-                    xl={3}
-                    className="d-flex flex-column justify-content-center align-items-center"
-                >
-                    <input
-                        type="radio"
-                        name="bank"
-                        onClick={() => setPaymentMethod('ATM')}
-                        checked={paymentMethod === 'ATM' ? true : false}
-                    />
-                    <img
-                        className="img-fluid my-2 method"
-                        src={BankImg}
-                        alt=""
-                        onClick={() => setPaymentMethod('ATM')}
-                    />
-                    <strong style={{ fontFamily: 'Roboto', fontSize: '1.3rem' }}>
-                        ATM nội địa
-                    </strong>
-                </Col>
-                <Col
-                    xl={3}
-                    className="d-flex flex-column justify-content-center align-items-center"
-                >
-                    <input
-                        type="radio"
-                        name="bank"
-                        onClick={() => setPaymentMethod('Momo')}
-                        checked={paymentMethod === 'Momo' ? true : false}
-                    />
-                    <img
-                        className="img-fluid my-2 method"
-                        width="100px"
-                        src={MomoImg}
-                        alt=""
-                        onClick={() => setPaymentMethod('Momo')}
-                    />
-                    <strong style={{ fontFamily: 'Roboto', fontSize: '1.3rem' }}>Momo</strong>
-                </Col>
-                <Col
-                    xl={3}
-                    className="d-flex flex-column justify-content-center align-items-center"
-                >
-                    <input
-                        type="radio"
-                        name="bank"
-                        onClick={() => setPaymentMethod('Zalo')}
-                        checked={paymentMethod === 'Zalo' ? true : false}
-                    />
-                    <img
-                        className="img-fluid my-2 method"
-                        width="100px"
-                        src={ZaloPayImg}
-                        alt=""
-                        onClick={() => setPaymentMethod('Zalo')}
-                    />
-                    <strong style={{ fontFamily: 'Roboto', fontSize: '1.3rem' }}>ZaloPay</strong>
-                </Col>
-                <Col
-                    xl={3}
-                    className="d-flex flex-column justify-content-center align-items-center"
-                >
-                    <input
-                        type="radio"
-                        name="bank"
-                        onClick={() => setPaymentMethod('COD')}
-                        checked={paymentMethod === 'COD' ? true : false}
-                    />
-                    <img
-                        className="img-fluid my-2 method"
-                        width="100px"
-                        src={ShipCodImg}
-                        alt=""
-                        onClick={() => setPaymentMethod('COD')}
-                    />
-                    <strong style={{ fontFamily: 'Roboto', fontSize: '1.3rem' }}>
-                        Thanh toán khi nhận hàng
-                    </strong>
-                </Col>
-            </Row>
-        </div>
+        </>
     );
 }

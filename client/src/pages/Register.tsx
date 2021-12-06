@@ -1,134 +1,117 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Form } from 'reactstrap';
-import { RegisterApi } from '../api/authApi';
-import { ResponseType } from '../api/axiosClient';
+import Breadcrumb from '../components/Layout/Breadcrumb';
+import RegisterInput from '../types/RegisterInput';
+import {toast} from 'react-toastify'
+import authApi from '../api/authApi';
 
-export function Register() {
-    const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [phone, setPhone] = useState('');
+interface Props {}
+
+const initialRegister = {
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+  address: '',
+  phone: '',
+  confirmPassword: '',
+};
+
+export default function Register({}: Props): ReactElement {
+  const [register, setRegister] = useState<RegisterInput>(initialRegister);
 
     const handleRegister = async () => {
-        const { code, result, error }: ResponseType = await RegisterApi(
-            username,
-            name,
-            password,
-            phone,
-            email
-        );
+        if (
+          register.name === '' ||
+          register.username === '' ||
+          register.email === '' ||
+          register.password === '' ||
+          register.address === '' ||
+          register.phone === '' ||
+          register.confirmPassword === ''
+        )
+          return;
 
-        if (password !== confirmPassword) {
-            toast.error('Confirm password is incorrect!');
+        if (register.password !== register.confirmPassword) {
+            toast.error("Invalid confirm password")
             return;
         }
 
-        if (error !== null) {
-            toast.error(error?.message);
-            return;
+        try {
+            const {code, error, result} = await authApi.register(register);
+
+            if (code !== 201 || error !== null){
+                toast.error(result)
+                toast.error(error)
+                return;
+            }
+
+            setRegister(initialRegister)
+            toast.success(result);
+        } catch (error: any) {
+            toast.error(error.message);
         }
+    }
 
-        if (code !== 201) {
-            toast.error(result);
-            return;
-        }
+  return (
+    <>
+      <Breadcrumb title='Register'>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
+        <li>Register</li>
+      </Breadcrumb>
 
-        toast.success(result);
-        setUsername('');
-        setName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        setPhone('');
-    };
+      <div className='section section-margin'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-lg-7 col-md-8 m-auto'>
+              <div className='login-wrapper'>
+                <div className='section-content text-center mb-6'>
+                  <h2 className='title mb-2'>Create Account</h2>
+                </div>
 
-    return (
-        <div className="register-wrapper">
-            <div className="register">
-                <h3>Register</h3>
-                <Form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        handleRegister();
-                    }}
-                >
-                    <div className="register-form-group">
-                        <i className="fas fa-user"></i>
-                        <input
-                            required
-                            onChange={(e) => setUsername(e.target.value)}
-                            value={username}
-                            type="text"
-                            placeholder="Username"
-                        />
-                    </div>
-                    <div className="register-form-group">
-                        <i className="fas fa-user-tie"></i>
-                        <input
-                            required
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
-                            type="text"
-                            placeholder="Name"
-                        />
-                    </div>
-                    <div className="register-form-group">
-                        <i className="fad fa-mail-bulk"></i>
-                        <input
-                            required
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            type="email"
-                            placeholder="Email"
-                        />
-                    </div>
-                    <div className="register-form-group">
-                        <i className="fas fa-lock"></i>
-                        <input
-                            required
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            type="password"
-                            placeholder="Password"
-                        />
-                    </div>
-                    <div className="register-form-group">
-                        <i className="fas fa-lock"></i>
-                        <input
-                            required
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            value={confirmPassword}
-                            type="password"
-                            placeholder="Confirm password"
-                        />
-                    </div>
-                    <div className="register-form-group">
-                        <i className="fas fa-mobile-alt"></i>
-                        <input
-                            required
-                            onChange={(e) => setPhone(e.target.value)}
-                            value={phone}
-                            type="text"
-                            placeholder="Phone number"
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault();
-                                }
-                            }}
-                        />
-                    </div>
+                <form onSubmit={(e) => e.preventDefault()}>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='text' placeholder='Your name' value={register.name} onChange={(e) => setRegister({ ...register, name: e.target.value })} />
+                  </div>
 
-                    <div className="d-flex justify-content-center">
-                        <button>Register</button>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='text' placeholder='Username' value={register.username} onChange={(e) => setRegister({ ...register, username: e.target.value })}/>
+                  </div>
+
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='email' placeholder='Email' value={register.email} onChange={(e) => setRegister({ ...register, email: e.target.value })}/>
+                  </div>
+
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='password' placeholder='Password' value={register.password} onChange={(e) => setRegister({ ...register, password: e.target.value })}/>
+                  </div>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='password' placeholder='Confirm Password' value={register.confirmPassword} onChange={(e) => setRegister({ ...register, confirmPassword: e.target.value })}/>
+                  </div>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='tel' placeholder='Phone' value={register.phone} onChange={(e) => setRegister({ ...register, phone: e.target.value })}/>
+                  </div>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='text' placeholder='Address' value={register.address} onChange={(e) => setRegister({ ...register, address: e.target.value })}/>
+                  </div>
+
+                  <div className='single-input-item'>
+                    <div className='login-reg-form-meta mb-n3'>
+                      <button className='btn btn btn-gray-deep btn-hover-primary mb-3' onClick={() => handleRegister()}>Create</button>
+
+                      <Link to='/login' className='forget-pwd mb-3'>
+                        Already have an account?
+                      </Link>
                     </div>
-                </Form>
-                <span>Already have an account?</span>
-                <Link to="/login">Login</Link>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </>
+  );
 }

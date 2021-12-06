@@ -1,105 +1,99 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Col, Row, Table } from 'reactstrap';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { removeCart, updateCart } from '../app/reducers/cart.reducer';
-import CartItem from '../components/Common/CartItem';
-import VND from '../configs/VNDCurrency';
-import useVerifyToken from '../hooks/useVerifyToken';
+import React, { ReactElement, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import CartItem from '../components/Cart/CartItem';
+import Breadcrumb from '../components/Layout/Breadcrumb';
+import $ from 'jquery';
+import MainJQuery from '../utils/MainJQuery';
 
-export function Cart() {
-    const history = useHistory();
-    const isLogin = useVerifyToken();
-    const cart = useAppSelector(state => state.cart)
-    const dispatch = useAppDispatch();
+interface Props {}
 
-    const onUpdateCart = (index: number, value: -1 | 1) => {
-        dispatch(updateCart({index, value}))
-    };
+export default function Cart({}: Props): ReactElement {
 
-    const onRemoveCart = (index: number) => {
-        dispatch(removeCart({index}))
-    }
+  return (
+    <>
+      <Breadcrumb title='Cart'>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
+        <li>Cart</li>
+      </Breadcrumb>
 
-    const handleCheckout = () => {
-        if (!isLogin) {
-            toast.error('Bạn chưa đăng nhập');
-        } else {
-            history.push('/cart/checkout');
-        }
-    };
+      <div className='section section-margin'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-12'>
+              <div className='cart-table table-responsive'>
+                <table className='table table-bordered'>
+                  <thead>
+                    <tr>
+                      <th className='pro-thumbnail'>Image</th>
+                      <th className='pro-title'>Product</th>
+                      <th className='pro-price'>Price</th>
+                      <th className='pro-quantity'>Quantity</th>
+                      <th className='pro-subtotal'>Total</th>
+                      <th className='pro-remove'>Remove</th>
+                    </tr>
+                  </thead>
 
-    return (
-        <div className="cart-wrapper">
-            {cart.products.length === 0 ? <h1 className="mt-5">Bạn chưa thêm gì vào giỏ hàng</h1> : (
-                <>
-                    <div className="title-top mb-3 w-100">
-                        <span>Cart</span>
-                    </div>
-                    <div style={{ paddingLeft: '20rem', paddingRight: '20rem' }}>
-                        <Row className="mt-5">
-                            <Col xl={8}>
-                                <Table>
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th className="text-center">Quantity</th>
-                                            <th>Total</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {cart.products.map((item, index) => (
-                                            <CartItem
-                                                item={item}
-                                                index={index}
-                                                onUpdateCart={onUpdateCart}
-                                                onRemoveCart={onRemoveCart}
-                                                key={item.product._id}
-                                            />
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </Col>
-                            <Col xl={4}>
-                                <div className="order-summary">
-                                    <div className="header">
-                                        <span>Order Summary</span>
-                                    </div>
-                                    <div
-                                        className="order-item"
-                                        style={{ padding: '0.5rem 1.5rem' }}
-                                    >
-                                        <span className="title">Subtotal</span>
-                                        <span className="price">{VND(cart.totalPrice)}</span>
-                                    </div>
-                                    <div
-                                        className="order-item"
-                                        style={{ padding: '0.5rem 1.5rem' }}
-                                    >
-                                        <span className="title">Shipping</span>
-                                        <span className="price">Free</span>
-                                    </div>
-                                    <div className="footer">
-                                        <div className="order-item">
-                                            <span className="title">Total</span>
-                                            <span className="price">{VND(cart.totalPrice)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button
-                                    className="mt-2 btn-checkout"
-                                    onClick={() => handleCheckout()}
-                                >
-                                    Checkout
-                                </button>
-                            </Col>
-                        </Row>
-                    </div>
-                </>
-            )}
+                  <tbody>
+                    <CartItem />
+                    <CartItem />
+                    <CartItem />
+                  </tbody>
+                </table>
+              </div>
+
+              <div className='cart-button-section mb-n4'>
+                <div className='cart-btn-lef-side mb-4'>
+                  <a href='#' className='btn btn btn-gray-deep btn-hover-primary'>
+                    Continue Shopping
+                  </a>
+                  <a href='#' className='btn btn btn-gray-deep btn-hover-primary'>
+                    Update Shopping Cart
+                  </a>
+                </div>
+
+                <div className='cart-btn-right-right mb-4'>
+                  <a href='#' className='btn btn btn-gray-deep btn-hover-primary'>
+                    Clear Shopping Cart
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='row mt-10'>
+            <div className='col-lg-6 me-0 ms-auto'>
+              <div className='cart-calculator-wrapper'>
+                <div className='cart-calculate-items'>
+                  <h3 className='title'>Cart Totals</h3>
+
+                  <div className='table-responsive'>
+                    <table className='table'>
+                      <tr>
+                        <td>Sub Total</td>
+                        <td>$230</td>
+                      </tr>
+                      <tr>
+                        <td>Shipping</td>
+                        <td>$70</td>
+                      </tr>
+                      <tr className='total'>
+                        <td>Total</td>
+                        <td className='total-amount'>$300</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+                <a href='checkout.html' className='btn btn btn-gray-deep btn-hover-primary mt-6'>
+                  Proceed To Checkout
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </>
+  );
 }
