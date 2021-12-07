@@ -29,9 +29,10 @@ axiosClient.interceptors.response.use((res) => {
 export default axiosClient;
 
 export type ResponseType<T> = {
+    status: string;
     code: number;
     result: T;
     error: {
         message: string;
-    } | null
-}
+    } | null;
+};

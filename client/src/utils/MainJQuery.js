@@ -56,9 +56,9 @@ export default function ($) {
     $('#checkout-login').slideToggle(500);
   });
   // showlogin toggle
-  $('#showcoupon').on('click', function () {
-    $('#checkout_coupon').slideToggle(500);
-  });
+  // $('#showcoupon').on('click', function () {
+  //   $('#checkout_coupon').slideToggle(500);
+  // });
   // showlogin toggle
   $('#cbox').on('click', function () {
     $('#cbox-info').slideToggle(500);
@@ -318,22 +318,22 @@ export default function ($) {
   /*  Cart Plus Minus Button
     /*----------------------------------------*/
 
-  $('.cart-plus-minus').append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
-  $('.qtybutton').on('click', function () {
-    var $button = $(this);
-    var oldValue = $button.parent().find('input').val();
-    if ($button.hasClass('inc')) {
-      var newVal = parseFloat(oldValue) + 1;
-    } else {
-      // Don't allow decrementing below zero
-      if (oldValue > 1) {
-        var newVal = parseFloat(oldValue) - 1;
-      } else {
-        newVal = 1;
-      }
-    }
-    $button.parent().find('input').val(newVal);
-  });
+  // $('.cart-plus-minus').append('<div class="dec qtybutton">-</div><div class="inc qtybutton">+</div>');
+  // $('.qtybutton').on('click', function () {
+  //   var $button = $(this);
+  //   var oldValue = $button.parent().find('input').val();
+  //   if ($button.hasClass('inc')) {
+  //     var newVal = parseFloat(oldValue) + 1;
+  //   } else {
+  //     // Don't allow decrementing below zero
+  //     if (oldValue > 1) {
+  //       var newVal = parseFloat(oldValue) - 1;
+  //     } else {
+  //       newVal = 1;
+  //     }
+  //   }
+  //   $button.parent().find('input').val(newVal);
+  // });
 
   /*----------------------------------------*/
   /*  Lightgallery Active

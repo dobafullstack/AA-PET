@@ -1,45 +1,55 @@
 import React, { ReactElement } from 'react'
+import { useAppDispatch } from '../../app/hooks';
+import { removeCart, updateCart } from '../../app/reducers/cart.reducer';
+import VND from '../../configs/VND';
+import { CartProduct } from '../../models/CartModel';
 
 interface Props {
-    
+    item: CartProduct
 }
 
-export default function CartItem({}: Props): ReactElement {
+export default function CartItem({item}: Props): ReactElement {
+    const dispatch = useAppDispatch();
+
     return (
         <tr>
             <td className='pro-thumbnail'>
                 <a href='#'>
                     <img
                         className='fit-image'
-                        src='assets/images/products/small-product/6.png'
+                        src={item.product.images[0]}
                         alt='Product'
+                        style={{
+                            width: 120,
+                            height: 120
+                        }}
                     />
                 </a>
             </td>
             <td className='pro-title'>
-                <a href='#'>Learn About Fish Farming</a>
+                <a href='#'>{item.product.name}</a>
             </td>
             <td className='pro-price'>
-                <span>$95.00</span>
+                <span>{VND(item.product.price)}</span>
             </td>
             <td className='pro-quantity'>
                 <div className='quantity'>
                     <div className='cart-plus-minus'>
                         <input
                             className='cart-plus-minus-box'
-                            value='1'
+                            value={item.count}
                             type='text'
                         />
-                        <div className='dec qtybutton'>-</div>
-                        <div className='inc qtybutton'>+</div>
+                        <div className='dec qtybutton' onClick={() => dispatch(updateCart({_id: item.product._id, count: -1}))}>-</div>
+                        <div className='inc qtybutton' onClick={() => dispatch(updateCart({_id: item.product._id, count: 1}))}>+</div>
                     </div>
                 </div>
             </td>
             <td className='pro-subtotal'>
-                <span>$95.00</span>
+                <span>{VND(item.count * item.product.price)}</span>
             </td>
             <td className='pro-remove'>
-                <a href='#'>
+                <a href='javascript:void;' onClick={() => dispatch(removeCart(item.product._id))}>
                     <i className='ti-trash'></i>
                 </a>
             </td>

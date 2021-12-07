@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import VND from '../../configs/VND';
+import paymentImg from '../../assets/images/payment/payment_large.png';
+import { addToCart } from '../../app/reducers/cart.reducer';
 
 export default function Modal() {
+    const product = useAppSelector((state) => state.product.product);
+    const dispatch = useAppDispatch();
+    const [count, setCount] = useState(1);
+
     return (
-        <div
-            className='modalquickview modal fade'
-            id='quick-view'
-            tabIndex={-1}
-            aria-labelledby='quick-view'
-            role='dialog'
-            aria-hidden='true'>
+        <div className='modalquickview modal fade' id='quick-view' tabIndex={-1} aria-labelledby='quick-view' role='dialog' aria-hidden='true'>
             <div className='modal-dialog modal-dialog-centered'>
                 <div className='modal-content'>
                     <button className='btn close' data-bs-dismiss='modal'>
@@ -19,41 +21,11 @@ export default function Modal() {
                             <div className='modal-product-carousel'>
                                 <div className='swiper-container'>
                                     <div className='swiper-wrapper'>
-                                        <a className='swiper-slide' href='#'>
-                                            <img
-                                                className='w-100'
-                                                src='assets/images/products/large-product/1.png'
-                                                alt='Product'
-                                            />
-                                        </a>
-                                        <a className='swiper-slide' href='#'>
-                                            <img
-                                                className='w-100'
-                                                src='assets/images/products/large-product/2.png'
-                                                alt='Product'
-                                            />
-                                        </a>
-                                        <a className='swiper-slide' href='#'>
-                                            <img
-                                                className='w-100'
-                                                src='assets/images/products/large-product/3.png'
-                                                alt='Product'
-                                            />
-                                        </a>
-                                        <a className='swiper-slide' href='#'>
-                                            <img
-                                                className='w-100'
-                                                src='assets/images/products/large-product/4.png'
-                                                alt='Product'
-                                            />
-                                        </a>
-                                        <a className='swiper-slide' href='#'>
-                                            <img
-                                                className='w-100'
-                                                src='assets/images/products/large-product/5.png'
-                                                alt='Product'
-                                            />
-                                        </a>
+                                        {product.images.map((image) => (
+                                            <a className='swiper-slide' href='#'>
+                                                <img className='w-100' src={image} alt='Product' width={470} height={470} />
+                                            </a>
+                                        ))}
                                     </div>
 
                                     <div className='swiper-product-button-next swiper-button-next'>
@@ -68,9 +40,7 @@ export default function Modal() {
                         <div className='col-md-6 col-12 overflow-hidden position-relative'>
                             <div className='product-summery position-relative'>
                                 <div className='product-head mb-3'>
-                                    <h2 className='product-title'>
-                                        Single Product Slider
-                                    </h2>
+                                    <h2 className='product-title'>{product.name}</h2>
                                 </div>
 
                                 <span className='rating justify-content-start mb-2'>
@@ -82,48 +52,45 @@ export default function Modal() {
                                 </span>
 
                                 <div className='price-box mb-2'>
-                                    <span className='regular-price'>
-                                        $70.00
-                                    </span>
+                                    <span className='regular-price'>{VND(product.price)}</span>
                                     <span className='old-price'>
-                                        <del>$85.00</del>
+                                        <del>{VND(product.price)}</del>
                                     </span>
                                 </div>
 
-                                <div className='sku mb-3'>
+                                {/* <div className='sku mb-3'>
                                     <span>SKU: 12345</span>
-                                </div>
+                                </div> */}
 
                                 <div className='product-inventroy mb-3'>
                                     <span className='inventroy-title'>
-                                        {" "}
+                                        {' '}
                                         <strong>Availability:</strong>
                                     </span>
-                                    <span className='inventory-varient'>
-                                        12 Left in Stock
-                                    </span>
+                                    <span className='inventory-varient'> {product.quantity} Left in Stock</span>
                                 </div>
 
-                                <p className='desc-content mb-5'>
-                                    There are many variations of passages of
-                                    Lorem Ipsum available, but the majority have
-                                    suffered alteration in some form, by
-                                    injected humour, or randomised words which
-                                    don't look even slightly believable.
-                                </p>
+                                <p className='desc-content mb-5'>{product.description}</p>
 
                                 <div className='quantity d-flex align-items-center justify-content-start mb-5'>
                                     <span className='me-2'>
                                         <strong>Qty: </strong>
                                     </span>
                                     <div className='cart-plus-minus'>
-                                        <input
-                                            className='cart-plus-minus-box'
-                                            value='1'
-                                            type='text'
-                                        />
-                                        <div className='dec qtybutton'></div>
-                                        <div className='inc qtybutton'></div>
+                                        <input className='cart-plus-minus-box' value={count} type='text' />
+                                        <div
+                                            className='dec qtybutton'
+                                            onClick={() => {
+                                                if (count === 1) return;
+
+                                                setCount(count - 1);
+                                            }}
+                                        >
+                                            -
+                                        </div>
+                                        <div className='inc qtybutton' onClick={() => setCount(count + 1)}>
+                                            +
+                                        </div>
                                     </div>
                                 </div>
 
@@ -132,14 +99,16 @@ export default function Modal() {
                                         <div className='add-to_cart'>
                                             <a
                                                 className='btn btn-primary btn-hover-dark rounded-0'
-                                                href='cart.html'>
+                                                href='javascript:void;'
+                                                onClick={() => {
+                                                    dispatch(addToCart({ product, count }));
+                                                    setCount(1);
+                                                }}
+                                            >
                                                 Add to cart
                                             </a>
                                         </div>
-                                        <a
-                                            href='wishlist.html'
-                                            title='Wishlist'
-                                            className='action'>
+                                        <a href='wishlist.html' title='Wishlist' className='action'>
                                             <i className='ti-heart'></i>
                                         </a>
                                     </div>
@@ -170,11 +139,7 @@ export default function Modal() {
                                         <strong>Payment: </strong>
                                     </span>
                                     <a href='#'>
-                                        <img
-                                            className='fit-image ms-1'
-                                            src='assets/images/payment/payment_large.png'
-                                            alt='Payment Option Image'
-                                        />
+                                        <img className='fit-image ms-1' src={paymentImg} alt='Payment Option Image' />
                                     </a>
                                 </div>
                             </div>

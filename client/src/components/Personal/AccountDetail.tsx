@@ -1,10 +1,11 @@
 import React, { ReactElement } from 'react'
+import UserModel from '../../models/UserModel';
 
 interface Props {
-    
+    user: UserModel
 }
 
-export default function AccountDetail({}: Props): ReactElement {
+export default function AccountDetail({user}: Props): ReactElement {
     return (
       <div className='tab-pane fade' id='account-info' role='tabpanel'>
         <div className='myaccount-content'>
@@ -15,31 +16,37 @@ export default function AccountDetail({}: Props): ReactElement {
                 <div className='col-lg-6'>
                   <div className='single-input-item mb-3'>
                     <label htmlFor='first-name' className='required mb-2'>
-                      First Name
+                      Username
                     </label>
-                    <input type='text' id='first-name' placeholder='First Name' />
+                    <input type='text' id='first-name' placeholder='Username' disabled value={user.username}/>
                   </div>
                 </div>
                 <div className='col-lg-6'>
                   <div className='single-input-item mb-3'>
                     <label htmlFor='last-name' className='required mb-2'>
-                      Last Name
+                      Full Name
                     </label>
-                    <input type='text' id='last-name' placeholder='Last Name' />
+                    <input type='text' id='last-name' placeholder='Full Name' value={user.name}/>
                   </div>
                 </div>
-              </div>
-              <div className='single-input-item mb-3'>
-                <label htmlFor='display-name' className='required mb-2'>
-                  Display Name
-                </label>
-                <input type='text' id='display-name' placeholder='Display Name' />
               </div>
               <div className='single-input-item mb-3'>
                 <label htmlFor='email' className='required mb-1'>
                   Email Addres
                 </label>
-                <input type='email' id='email' placeholder='Email Address' />
+                <input type='email' id='email' placeholder='Email Address' value={user.email}/>
+              </div>
+              <div className='single-input-item mb-3'>
+                <label htmlFor='display-name' className='required mb-2'>
+                  Phone Number
+                </label>
+                <input type='tel' id='display-name' placeholder='Phone number' value={user.phone}/>
+              </div>
+              <div className='single-input-item mb-3'>
+                <label htmlFor='display-name' className='required mb-2'>
+                  Address
+                </label>
+                <input type='address' id='display-name' placeholder='Address' value={user.address}/>
               </div>
               <fieldset>
                 <legend>Password change</legend>

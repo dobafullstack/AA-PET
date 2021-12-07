@@ -42,6 +42,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     verifyToken().catch((err) => {
       console.log(err);
       setIsLogin(false);
+      localStorage.removeItem('access_token')
     });
   }, [token]);
 

@@ -1,38 +1,50 @@
 import React, { ReactElement } from 'react'
+import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../app/hooks';
+import { removeCart } from '../../app/reducers/cart.reducer';
+import VND from '../../configs/VND';
+import { CartProduct } from '../../models/CartModel';
+import ProductModel from '../../models/ProductModel';
 
 interface Props {
-    
+    product: CartProduct
 }
 
-export default function HeaderCartIem({}: Props): ReactElement {
+export default function HeaderCartIem({product}: Props): ReactElement {
+    const dispatch = useAppDispatch();
+
     return (
         <div className='cart-product-inner mb-4 pb-4 border-bottom'>
             <div className='single-cart-product'>
                 <div className='cart-product-thumb'>
-                    <a href='single-product.html'>
+                    <Link to={`/product/${product.product._id}`}>
                         <img
-                            src='assets/images/header/header-cart/1.png'
+                            src={product.product.images[0]}
                             alt='Cart Product'
+                            style={{
+                                width: 80,
+                                height: 80
+                            }}
                         />
-                    </a>
+                    </Link>
                 </div>
                 <div className='cart-product-content'>
                     <h3 className='title'>
-                        <a href='single-product.html'>Basic Dog Trainning</a>
+                        <Link to={`/product/${product.product._id}`}>{product.product.name}</Link>
                     </h3>
                     <div className='product-quty-price'>
                         <span className='cart-quantity'>
-                            Qty: <strong className='text-primary'> 1 </strong>
+                            Qty: <strong className='text-primary'>{product.count}</strong>
                         </span>
                         <span className='price'>
-                            <span className='new'>$70.00</span>
+                            <span className='new'>{VND(product.product.price)}</span>
                         </span>
                     </div>
                 </div>
             </div>
 
             <div className='cart-product-remove'>
-                <a href='#/'>
+                <a href='#/' onClick={() => dispatch(removeCart(product.product._id))}>
                     <i className='icon-close'></i>
                 </a>
             </div>

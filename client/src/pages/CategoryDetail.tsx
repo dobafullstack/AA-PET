@@ -1,28 +1,26 @@
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CategorySidebar, CategoryWrapper } from '../components/Category'
-import Breadcrumb from '../components/Layout/Breadcrumb'
+import { CategorySidebar, CategoryWrapper } from '../components/Category';
+import Breadcrumb from '../components/Layout/Breadcrumb';
 import MainJQuery from '../utils/MainJQuery';
 import $ from 'jquery';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getProductByCategoryIdAction } from '../app/actions/product.action';
+import { getProductByCategoryDetailIdAction, getProductByCategoryIdAction } from '../app/actions/product.action';
 
-interface Props {
-    
-}
+interface Props {}
 
-export default function Category({}: Props): ReactElement {
-    const {categoryId} = useParams()
+export default function CategoryDetail({}: Props): ReactElement {
+    const { categoryDetailId } = useParams();
     const dispatch = useAppDispatch();
-    const products = useAppSelector(state => state.product.products)
+    const products = useAppSelector((state) => state.product.products);
 
     useEffect(() => {
-      MainJQuery($);
+        MainJQuery($);
     }, []);
 
     useEffect(() => {
-        dispatch(getProductByCategoryIdAction(categoryId as string))
-    }, [categoryId])
+        dispatch(getProductByCategoryDetailIdAction(categoryDetailId as string));
+    }, [categoryDetailId]);
 
     return (
         <>

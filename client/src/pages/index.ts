@@ -5,6 +5,7 @@ export { default as Cart } from './Cart';
 export { default as Checkout } from './Checkout';
 export { default as NotFound } from './NotFound';
 export { default as Category } from './Category';
+export { default as CategoryDetail } from './CategoryDetail';
 export { default as Product } from './Product';
 export { default as Blog } from './Blog';
 export { default as BlogDetail } from './BlogDetail';
