@@ -60,9 +60,9 @@ export default function ($) {
   //   $('#checkout_coupon').slideToggle(500);
   // });
   // showlogin toggle
-  $('#cbox').on('click', function () {
-    $('#cbox-info').slideToggle(500);
-  });
+  // $('#cbox').on('click', function () {
+  //   $('#cbox-info').slideToggle(500);
+  // });
 
   // Ship box toggle
   $('#ship-box').on('click', function () {

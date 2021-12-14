@@ -16,3 +16,5 @@ export { default as Wishlist } from './Wishlist';
 export { default as FAQs } from './FAQs';
 export { default as Account } from './Account';
 export { default as Compare } from './Compare';
+export { default as Success } from './Success';
+export { default as Fail } from './Fail';
