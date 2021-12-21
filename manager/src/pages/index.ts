@@ -1,8 +1,10 @@
-export * from './Dashboard'
-export * from './Order'
-export * from './User'
-export * from './Login'
-export * from './Register'
-export * from './Category'
-export * from './Product'
-export * from "./Pet";
+export { default as Dashboard } from "./Dashboard";
+export { default as Login } from "./Login";
+export { default as Categories } from "./Categories";
+export { default as Attributes } from "./Attributes";
+export { default as Products } from "./Products";
+export { default as Roles } from "./Roles";
+export { default as Users } from "./Users";
+export { default as Bills } from "./Bills";
+export { default as Orders } from "./Orders";
+export { default as CategoryDetail } from "./CategoryDetail";

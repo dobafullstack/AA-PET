@@ -1,76 +1,59 @@
-import React from "react";
-import { Box, BoxItem, Diagram, TopTitle } from "../components/Common";
-import {
-    BusinessImg,
-    DashboardColorImg,
-    CashImg,
-    GoodsImg,
-    ProfitImg,
-    SalePerformanceImg,
-    StoreImg,
-    DogImg,
-    CatImg,
-    SaleDiagramImg,
-} from "../assets/images";
-import "../assets/sass/pages/dashboard.scss";
+import React, { ReactElement } from 'react'
+import { Chart, Overview, Recent } from '../components';
 
-export const Dashboard = () => {
+interface Props {
+    
+}
+
+export default function Dashboard({}: Props): ReactElement {
     return (
-        <div>
-            <TopTitle
-                img={DashboardColorImg}
-                title='Dashboard'
-                subTitle='Display income and diagram'
-            />
-
-            <Box img={BusinessImg} title='Business Performance'>
-                <div className='box-item-wrapper'>
-                    <BoxItem
-                        img={CashImg}
-                        title='Cash Deposit'
-                        mainText='$2.5 Millions'
-                        className='cash'
-                    />
-                    <BoxItem
-                        img={GoodsImg}
-                        title='Fund'
-                        mainText='$1.2 Millions'
-                        className='goods'
-                    />
-                    <BoxItem
-                        img={ProfitImg}
-                        title='Profit'
-                        mainText='$1450.00'
-                        className='profit'
-                    />
+        <>
+            <div className='row'>
+                <div className='col-md-12 grid-margin'>
+                    <div className='d-flex justify-content-between flex-wrap'>
+                        <div className='d-flex align-items-end flex-wrap'>
+                            <div className='mr-md-3 mr-xl-5'>
+                                <h2>Welcome back,</h2>
+                                <p className='mb-md-0'>
+                                    Your analytics dashboard template.
+                                </p>
+                            </div>
+                            <div className='d-flex'>
+                                <i className='mdi mdi-home text-muted hover-cursor'></i>
+                                <p className='text-muted mb-0 hover-cursor'>
+                                    &nbsp;/&nbsp;Dashboard&nbsp;/&nbsp;
+                                </p>
+                                <p className='text-primary mb-0 hover-cursor'>
+                                    Analytics
+                                </p>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between align-items-end flex-wrap'>
+                            <button
+                                type='button'
+                                className='btn btn-light bg-white btn-icon mr-3 d-none d-md-block '>
+                                <i className='mdi mdi-download text-muted'></i>
+                            </button>
+                            <button
+                                type='button'
+                                className='btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0'>
+                                <i className='mdi mdi-clock-outline text-muted'></i>
+                            </button>
+                            <button
+                                type='button'
+                                className='btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0'>
+                                <i className='mdi mdi-plus text-muted'></i>
+                            </button>
+                            <button className='btn btn-primary mt-2 mt-xl-0'>
+                                Download report
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </Box>
-            <Box img={SalePerformanceImg} title='Sale Performance'>
-                <div className='box-item-wrapper'>
-                    <BoxItem
-                        img={StoreImg}
-                        title='Items Sale'
-                        mainText='357 items'
-                        className='store'
-                    />
-                    <BoxItem
-                        img={DogImg}
-                        title='Dog Sale'
-                        mainText='32 dogs'
-                        className='dog'
-                    />
-                    <BoxItem
-                        img={CatImg}
-                        title='Cat Sale'
-                        mainText='200 cats'
-                        className='cat'
-                    />
-                </div>
-            </Box>
-
-            <Box img={SaleDiagramImg} title='Sale Diagram'>
-                <Diagram />
-            </Box>
-        </div>
+            </div>
+            <Overview />
+            <Chart />
+            <Recent />
+        </>
     );
-};
+}

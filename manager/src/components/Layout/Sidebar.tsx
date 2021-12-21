@@ -1,55 +1,98 @@
-import classnames from "classnames";
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import "../../assets/sass/components/sidebar.scss";
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import menu from "../../utils/data-menu";
 
-export const Sidebar = () => {
-    const [isClickStorage, setIsClickStorage] = useState(false);
-    const { pathname } = useLocation();
-    const subStorageMenuClass = classnames("sub-menu", {
-        active: isClickStorage,
-    });
+interface Props {}
 
+export default function Sidebar({}: Props): ReactElement {
     return (
-        <div className='sidebar-wrapper'>
-            <div className={`side-item ${pathname === "/" ? "active" : ""}`}>
-                <i className='fal fa-dungeon'></i>
-                <Link to='/'>Dashboard</Link>
-            </div>
-            <div className='side-item storage'>
-                <div className='main-menu'>
-                    <i className='fal fa-archive'></i>
-                    <p onClick={() => setIsClickStorage(!isClickStorage)}>
-                        Storage&nbsp;<i className='fal fa-chevron-down'></i>
-                    </p>
-                </div>
-                <div className={subStorageMenuClass}>
-                    <div className='sub-item'>
-                        <i className='fas fa-th'></i>
-                        <Link to='/category'>Category</Link>
+        <nav className='sidebar sidebar-offcanvas' id='sidebar'>
+            <ul className='nav'>
+                {/* <li className='nav-item'>
+                    <a className='nav-link' href='index.html'>
+                        <i className='mdi mdi-home menu-icon'></i>
+                        <span className='menu-title'>Dashboard</span>
+                    </a>
+                </li>
+                <li className='nav-item'>
+                    <a
+                        className='nav-link'
+                        data-toggle='collapse'
+                        href='#ui-basic'
+                        aria-expanded='false'
+                        aria-controls='ui-basic'>
+                        <i className='mdi mdi-circle-outline menu-icon'></i>
+                        <span className='menu-title'>UI Elements</span>
+                        <i className='menu-arrow'></i>
+                    </a>
+                    <div className='collapse' id='ui-basic'>
+                        <ul className='nav flex-column sub-menu'>
+                            <li className='nav-item'>
+                                {" "}
+                                <a
+                                    className='nav-link'
+                                    href='pages/ui-features/buttons.html'>
+                                    Buttons
+                                </a>
+                            </li>
+                            <li className='nav-item'>
+                                {" "}
+                                <a
+                                    className='nav-link'
+                                    href='pages/ui-features/typography.html'>
+                                    Typography
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div className='sub-item'>
-                        <i className='fal fa-boxes'></i>
-                        <Link to='/product'>Product</Link>
-                    </div>
-                    <div className='sub-item'>
-                        <i className='far fa-paw'></i>
-                        <Link to='/pet'>Pet</Link>
-                    </div>
-                </div>
-            </div>
-            <div
-                className={`side-item ${pathname === "/user" ? "active" : ""}`}>
-                <i className='fal fa-user'></i>
-                <Link to='/user'>User</Link>
-            </div>
-            <div
-                className={`side-item ${
-                    pathname === "/order" ? "active" : ""
-                }`}>
-                <i className='far fa-gift'></i>
-                <Link to='/order'>Order</Link>
-            </div>
-        </div>
+                </li> */}
+                {menu.map((item) => {
+                    if (item.subMenu.length === 0 && item.path) {
+                        return (
+                            <li className='nav-item'>
+                                <Link className='nav-link' to={item.path}>
+                                    <i className={`${item.icon} menu-icon`}></i>
+                                    <span className='menu-title'>
+                                        {item.title}
+                                    </span>
+                                </Link>
+                            </li>
+                        );
+                    }
+
+                    if (item.id) {
+                        return (
+                            <li className='nav-item'>
+                                <a
+                                    className='nav-link'
+                                    data-toggle='collapse'
+                                    href={`#${item.id}`}
+                                    aria-expanded='false'
+                                    aria-controls='ui-basic'>
+                                    <i className={`${item.icon} menu-icon`}></i>
+                                    <span className='menu-title'>
+                                        {item.title}
+                                    </span>
+                                    <i className='menu-arrow'></i>
+                                </a>
+                                <div className='collapse' id={item.id}>
+                                    <ul className='nav flex-column sub-menu'>
+                                        {item.subMenu.map((child) => (
+                                            <li className='nav-item'>
+                                                <Link
+                                                    className='nav-link'
+                                                    to={child.path}>
+                                                    {child.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </li>
+                        );
+                    }
+                })}
+            </ul>
+        </nav>
     );
-};
+}

@@ -1,30 +1,28 @@
-import { Redirect } from "react-router-dom";
-import { Col, Row } from "reactstrap";
-import './assets/sass/style.scss';
-import { Header, Sidebar } from "./components/Layout/index";
-import { useCheckAuth } from "./hooks";
-import Navigation from "./Navigation/index";
+import React from "react";
+import './loader';
+import Navigation from "./Navigation";
+import {ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-    const isLogin = useCheckAuth();
-
-    if (!isLogin) return <Redirect to="/login"/>
-
     return (
-        <div>
-            <Header />
+        <>
+            <div className='container-scroller'>
+                <Navigation />
+            </div>
 
-            <main>
-                <Row className='h-100'>
-                    <Col xl={2}>
-                        <Sidebar />
-                    </Col>
-                    <Col xl={10} style={{paddingRight: '2rem'}}>
-                        <Navigation />
-                    </Col>
-                </Row>
-            </main>
-        </div>
+            <ToastContainer
+                position='bottom-left'
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+        </>
     );
 }
 

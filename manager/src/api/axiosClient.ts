@@ -1,13 +1,13 @@
-import axios from 'axios';
-import queryString from 'query-string';
+import axios from "axios";
+import queryString from "query-string";
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:3500',
+    baseURL: "http://localhost:3500",
     headers: {
-        'Content-Type': 'application/json',
-        'type': 'aa-pet'
+        "Content-Type": "application/json",
+        type: "aa-pet",
     },
-    paramsSerializer: params => queryString.stringify(params),
+    paramsSerializer: (params) => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -16,14 +16,26 @@ axiosClient.interceptors.request.use(async (config) => {
     return config;
 });
 
-axiosClient.interceptors.response.use((res) => {
-    if (res && res.data){
-        return res.data;
-    }
+axiosClient.interceptors.response.use(
+    (res) => {
+        if (res && res.data) {
+            return res.data;
+        }
 
-    return res.data;
-}, err => {
-    throw err;
-});
+        return res.data;
+    },
+    (err) => {
+        throw err;
+    }
+);
 
 export default axiosClient;
+
+export type ResponseType<T> = {
+    status: string;
+    code: number;
+    result: T;
+    error: {
+        message: string;
+    } | null;
+};

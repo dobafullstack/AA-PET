@@ -1,31 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
-import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Login, Register } from './pages';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { store } from "./app/store";
+import { Provider } from "react-redux";
+import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter as Router } from "react-router-dom";
+import AuthProvider from "./context/AuthContext";
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <Router>
-                <Switch>
-                    <Route path='/login' exact>
-                        <Login />
-                    </Route>
-                    <Route path='/register' exact>
-                        <Register />
-                    </Route>
-                    <Route path='/'>
-                        <App />
-                    </Route>
-                </Switch>
-            </Router>
+            <AuthProvider>
+                <Router>
+                    <App />
+                </Router>
+            </AuthProvider>
         </Provider>
     </React.StrictMode>,
     document.getElementById("root")
