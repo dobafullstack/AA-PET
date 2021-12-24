@@ -52,12 +52,25 @@ const productSlice = createSlice({
         getProductById(state, { payload }: PayloadAction<ProductModel>) {
             state.product = payload;
         },
+        changePriceProduct(
+            state,
+            { payload }: PayloadAction<number>
+        ) {
+            state.product.price = payload;
+        },
     },
 });
 
 export default productSlice.reducer;
 
-export const { getAllProduct, getProductByCategoryId, getProductByCategoryDetailId, getProductById, clearProduct } = productSlice.actions;
+export const {
+    getAllProduct,
+    getProductByCategoryId,
+    getProductByCategoryDetailId,
+    getProductById,
+    clearProduct,
+    changePriceProduct,
+} = productSlice.actions;
 
 export const productApi = createApi({
     reducerPath: 'productApi',

@@ -4,9 +4,9 @@ import 'lightgallery/css/lightgallery.css';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 import LightGallery from 'lightgallery/react';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetProductByIdQuery } from '../../app/reducers/product.reducer';
+import { changePriceProduct, useGetProductByIdQuery } from '../../app/reducers/product.reducer';
 import MainJQuery from '../../utils/MainJQuery';
 import $ from 'jquery';
 import Loading from '../Layout/Loading';
@@ -15,18 +15,32 @@ import VND from '../../configs/VND';
 import { addToCart } from '../../app/reducers/cart.reducer';
 import { useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
+import DecorateProduct from '../../models/DecorateProduct';
 
 interface Props {
     product: ProductModel;
+    isClothes: boolean;
+    productId: string;
 }
 
-export default function ProductDetail({ product }: Props): ReactElement {
+export default function ProductDetail({ product, isClothes, productId }: Props): ReactElement {
     const [count, setCount] = useState(1);
+    const [size, setSize] = useState<'S' | 'M' | 'L' | 'XL'>('S');
+    const [color, setColor] = useState<'red' | 'orange' | 'black' | 'grey'>('red');
     const dispatch = useAppDispatch();
-    
+    const { data, isLoading } = useGetProductByIdQuery(productId);
+
     useEffect(() => {
         MainJQuery($);
     }, []);
+
+    useEffect(() => {
+        if (!isLoading) {
+            const decorateProduct = new DecorateProduct(data?.result as ProductModel, size, color);
+            decorateProduct.setPrice();
+            dispatch(changePriceProduct(decorateProduct.newPrice));
+        }
+    }, [size, color]);
 
     return (
         <div className='section section-margin'>
@@ -36,10 +50,20 @@ export default function ProductDetail({ product }: Props): ReactElement {
                         <div className='product-details-img'>
                             <div className='single-product-img swiper-container product-gallery-top'>
                                 {/* <div className='swiper-wrapper popup-gallery'> */}
-                                <LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} elementClassNames='swiper-wrapper popup-gallery'>
+                                <LightGallery
+                                    speed={500}
+                                    plugins={[lgThumbnail, lgZoom]}
+                                    elementClassNames='swiper-wrapper popup-gallery'
+                                >
                                     {product.images.map((image) => (
                                         <a className='swiper-slide w-100' href={image}>
-                                            <img className='w-100' src={image} alt='Product' width={470} height={470} />
+                                            <img
+                                                className='w-100'
+                                                src={image}
+                                                alt='Product'
+                                                width={470}
+                                                height={470}
+                                            />
                                         </a>
                                     ))}
                                 </LightGallery>
@@ -50,7 +74,11 @@ export default function ProductDetail({ product }: Props): ReactElement {
                                 <div className='swiper-wrapper '>
                                     {product.images.map((image) => (
                                         <div className='swiper-slide w-auto' style={{ width: 150 }}>
-                                            <img src={image} alt='Product' style={{ width: 150, height: 150 }} />
+                                            <img
+                                                src={image}
+                                                alt='Product'
+                                                style={{ width: 150, height: 150 }}
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -87,62 +115,104 @@ export default function ProductDetail({ product }: Props): ReactElement {
                                     {' '}
                                     <strong>Availability:</strong>
                                 </span>
-                                <span className='inventory-varient'> {product.quantity} Left in Stock</span>
+                                <span className='inventory-varient'>
+                                    {' '}
+                                    {product.quantity} Left in Stock
+                                </span>
                             </div>
 
                             <p className='desc-content mb-5'>
-                                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which
-                                don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
-                                text.
+                                There are many variations of passages of Lorem Ipsum available, but
+                                the majority have suffered alteration in some form, by injected
+                                humour, or randomised words which don't look even slightly
+                                believable. If you are going to use a passage of Lorem Ipsum, you
+                                need to be sure there isn't anything embarrassing hidden in the
+                                middle of text.
                             </p>
 
-                            <div className='product-color-variation mb-5'>
-                                <span>
-                                    {' '}
-                                    <strong>Color: </strong>
-                                </span>
-                                <button type='button' className='btn bg-danger'></button>
-                                <button type='button' className='btn bg-primary'></button>
-                                <button type='button' className='btn bg-dark'></button>
-                                <button type='button' className='btn bg-light'></button>
-                            </div>
+                            {isClothes && (
+                                <>
+                                    <div className='product-color-variation mb-5'>
+                                        <span>
+                                            {' '}
+                                            <strong>Color: </strong>
+                                        </span>
+                                        <button
+                                            type='button'
+                                            className={`btn bg-danger ${
+                                                color === 'red' && 'active'
+                                            }`}
+                                            onClick={() => setColor('red')}
+                                        ></button>
+                                        <button
+                                            type='button'
+                                            className={`btn bg-primary ${
+                                                color === 'orange' && 'active'
+                                            }`}
+                                            onClick={() => setColor('orange')}
+                                        ></button>
+                                        <button
+                                            type='button'
+                                            className={`btn bg-dark ${
+                                                color === 'black' && 'active'
+                                            }`}
+                                            onClick={() => setColor('black')}
+                                        ></button>
+                                        <button
+                                            type='button'
+                                            className={`btn bg-light ${
+                                                color === 'grey' && 'active'
+                                            }`}
+                                            onClick={() => setColor('grey')}
+                                        ></button>
+                                    </div>
 
-                            <div className='product-size mb-4'>
-                                <span>
-                                    <strong>Size :</strong>
-                                </span>
-                                <a href='#' className='size-ratio active'>
-                                    s
-                                </a>
-                                <a href='#' className='size-ratio'>
-                                    m
-                                </a>
-                                <a href='#' className='size-ratio'>
-                                    l
-                                </a>
-                                <a href='#' className='size-ratio'>
-                                    xl
-                                </a>
-                            </div>
-
-                            <div className='product-material mb-5'>
-                                <span>
-                                    <strong>Material :</strong>
-                                </span>
-                                <a href='#' className='active'>
-                                    Metal
-                                </a>
-                                <a href='#'>Resin</a>
-                                <a href='#'>Fibre</a>
-                                <a href='#'>Iron</a>
-                            </div>
+                                    <div className='product-size mb-4'>
+                                        <span>
+                                            <strong>Size :</strong>
+                                        </span>
+                                        <a
+                                            href='javascript::void'
+                                            className={`size-ratio ${size === 'S' && 'active'}`}
+                                            onClick={() => setSize('S')}
+                                        >
+                                            s
+                                        </a>
+                                        <a
+                                            href='javascript::void'
+                                            className={`size-ratio ${size === 'M' && 'active'}`}
+                                            onClick={() => setSize('M')}
+                                        >
+                                            m
+                                        </a>
+                                        <a
+                                            href='javascript::void'
+                                            className={`size-ratio ${size === 'L' && 'active'}`}
+                                            onClick={() => setSize('L')}
+                                        >
+                                            l
+                                        </a>
+                                        <a
+                                            href='javascript::void'
+                                            className={`size-ratio ${size === 'XL' && 'active'}`}
+                                            onClick={() => setSize('XL')}
+                                        >
+                                            xl
+                                        </a>
+                                    </div>
+                                </>
+                            )}
 
                             <div className='quantity d-flex align-items-center mb-5'>
                                 <span className='me-2'>
                                     <strong>Qty: </strong>
                                 </span>
                                 <div className='cart-plus-minus'>
-                                    <input className='cart-plus-minus-box' value={count} type='text' />
+                                    <input
+                                        className='cart-plus-minus-box'
+                                        value={count}
+                                        type='text'
+                                    />
                                     <div
                                         className='dec qtybutton'
                                         onClick={() => {
@@ -153,7 +223,10 @@ export default function ProductDetail({ product }: Props): ReactElement {
                                     >
                                         -
                                     </div>
-                                    <div className='inc qtybutton' onClick={() => setCount(count + 1)}>
+                                    <div
+                                        className='inc qtybutton'
+                                        onClick={() => setCount(count + 1)}
+                                    >
                                         +
                                     </div>
                                 </div>

@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import authApi from "../api/authApi";
 
 type ContextValueType = {
     isLogin: boolean;
@@ -16,6 +17,24 @@ interface Props {
 
 export default function AuthProvider({ children }: Props) {
     const [isLogin, setIsLogin] = useState(false);
+
+    const token = localStorage.getItem("access_token");
+
+    useEffect(() => {
+        const getUser = async () => {
+            if (!token) {
+                setIsLogin(false);
+                return;
+            }
+
+            const { code } = await authApi.getUser(token);
+
+            if (code !== 200) setIsLogin(false);
+            else setIsLogin(true);
+        };
+
+        getUser().catch((err) => console.log(err));
+    }, [isLogin]);
 
     return (
         <AuthContext.Provider

@@ -6,21 +6,24 @@ import { Attributes, Bills, Categories, CategoryDetail, Dashboard, Login, Orders
 
 interface Props {}
 
+const MainLayout = React.lazy(() => import('../Layout/AppLayout'))
+const LoginPage = React.lazy(() => import('../pages/Login'))
+
 export default function Navigation({}: Props): ReactElement {
     return (
         <Routes>
-            <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<LoginPage />} />
             <Route
                 path='/'
                 element={
                     <ProtectedRoute>
-                        <AppLayout />
+                        <MainLayout />
                     </ProtectedRoute>
                 }>
                 <Route index element={<Dashboard />} />
                 <Route path='/category'>
                     <Route index element={<Categories />} />
-                    <Route path=":categoryId" element={<CategoryDetail />} />
+                    <Route path=':categoryId' element={<CategoryDetail />} />
                     <Route path='attribute' element={<Attributes />} />
                 </Route>
                 <Route path='/product'>

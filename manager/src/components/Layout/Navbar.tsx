@@ -1,8 +1,15 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 interface Props {}
 
 export default function Navbar({}: Props): ReactElement {
+    const { setIsLogin } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        setIsLogin(false);
+    };
     return (
         <nav className='navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row'>
             <div className='navbar-brand-wrapper d-flex justify-content-center'>
@@ -20,7 +27,10 @@ export default function Navbar({}: Props): ReactElement {
                     <a
                         className='navbar-brand brand-logo-mini'
                         href='index.html'>
-                        <img src='../../assets/images/logo-mini.svg' alt='logo' />
+                        <img
+                            src='../../assets/images/logo-mini.svg'
+                            alt='logo'
+                        />
                     </a>
                     <button
                         className='navbar-toggler navbar-toggler align-self-center'
@@ -270,7 +280,9 @@ export default function Navbar({}: Props): ReactElement {
                                 <i className='mdi mdi-settings text-primary'></i>
                                 Settings
                             </a>
-                            <a className='dropdown-item'>
+                            <a
+                                className='dropdown-item'
+                                onClick={() => handleLogout()}>
                                 <i className='mdi mdi-logout text-primary'></i>
                                 Logout
                             </a>

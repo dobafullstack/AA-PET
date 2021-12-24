@@ -4,8 +4,9 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 interface Props {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    onSubmit: () => void;
+    onSubmit: (values?: any) => void;
     children: React.ReactNode;
+    formik?: boolean
 }
 
 export default function ModalLayout({
@@ -13,6 +14,7 @@ export default function ModalLayout({
     setIsOpen,
     onSubmit,
     children,
+    formik
 }: Props): ReactElement {
     return (
         <Modal toggle={() => setIsOpen(!isOpen)} isOpen={isOpen}>
@@ -27,14 +29,16 @@ export default function ModalLayout({
                 Modal title
             </ModalHeader>
             <ModalBody>{children}</ModalBody>
-            <ModalFooter>
-                <Button color='primary' onClick={() => onSubmit()}>
-                    Submit
-                </Button>{" "}
-                <Button color='danger' onClick={() => setIsOpen(!isOpen)}>
-                    Cancel
-                </Button>
-            </ModalFooter>
+            {!formik && (
+                <ModalFooter>
+                    <Button color='primary' onClick={() => onSubmit()}>
+                        Submit
+                    </Button>{" "}
+                    <Button color='danger' onClick={() => setIsOpen(!isOpen)}>
+                        Cancel
+                    </Button>
+                </ModalFooter>
+            )}
         </Modal>
     );
 }

@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import React, { ReactElement, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { getProductByIdAction } from '../app/actions/product.action';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useGetProductByIdQuery } from '../app/reducers/product.reducer';
 import Breadcrumb from '../components/Layout/Breadcrumb';
 import Loading from '../components/Layout/Loading';
@@ -11,15 +13,18 @@ import MainJQuery from '../utils/MainJQuery';
 interface Props {}
 
 export default function Product({}: Props): ReactElement {
+    const product = useAppSelector((state) => state.product.product);
+    const dispatch = useAppDispatch();
     const { productId } = useParams();
-    const { data, isFetching } = useGetProductByIdQuery(productId as string);
+    const location = useLocation();
 
     useEffect(() => {
         MainJQuery($);
     }, []);
 
-    if (isFetching) return <Loading />;
-    
+    useEffect(() => {
+        dispatch(getProductByIdAction(productId as string));
+    }, [productId]);
 
     return (
         <>
@@ -27,10 +32,14 @@ export default function Product({}: Props): ReactElement {
                 <li>
                     <Link to='/'>Home</Link>
                 </li>
-                <li>{data?.result.name}</li>
+                <li>{product.name}</li>
             </Breadcrumb>
 
-            <ProductDetail product={data?.result as ProductModel}/>
+            <ProductDetail
+                product={product}
+                isClothes={location.state.isClothes}
+                productId={productId as string}
+            />
             <ProductReview />
             <RelatedProduct />
         </>

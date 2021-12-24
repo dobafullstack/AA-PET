@@ -1,7 +1,7 @@
 import React from "react";
-import './loader';
+import "./loader";
 import Navigation from "./Navigation";
-import {ToastContainer} from 'react-toastify'
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {

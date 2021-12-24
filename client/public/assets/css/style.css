@@ -18688,8 +18688,15 @@ input[type="checkbox"]:checked + label:after {
   margin-left: 10px;
 }
 
+.product-summery .product-color-variation .btn.active{
+  border: 2px solid #000 !important;
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
 .product-summery .product-color-variation .btn:hover {
-  border: 2px solid #000000;
+  border: 2px solid #000;
   -webkit-transition: .3s;
   -o-transition: .3s;
   transition: .3s;

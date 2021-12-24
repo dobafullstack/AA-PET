@@ -8,9 +8,9 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children }: Props): ReactElement {
-    // const { isLogin } = useContext(AuthContext);
+    const { isLogin } = useContext(AuthContext);
 
-    // if (!isLogin) return <Navigate to='/login' />;
+    if (!isLogin) return <Navigate to='/login' />;
 
     return <>{children}</>;
 }

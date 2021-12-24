@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { CategorySidebar, CategoryWrapper } from '../components/Category';
 import Breadcrumb from '../components/Layout/Breadcrumb';
 import MainJQuery from '../utils/MainJQuery';
@@ -13,10 +13,11 @@ export default function CategoryDetail({}: Props): ReactElement {
     const { categoryDetailId } = useParams();
     const dispatch = useAppDispatch();
     const products = useAppSelector((state) => state.product.products);
+    const location = useLocation();
 
     useEffect(() => {
         MainJQuery($);
-    }, []);
+    }, [categoryDetailId]);
 
     useEffect(() => {
         dispatch(getProductByCategoryDetailIdAction(categoryDetailId as string));
@@ -33,7 +34,7 @@ export default function CategoryDetail({}: Props): ReactElement {
             <div className='section section-margin'>
                 <div className='container'>
                     <div className='row flex-row-reverse'>
-                        <CategoryWrapper products={products} />
+                        <CategoryWrapper products={products} isClothes={location.state.isClothes}/>
                         <CategorySidebar />
                     </div>
                 </div>

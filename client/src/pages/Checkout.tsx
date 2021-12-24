@@ -54,7 +54,7 @@ export default function Checkout({}: Props): ReactElement {
                         </div>
                     </div>
                     <div className='row mb-n4'>
-                        {!isLogin ? <Logged /> : <UnLogged />}
+                        {!isLogin ? <UnLogged /> : <Logged />}
                         <div className='col-lg-6 col-12 mb-4'>
                             <div className='your-order-area border'>
                                 <h3 className='title'>Your order</h3>

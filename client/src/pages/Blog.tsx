@@ -18,6 +18,7 @@ export default function Blog({}: Props): ReactElement {
       <div className='section section-margin'>
         <div className='container'>
           <div className='row row-cols-lg-3 row-cols-sm-2 row-cols-1 mb-n8'>
+            {/* <BlogItem />
             <BlogItem />
             <BlogItem />
             <BlogItem />
@@ -25,8 +26,7 @@ export default function Blog({}: Props): ReactElement {
             <BlogItem />
             <BlogItem />
             <BlogItem />
-            <BlogItem />
-            <BlogItem />
+            <BlogItem /> */}
 
             
           </div>

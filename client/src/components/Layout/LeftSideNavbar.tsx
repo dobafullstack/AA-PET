@@ -55,7 +55,15 @@ export default function LeftSideNavbar({}: Props): ReactElement {
     );
 }
 
-function NavItem({ hasChildren, children, title }: { hasChildren: boolean; children?: React.ReactNode; title: string }) {
+function NavItem({
+    hasChildren,
+    children,
+    title,
+}: {
+    hasChildren: boolean;
+    children?: React.ReactNode;
+    title: string;
+}) {
     return (
         <li className={hasChildren ? 'has-children' : ''}>
             <a href='#'>{title}</a>
@@ -74,12 +82,21 @@ function MegaMenu() {
             {data?.result.map((category) => (
                 <li className='mega-menu-col'>
                     <h4 className='mega-menu-title'>
-                        <Link to={`/category/${category._id}`}>{category.name}</Link>
+                        <Link
+                            to={`/category/${category._id}`}
+                            state={{ clothes: category.name === 'clothes' }}
+                        >
+                            {category.name}
+                        </Link>
                     </h4>
                     <ul className='mb-n2'>
                         {category.childCate.map((child: CategoryModel) => (
                             <li>
-                                <Link to={`/category/detail/${child._id}`} style={{ textTransform: 'capitalize' }}>
+                                <Link
+                                    to={`/category/detail/${child._id}`}
+                                    style={{ textTransform: 'capitalize' }}
+                                    state={{clothes: category.name === 'clothes'}}
+                                >
                                     {child.name}
                                 </Link>
                             </li>
@@ -91,7 +108,11 @@ function MegaMenu() {
             <li className='mega-menu-col'>
                 <div className='megamenu-image'>
                     <a href='shop.html'>
-                        <img className='fit-image' src='https://template.hasthemes.com/amber/amber/assets/images/products/medium-product/5.png' alt='Megamenu Image' />
+                        <img
+                            className='fit-image'
+                            src='https://template.hasthemes.com/amber/amber/assets/images/products/medium-product/5.png'
+                            alt='Megamenu Image'
+                        />
                     </a>
                 </div>
             </li>

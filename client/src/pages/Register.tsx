@@ -85,16 +85,16 @@ export default function Register({}: Props): ReactElement {
                   </div>
 
                   <div className='single-input-item mb-2'>
-                    <input required={true} type='password' placeholder='Password' value={register.password} onChange={(e) => setRegister({ ...register, password: e.target.value })}/>
-                  </div>
-                  <div className='single-input-item mb-2'>
-                    <input required={true} type='password' placeholder='Confirm Password' value={register.confirmPassword} onChange={(e) => setRegister({ ...register, confirmPassword: e.target.value })}/>
-                  </div>
-                  <div className='single-input-item mb-2'>
                     <input required={true} type='tel' placeholder='Phone' value={register.phone} onChange={(e) => setRegister({ ...register, phone: e.target.value })}/>
                   </div>
                   <div className='single-input-item mb-2'>
                     <input required={true} type='text' placeholder='Address' value={register.address} onChange={(e) => setRegister({ ...register, address: e.target.value })}/>
+                  </div>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='password' placeholder='Password' value={register.password} onChange={(e) => setRegister({ ...register, password: e.target.value })}/>
+                  </div>
+                  <div className='single-input-item mb-2'>
+                    <input required={true} type='password' placeholder='Confirm Password' value={register.confirmPassword} onChange={(e) => setRegister({ ...register, confirmPassword: e.target.value })}/>
                   </div>
 
                   <div className='single-input-item'>
