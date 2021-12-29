@@ -4,14 +4,17 @@ import { useGetMyAccountQuery } from '../app/reducers/auth.reducer';
 import Breadcrumb from '../components/Layout/Breadcrumb';
 import Loading from '../components/Layout/Loading';
 import { AccountDetail, Address, Dashboard, Order } from '../components/Personal';
+import ChangePassword from '../components/Personal/ChangePassword';
 import { AuthContext } from '../context/authContext';
+import useLocalStorage from '../hooks/useLocalStorage';
 import UserModel from '../models/UserModel';
 
 interface Props {}
 
 export default function Account({}: Props): ReactElement {
     const { setIsLogin } = useContext(AuthContext);
-    const { data, isFetching } = useGetMyAccountQuery(null);
+    const [token] = useLocalStorage('access_token', '')
+    const { data, isFetching } = useGetMyAccountQuery(token);
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
@@ -38,7 +41,11 @@ export default function Account({}: Props): ReactElement {
                                     <div className='row'>
                                         <div className='col-lg-3 col-md-4'>
                                             <div className='myaccount-tab-menu nav' role='tablist'>
-                                                <a href='#dashboad' className='active' data-bs-toggle='tab'>
+                                                <a
+                                                    href='#dashboad'
+                                                    className='active'
+                                                    data-bs-toggle='tab'
+                                                >
                                                     <i className='fa fa-dashboard'></i>
                                                     Dashboard
                                                 </a>
@@ -52,7 +59,13 @@ export default function Account({}: Props): ReactElement {
                                                 <a href='#account-info' data-bs-toggle='tab'>
                                                     <i className='fa fa-user'></i> Account Details
                                                 </a>
-                                                <a href='javascript:void;' onClick={() => handleLogout()}>
+                                                <a href='#change-password' data-bs-toggle='tab'>
+                                                    <i className='fas fa-key'></i> Change Password
+                                                </a>
+                                                <a
+                                                    href='javascript:void;'
+                                                    onClick={() => handleLogout()}
+                                                >
                                                     <i className='fa fa-sign-out'></i> Logout
                                                 </a>
                                             </div>
@@ -60,10 +73,14 @@ export default function Account({}: Props): ReactElement {
 
                                         <div className='col-lg-9 col-md-8'>
                                             <div className='tab-content' id='myaccountContent'>
-                                                <Dashboard name={data?.result.name as string} handleLogout={handleLogout} />
+                                                <Dashboard
+                                                    name={data?.result.name as string}
+                                                    handleLogout={handleLogout}
+                                                />
                                                 <Order />
-                                                <Address />
-                                                <AccountDetail user={data?.result as UserModel}/>
+                                                {data && <Address user={data.result} />}
+                                                <AccountDetail user={data?.result as UserModel} />
+                                                <ChangePassword user={data?.result as UserModel} />
                                             </div>
                                         </div>
                                     </div>

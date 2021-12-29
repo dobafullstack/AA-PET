@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authApi from './reducers/auth.reducer';
 import cartReducer from './reducers/cart.reducer';
 import categoryApi from './reducers/category.reducer';
+import orderReducer from './reducers/order.reducer';
 import productReducer, { productApi } from './reducers/product.reducer';
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
     product: productReducer,
     [productApi.reducerPath]: productApi.reducer,
     cart: cartReducer,
-    [authApi.reducerPath]: authApi.reducer
+    [authApi.reducerPath]: authApi.reducer,
+    [orderReducer.reducerPath]: orderReducer.reducer
   },
 });
 

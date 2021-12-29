@@ -38,7 +38,7 @@ export default function ProductDetail({ product, isClothes, productId }: Props):
         if (!isLoading) {
             const decorateProduct = new DecorateProduct(data?.result as ProductModel, size, color);
             decorateProduct.setPrice();
-            dispatch(changePriceProduct(decorateProduct.newPrice));
+            dispatch(changePriceProduct({newPrice: decorateProduct.newPrice, newName: decorateProduct.newName}));
         }
     }, [size, color]);
 
@@ -225,7 +225,10 @@ export default function ProductDetail({ product, isClothes, productId }: Props):
                                     </div>
                                     <div
                                         className='inc qtybutton'
-                                        onClick={() => setCount(count + 1)}
+                                        onClick={() => {
+                                            if (count === product.quantity) return;
+                                            setCount(count + 1);
+                                        }}
                                     >
                                         +
                                     </div>

@@ -2,6 +2,7 @@ import ProductModel from './ProductModel';
 
 export type UpdateCart = {
     _id: string;
+    name: string;
     count: 1 | -1
 }
 

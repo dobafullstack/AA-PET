@@ -4,19 +4,27 @@ import { toast } from 'react-toastify';
 import { useAppSelector } from '../../app/hooks';
 import { CheckoutContext } from '../../context/checkoutContext';
 import PaypalModel from '../../models/PaypalModel';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { initialValues, onSubmit } from '../../pages/Checkout';
+import CartModel from '../../models/CartModel';
 
-interface Props {}
+interface Props {
+    values: typeof initialValues;
+    cart: CartModel;
+    navigate: NavigateFunction;
+    userId?: string;
+    errors: any;
+}
 
 const PayPalButton = (window as any).paypal.Buttons.driver('react', { React, ReactDOM });
 
-export default function Paypal({}: Props): ReactElement {
-    const cart = useAppSelector((state) => state.cart);
-    const total = parseInt((cart.total * 0.00004).toFixed());
-    const tax = parseInt((cart.total * 0.00004 * 0.01).toFixed());
-    const shipping = parseInt((10000 * 0.00004).toFixed());
-    const { name, email, phone, address, setIsPaid } = useContext(CheckoutContext);
-    const navigate = useNavigate();
+export default function Paypal({ values, cart, navigate, userId, errors }: Props): ReactElement {
+    let total = 0;
+    const { setIsPaid } = useContext(CheckoutContext);
+
+    cart.products.forEach(item => {
+        total += parseInt(((item.count * item.product.price) * 0.00004).toFixed(2));
+    })
 
     const order: PaypalModel = {
         purchase_units: [
@@ -24,20 +32,12 @@ export default function Paypal({}: Props): ReactElement {
                 reference_id: 'Test',
                 description: 'Some thing',
                 amount: {
-                    value: total + tax + shipping,
+                    value: total,
                     currency_code: 'USD',
                     breakdown: {
                         item_total: {
                             currency_code: 'USD',
                             value: total,
-                        },
-                        tax_total: {
-                            currency_code: 'USD',
-                            value: tax,
-                        },
-                        shipping: {
-                            currency_code: 'USD',
-                            value: shipping,
                         },
                     },
                 },
@@ -46,7 +46,7 @@ export default function Paypal({}: Props): ReactElement {
                     quantity: product.count,
                     unit_amount: {
                         currency_code: 'USD',
-                        value: parseInt((product.product.price * 0.00004).toFixed()),
+                        value: parseInt((product.product.price * 0.00004).toFixed(2)),
                     },
                     sku: product.product.name,
                 })),
@@ -56,20 +56,11 @@ export default function Paypal({}: Props): ReactElement {
     };
 
     function createOrder(data: any, actions: any) {
-        // if (name === '' || email === "" || phone === "" || address === ""){
-        //     toast.error('Mời nhập thông tin giao hàng trước')
-        //     return;
-        // }
-
         return actions.order.create(order);
     }
 
     function onApprove(data: any, actions: any) {
-        console.log({ data, actions });
-
-        // navigate('/success');
-
-        setIsPaid(true)
+        setIsPaid(true);
 
         return actions.order.capture();
     }

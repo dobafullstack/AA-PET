@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import useCheckAuth from '../hooks/useCheckAuth';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { writeStorage } from '@rehooks/local-storage';
 
 interface Props {}
 
@@ -21,12 +23,13 @@ export default function Login({}: Props): ReactElement {
     try {
       if (account === '' || password === '') return;
 
-      const { code, result, error } = await authApi.login({ username: account, password });
-      if (code !== 200 && error !== null) {
-        toast.error(error.message);
+      const { code, result } = await authApi.login({ username: account, password });
+      if (code !== 200) {
+        toast.error(result);
+        return;
       }
 
-      localStorage.setItem('access_token', result.token);
+      window.localStorage.setItem('access_token', result.token);
       setIsLogin(true);
       navigate('/', {
         replace: true,
@@ -66,7 +69,7 @@ export default function Login({}: Props): ReactElement {
 
                   <div className='single-input-item mb-3'>
                     <div className='login-reg-form-meta mb-n3'>
-                      <button className='btn btn btn-gray-deep btn-hover-primary mb-3' onClick={() => handleLogin()}>
+                      <button className='btn btn btn-gray-deep btn-hover-primary mb-3' onClick={handleLogin}>
                         Sign In
                       </button>
                       <Link to='/forget-password' className='forget-pwd mb-3'>

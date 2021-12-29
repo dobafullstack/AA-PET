@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { removeCart } from '../../app/reducers/cart.reducer';
@@ -7,10 +7,10 @@ import { CartProduct } from '../../models/CartModel';
 import ProductModel from '../../models/ProductModel';
 
 interface Props {
-    product: CartProduct
+    product: CartProduct;
 }
 
-export default function HeaderCartIem({product}: Props): ReactElement {
+export default function HeaderCartIem({ product }: Props): ReactElement {
     const dispatch = useAppDispatch();
 
     return (
@@ -23,7 +23,7 @@ export default function HeaderCartIem({product}: Props): ReactElement {
                             alt='Cart Product'
                             style={{
                                 width: 80,
-                                height: 80
+                                height: 80,
                             }}
                         />
                     </Link>
@@ -44,7 +44,14 @@ export default function HeaderCartIem({product}: Props): ReactElement {
             </div>
 
             <div className='cart-product-remove'>
-                <a href='#/' onClick={() => dispatch(removeCart(product.product._id))}>
+                <a
+                    href='javascript:void'
+                    onClick={() =>
+                        dispatch(
+                            removeCart({ _id: product.product._id, name: product.product.name })
+                        )
+                    }
+                >
                     <i className='icon-close'></i>
                 </a>
             </div>

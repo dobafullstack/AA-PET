@@ -17,7 +17,11 @@ export default function BlogArea({}: Props): ReactElement {
 
     const blog1 = prototypeBlog.clone();
     const blog2 = prototypeBlog.clone();
+    blog2.image =
+        'https://billingsseniorconcierge.com/wp-content/uploads/2018/10/pet-care-370x237.jpeg';
     const blog3 = prototypeBlog.clone();
+    blog3.image =
+        'https://midwestvetlab.com/wp-content/uploads/2018/10/adorable-animal-blur-406014-370x237.jpg';
 
     return (
         <div className='section' style={{ marginTop: '5rem' }}>

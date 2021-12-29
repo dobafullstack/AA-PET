@@ -41,7 +41,7 @@ export default function Product({}: Props): ReactElement {
                 productId={productId as string}
             />
             <ProductReview />
-            <RelatedProduct />
+            <RelatedProduct productId={productId as string} />
         </>
     );
 }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import CartModel, { CartProduct, UpdateCart } from '../../models/CartModel';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify';
 
 const initialState: CartModel = localStorage.getItem('cart')
     ? JSON.parse(localStorage.getItem('cart') as string)
@@ -19,8 +19,12 @@ const cartSlice = createSlice({
                 state.products.push(payload);
             } else {
                 //cart is not null
-                const index = state.products.findIndex((product) => product.product._id === payload.product._id);
-
+                const index = state.products.findIndex(
+                    (product) =>
+                        product.product._id === payload.product._id &&
+                        product.product.name === payload.product.name
+                );
+                console.log({ index, products: state.products });
                 if (index >= 0) {
                     //already have in cart
                     state.products[index].count += payload.count;
@@ -29,32 +33,39 @@ const cartSlice = createSlice({
                 }
             }
             state.total += payload.product.price * payload.count;
-            toast.success('Added to cart')
+            toast.success('Added to cart');
             localStorage.setItem('cart', JSON.stringify(state));
         },
         updateCart(state, { payload }: PayloadAction<UpdateCart>) {
-            const index = state.products.findIndex((product) => product.product._id === payload._id);
+            const index = state.products.findIndex(
+                (product) =>
+                    product.product._id === payload._id && product.product.name === payload.name
+            );
             const product = state.products[index];
 
             if (product.count === 1 && payload.count === -1) return;
 
             state.total += product.product.price * payload.count;
             state.products[index].count += payload.count;
-            toast.info('Updated cart')
+            toast.info('Updated cart');
             localStorage.setItem('cart', JSON.stringify(state));
         },
-        removeCart(state, { payload }: PayloadAction<string>) {
-            const index = state.products.findIndex((product) => product.product._id === payload);
+        removeCart(state, { payload }: PayloadAction<{ _id: string; name: string }>) {
+            const index = state.products.findIndex(
+                (product) =>
+                    product.product._id === payload._id && product.product.name === payload.name
+            );
 
             state.total -= state.products[index].product.price * state.products[index].count;
-            state.products = state.products.filter((product) => product.product._id !== payload);
-            toast.error("Removed item")
+            state.products = state.products.filter(
+                (product) => product.product.name !== payload.name
+            );
+            toast.error('Removed item');
             localStorage.setItem('cart', JSON.stringify(state));
         },
         clearCart(state) {
             state.products = [];
             state.total = 0;
-            toast.error('Cleared cart')
             localStorage.setItem('cart', JSON.stringify(state));
         },
     },

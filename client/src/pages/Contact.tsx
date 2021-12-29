@@ -75,13 +75,13 @@ export default function Contact() {
                 <address className='contact-block'>
                   <ul>
                     <li>
-                      <i className='fa fa-fax'></i> Your address goes here
+                      <i className='fa fa-fax'></i> 11G, 22St, Binh Hung Hoa A, Binh Tan district
                     </li>
                     <li>
-                      <i className='fa fa-phone'></i> <a href='tel:123-123-456-789'>123 123 456 789</a>
+                      <i className='fa fa-phone'></i> <a href='tel:123-123-456-789'>0944609933</a>
                     </li>
                     <li>
-                      <i className='fa fa-envelope-o'></i> <a href='mailto:demo@example.com'>demo@example.com </a>
+                      <i className='fas fa-envelope'></i> <a href='mailto:demo@example.com'>dobadov3@gmail.com </a>
                     </li>
                   </ul>
                 </address>

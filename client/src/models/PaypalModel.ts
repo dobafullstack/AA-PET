@@ -10,14 +10,6 @@ type PaypalModel = {
                     currency_code: 'USD';
                     value: number;
                 };
-                shipping: {
-                    currency_code: 'USD';
-                    value: number;
-                };
-                tax_total: {
-                    currency_code: 'USD';
-                    value: number;
-                };
                 discount?: {
                     currency_code: 'USD';
                     value: number;

@@ -16,7 +16,7 @@ export default function Category({}: Props): ReactElement {
     const dispatch = useAppDispatch();
     const products = useAppSelector(state => state.product.products)
     const location = useLocation();
-
+    
     useEffect(() => {
         MainJQuery($);
     }, [categoryId]);

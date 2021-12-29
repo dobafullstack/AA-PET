@@ -18,7 +18,7 @@ export default function Home({}: Props): ReactElement {
             <PopularProduct />
             <Banner />
             <ProductArea />
-            <DealArea />
+            {/* <DealArea /> */}
             <Testimonial />
             <BlogArea />
             <Service />

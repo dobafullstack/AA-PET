@@ -1,14 +1,21 @@
 import React, { ReactElement, useContext } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 import { Paypal } from '.';
 import { CheckoutContext } from '../../context/checkoutContext';
+import CartModel from '../../models/CartModel';
+import { initialValues } from '../../pages/Checkout';
 
-interface Props {}
+interface Props {
+    values: typeof initialValues;
+    cart: CartModel;
+    navigate: NavigateFunction;
+    userId?: string;
+    errors: any
+}
 
 
-export default function Payment({}: Props): ReactElement {
+export default function Payment({values, cart, navigate, userId, errors}: Props): ReactElement {
     const { payment, setPayment, isPaid } = useContext(CheckoutContext);
-
-    
 
     return (
         <div className='single-payment'>
@@ -48,21 +55,7 @@ export default function Payment({}: Props): ReactElement {
                                         <i className='fas fa-check-circle'></i>
                                     </div>
                                 </div>
-                                <div
-                                    className={`payment-item ${payment === 'momo' && 'active'}`}
-                                    onClick={() => setPayment('momo')}
-                                >
-                                    <img
-                                        src={
-                                            require('../../assets/images/payment/momo.png').default
-                                        }
-                                        className='img-fluid'
-                                        alt=''
-                                    />
-                                    <div className='selected'>
-                                        <i className='fas fa-check-circle'></i>
-                                    </div>
-                                </div>
+
                                 <div
                                     className={`payment-item ${payment === 'paypal' && 'active'}`}
                                     onClick={() => setPayment('paypal')}
@@ -80,7 +73,15 @@ export default function Payment({}: Props): ReactElement {
                                     </div>
                                 </div>
                             </div>
-                            {payment === 'paypal' && !isPaid && <Paypal />}
+                            {payment === 'paypal' && !isPaid && (
+                                <Paypal
+                                    values={values}
+                                    navigate={navigate}
+                                    cart={cart}
+                                    userId={userId}
+                                    errors={errors}
+                                />
+                            )}
                         </>
                     )}
                 </div>

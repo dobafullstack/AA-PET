@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { removeCart, updateCart } from '../../app/reducers/cart.reducer';
 import VND from '../../configs/VND';
 import { CartProduct } from '../../models/CartModel';
 
 interface Props {
-    item: CartProduct
+    item: CartProduct;
 }
 
-export default function CartItem({item}: Props): ReactElement {
+export default function CartItem({ item }: Props): ReactElement {
     const dispatch = useAppDispatch();
 
     return (
@@ -21,7 +21,7 @@ export default function CartItem({item}: Props): ReactElement {
                         alt='Product'
                         style={{
                             width: 120,
-                            height: 120
+                            height: 120,
                         }}
                     />
                 </a>
@@ -35,13 +35,35 @@ export default function CartItem({item}: Props): ReactElement {
             <td className='pro-quantity'>
                 <div className='quantity'>
                     <div className='cart-plus-minus'>
-                        <input
-                            className='cart-plus-minus-box'
-                            value={item.count}
-                            type='text'
-                        />
-                        <div className='dec qtybutton' onClick={() => dispatch(updateCart({_id: item.product._id, count: -1}))}>-</div>
-                        <div className='inc qtybutton' onClick={() => dispatch(updateCart({_id: item.product._id, count: 1}))}>+</div>
+                        <input className='cart-plus-minus-box' value={item.count} type='text' />
+                        <div
+                            className='dec qtybutton'
+                            onClick={() =>
+                                dispatch(
+                                    updateCart({
+                                        _id: item.product._id,
+                                        count: -1,
+                                        name: item.product.name,
+                                    })
+                                )
+                            }
+                        >
+                            -
+                        </div>
+                        <div
+                            className='inc qtybutton'
+                            onClick={() =>
+                                dispatch(
+                                    updateCart({
+                                        _id: item.product._id,
+                                        count: 1,
+                                        name: item.product.name,
+                                    })
+                                )
+                            }
+                        >
+                            +
+                        </div>
                     </div>
                 </div>
             </td>
@@ -49,7 +71,12 @@ export default function CartItem({item}: Props): ReactElement {
                 <span>{VND(item.count * item.product.price)}</span>
             </td>
             <td className='pro-remove'>
-                <a href='javascript:void;' onClick={() => dispatch(removeCart(item.product._id))}>
+                <a
+                    href='javascript:void;'
+                    onClick={() =>
+                        dispatch(removeCart({ _id: item.product._id, name: item.product.name }))
+                    }
+                >
                     <i className='ti-trash'></i>
                 </a>
             </td>

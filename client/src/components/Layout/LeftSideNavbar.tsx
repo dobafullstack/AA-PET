@@ -1,5 +1,6 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import CategoryAction from '../../app/actions/category.action';
 import { useGetAllCategoriesQuery } from '../../app/reducers/category.reducer';
 import CategoryModel from '../../models/CategoryModel';
 import Loading from './Loading';
@@ -15,7 +16,7 @@ export default function LeftSideNavbar({}: Props): ReactElement {
                         <Link to='/'>Home</Link>
                     </li>
                     <li className='has-children position-static'>
-                        <a href='#'>Shop</a>
+                        <a href='javascript:void'>Shop</a>
                         <ul className='mega-menu'>
                             <MegaMenu />
                         </ul>
@@ -66,20 +67,26 @@ function NavItem({
 }) {
     return (
         <li className={hasChildren ? 'has-children' : ''}>
-            <a href='#'>{title}</a>
+            <a href='javascript:void'>{title}</a>
             {hasChildren ? <ul className='sub-menu'>{children}</ul> : null}
         </li>
     );
 }
 
 function MegaMenu() {
-    const { data, isFetching } = useGetAllCategoriesQuery(null);
+    const [categories, setCategories] = useState<CategoryModel[]>([]);
 
-    if (isFetching) return <Loading />;
+    useEffect(() => {
+        CategoryAction.getInstance()
+            .getCategories()
+            .then((res) => setCategories(res));
+    }, []);
+
+    if (categories.length === 0) return <Loading />;
 
     return (
         <>
-            {data?.result.map((category) => (
+            {categories.map((category) => (
                 <li className='mega-menu-col'>
                     <h4 className='mega-menu-title'>
                         <Link
@@ -95,7 +102,7 @@ function MegaMenu() {
                                 <Link
                                     to={`/category/detail/${child._id}`}
                                     style={{ textTransform: 'capitalize' }}
-                                    state={{clothes: category.name === 'clothes'}}
+                                    state={{ clothes: category.name === 'clothes' }}
                                 >
                                     {child.name}
                                 </Link>

@@ -18,6 +18,9 @@ import Category from "../models/Category";
 import categoryApi from "../api/categoryApi";
 import { storage } from "../firebase";
 import { toast } from "react-toastify";
+import { ProxyProducts, RealProducts } from "../models/Proxy";
+import Accessory from "../models/Accessory";
+import accessoryApi from "../api/accessoryApi";
 
 interface Props {}
 
@@ -29,32 +32,34 @@ interface ModalProps {
 
 export default function Products({}: Props): ReactElement {
     const [products, setProducts] = useState<Product[]>([]);
+    const [totalProduct, setTotalProduct] = useState<number>(0);
+    const [limit, setLimit] = useState(50);
 
     const fetchData = () => {
-        ProductApi.getAllProducts()
-            .then((res) => {
-                if (res.code === 200) setProducts(res.result);
-            })
-            .catch((err) => console.log(err));
+        const proxyProduct = new ProxyProducts(limit);
+
+        proxyProduct
+            .getProducts(setTotalProduct)
+            .then((res) => setProducts(res));
     };
 
     const onDelete = async (productId: string) => {
         try {
-            const {code, result} = await ProductApi.deleteProducts(productId);
+            const { code, result } = await ProductApi.deleteProducts(productId);
 
-            if (code !== 200){
-                toast.error(result)
-            }else{
-                toast.success(result)
+            if (code !== 200) {
+                toast.error(result);
+            } else {
+                toast.success(result);
             }
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [limit]);
 
     return (
         <CommonLayout
@@ -109,15 +114,21 @@ export default function Products({}: Props): ReactElement {
                     </tbody>
                 </table>
             </div>
+            {limit <= totalProduct && (
+                <div
+                    className='w-100 py-2 bg-primary text-white text-center mt-5 rounded'
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setLimit(limit + 8)}>
+                    Load More
+                </div>
+            )}
         </CommonLayout>
     );
 }
 
-function AddModal({
-    isOpen,
-    setIsOpen,
-}: ModalProps): ReactElement {
+function AddModal({ isOpen, setIsOpen }: ModalProps): ReactElement {
     const [categories, setCategories] = useState<Category[]>([]);
+    const [accessories, setAccessories] = useState<Accessory[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>("");
 
     const getLinkUpload = (
@@ -125,8 +136,6 @@ function AddModal({
         setFieldValue: any,
         fieldName: string
     ) => {
-        console.log(fieldName);
-
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on(
             "state_changed",
@@ -152,16 +161,36 @@ function AddModal({
                 setSelectedCategory(res.result[0]._id);
             })
             .catch((err) => console.log(err));
+
+        accessoryApi
+            .getAllAccessories()
+            .then((res) => {
+                setAccessories(res.result);
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     const onSubmit = (values: any) => {
+        const accessoriesField = values.attributes.reduce(
+            (prev: any, key: any, index: any) => ({
+                ...prev,
+                [key]: values.attributeValues[index],
+            }),
+            {}
+        );
+
+        console.log(accessoriesField);
+
         const addProduct = async () => {
             try {
-                const {code, result} = await ProductApi.createProducts(values);
+                const { code, result } = await ProductApi.createProducts({
+                    ...values,
+                    attribute: accessoriesField,
+                });
 
-                if (code !== 201){
+                if (code !== 201) {
                     toast.error(result);
-                }else{
+                } else {
                     toast.success(result);
                     setIsOpen(false);
                 }
@@ -182,6 +211,8 @@ function AddModal({
         quantity: 0,
         price: 0,
         images: ["", "", "", ""],
+        attributes: [""],
+        attributeValues: [],
     };
 
     return (
@@ -292,7 +323,8 @@ function AddModal({
                                             <Input
                                                 onChange={(e) => {
                                                     getLinkUpload(
-                                                        e.target.files[0],
+                                                        e.target.files &&
+                                                            e.target.files[0],
                                                         setFieldValue,
                                                         `images[${index}]`
                                                     );
@@ -304,6 +336,92 @@ function AddModal({
                                     )
                                 )
                             }
+                        </FieldArray>
+                        <FieldArray name='attributes'>
+                            {({ form, insert, remove }) => (
+                                <>
+                                    {form.values.attributes.map(
+                                        (item: any, index: number) => (
+                                            <FormGroup>
+                                                <Label>Accessory</Label> <br />
+                                                <select
+                                                    className='form-control'
+                                                    name={`attributes[${index}]`}
+                                                    onChange={handleChange}>
+                                                    {accessories.map((item) => (
+                                                        <option
+                                                            value={item._id}>
+                                                            {item.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {values.attributes.length > 0 &&
+                                                values.attributes[index] !==
+                                                    "" &&
+                                                (
+                                                    accessories.find(
+                                                        (x) =>
+                                                            x._id ===
+                                                            values.attributes[
+                                                                index
+                                                            ]
+                                                    ) as Accessory
+                                                ).types.length > 0 ? (
+                                                    <select
+                                                        className='form-control mt-3'
+                                                        name={`attributeValues[${index}]`}
+                                                        onChange={handleChange}>
+                                                        {(
+                                                            accessories.find(
+                                                                (x) =>
+                                                                    x._id ===
+                                                                    values
+                                                                        .attributes[
+                                                                        index
+                                                                    ]
+                                                            ) as Accessory
+                                                        ).types.map((type) => (
+                                                            <option
+                                                                value={
+                                                                    type.name
+                                                                }>
+                                                                {type.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                ) : (
+                                                    <Input
+                                                        className='mt-3'
+                                                        name={`attributeValues[${index}]`}
+                                                        onChange={handleChange}
+                                                    />
+                                                )}
+                                                {index > 0 && (
+                                                    <Button
+                                                        color='primary'
+                                                        className='mx-2 mt-3'
+                                                        onClick={() =>
+                                                            remove(index)
+                                                        }>
+                                                        -
+                                                    </Button>
+                                                )}
+                                            </FormGroup>
+                                        )
+                                    )}
+                                    <Button
+                                        color='danger'
+                                        className='mx-2 mt-3'
+                                        onClick={() =>
+                                            insert(
+                                                form.values.attributes.length,
+                                                ""
+                                            )
+                                        }>
+                                        +
+                                    </Button>
+                                </>
+                            )}
                         </FieldArray>
                         <div className='d-flex justify-content-end'>
                             <Button type='submit' color='primary'>
@@ -333,9 +451,9 @@ function EditModal({
     const [product, setProduct] = useState<Product>();
 
     const getLinkUpload = (
-        image: any,
+        image: any | null,
         setFieldValue: any,
-        fieldName: string
+        fieldName: any
     ) => {
         console.log(fieldName);
 
@@ -367,12 +485,14 @@ function EditModal({
     }, []);
 
     useEffect(() => {
-        ProductApi.getDetailProduct(selectedItem).then(res => {
-            if (res.code === 200) setProduct(res.result as Product)
-        }).catch(err => console.log(err))
-    }, [selectedItem])
+        ProductApi.getDetailProduct(selectedItem)
+            .then((res) => {
+                if (res.code === 200) setProduct(res.result as Product);
+            })
+            .catch((err) => console.log(err));
+    }, [selectedItem]);
 
-    const onSubmit = (values: any) => console.log(values)
+    const onSubmit = (values: any) => console.log(values);
 
     const initialValues = product
         ? {
@@ -382,7 +502,12 @@ function EditModal({
               discount_value: product.discount_value,
               quantity: product.quantity,
               price: product.price,
-              images: [product.images[0], product.images[1], product.images[2], product.images[3]],
+              images: [
+                  product.images[0],
+                  product.images[1],
+                  product.images[2],
+                  product.images[3],
+              ],
           }
         : {
               name: "",
@@ -503,7 +628,8 @@ function EditModal({
                                             <Input
                                                 onChange={(e) => {
                                                     getLinkUpload(
-                                                        e.target.files[0],
+                                                        e.target.files &&
+                                                            e.target.files[0],
                                                         setFieldValue,
                                                         `images[${index}]`
                                                     );

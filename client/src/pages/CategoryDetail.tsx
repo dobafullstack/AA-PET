@@ -34,7 +34,7 @@ export default function CategoryDetail({}: Props): ReactElement {
             <div className='section section-margin'>
                 <div className='container'>
                     <div className='row flex-row-reverse'>
-                        <CategoryWrapper products={products} isClothes={location.state.isClothes}/>
+                        <CategoryWrapper products={products} isClothes={location.state.clothes}/>
                         <CategorySidebar />
                     </div>
                 </div>
