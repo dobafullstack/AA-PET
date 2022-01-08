@@ -56,23 +56,6 @@ export default function LeftSideNavbar({}: Props): ReactElement {
     );
 }
 
-function NavItem({
-    hasChildren,
-    children,
-    title,
-}: {
-    hasChildren: boolean;
-    children?: React.ReactNode;
-    title: string;
-}) {
-    return (
-        <li className={hasChildren ? 'has-children' : ''}>
-            <a href='javascript:void'>{title}</a>
-            {hasChildren ? <ul className='sub-menu'>{children}</ul> : null}
-        </li>
-    );
-}
-
 function MegaMenu() {
     const [categories, setCategories] = useState<CategoryModel[]>([]);
 

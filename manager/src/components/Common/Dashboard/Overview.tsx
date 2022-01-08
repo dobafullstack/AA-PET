@@ -1,53 +1,28 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from "react";
+import billApi from "../../../api/billApi";
+import orderApi from "../../../api/orderApi";
+import ProductApi from "../../../api/ProductApi";
+import Bill from "../../../models/Bill";
+import Order from "../../../models/Order";
+import Product from "../../../models/Product";
+import VND from "../../../utils/VND";
 
 interface Props {
-    
+    bills: Bill[];
+    orders: Order[];
+    products: Product[];
 }
 
-export default function Overview({}: Props): ReactElement {
+export default function Overview({
+    bills,
+    orders,
+    products,
+}: Props): ReactElement {
     return (
         <div className='row'>
             <div className='col-md-12 grid-margin stretch-card'>
                 <div className='card'>
                     <div className='card-body dashboard-tabs p-0'>
-                        <ul className='nav nav-tabs px-4' role='tablist'>
-                            <li className='nav-item'>
-                                <a
-                                    className='nav-link active'
-                                    id='overview-tab'
-                                    data-toggle='tab'
-                                    href='#overview'
-                                    role='tab'
-                                    aria-controls='overview'
-                                    aria-selected='true'>
-                                    Overview
-                                </a>
-                            </li>
-                            <li className='nav-item'>
-                                <a
-                                    className='nav-link'
-                                    id='sales-tab'
-                                    data-toggle='tab'
-                                    href='#sales'
-                                    role='tab'
-                                    aria-controls='sales'
-                                    aria-selected='false'>
-                                    Sales
-                                </a>
-                            </li>
-                            <li className='nav-item'>
-                                <a
-                                    className='nav-link'
-                                    id='purchases-tab'
-                                    data-toggle='tab'
-                                    href='#purchases'
-                                    role='tab'
-                                    aria-controls='purchases'
-                                    aria-selected='false'>
-                                    Purchases
-                                </a>
-                            </li>
-                        </ul>
                         <div className='tab-content py-0 px-0'>
                             <div
                                 className='tab-pane fade show active'
@@ -55,251 +30,69 @@ export default function Overview({}: Props): ReactElement {
                                 role='tabpanel'
                                 aria-labelledby='overview-tab'>
                                 <div className='d-flex flex-wrap justify-content-xl-between'>
-                                    <div className='d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-calendar-heart icon-lg mr-3 text-primary'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Start date
-                                            </small>
-                                            <div className='dropdown'>
-                                                <a
-                                                    className='btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium'
-                                                    href='#'
-                                                    role='button'
-                                                    id='dropdownMenuLinkA'
-                                                    data-toggle='dropdown'
-                                                    aria-haspopup='true'
-                                                    aria-expanded='false'>
-                                                    <h5 className='mb-0 d-inline-block'>
-                                                        26 Jul 2018
-                                                    </h5>
-                                                </a>
-                                                <div
-                                                    className='dropdown-menu'
-                                                    aria-labelledby='dropdownMenuLinkA'>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        12 Aug 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        22 Sep 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        21 Oct 2018
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
                                         <i className='mdi mdi-currency-usd mr-3 icon-lg text-danger'></i>
                                         <div className='d-flex flex-column justify-content-around'>
                                             <small className='mb-1 text-muted'>
                                                 Revenue
                                             </small>
-                                            <h5 className='mr-2 mb-0'>$577545</h5>
+                                            <h5 className='mr-2 mb-0'>
+                                                {VND(
+                                                    bills.reduce(
+                                                        (prev, cur) =>
+                                                            prev + cur.total,
+                                                        0
+                                                    )
+                                                )}
+                                            </h5>
                                         </div>
                                     </div>
                                     <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-eye mr-3 icon-lg text-success'></i>
+                                        <i className='mdi mdi-tag mr-3 icon-lg text-success'></i>
                                         <div className='d-flex flex-column justify-content-around'>
                                             <small className='mb-1 text-muted'>
-                                                Total views
+                                                Total orders
                                             </small>
-                                            <h5 className='mr-2 mb-0'>9833550</h5>
+                                            <h5 className='mr-2 mb-0'>
+                                                {orders.length}
+                                            </h5>
                                         </div>
                                     </div>
                                     <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-download mr-3 icon-lg text-warning'></i>
+                                        <i className='mdi mdi-truck mr-3 icon-lg text-warning'></i>
                                         <div className='d-flex flex-column justify-content-around'>
                                             <small className='mb-1 text-muted'>
-                                                Downloads
+                                                Saled Count
                                             </small>
-                                            <h5 className='mr-2 mb-0'>2233783</h5>
+                                            <h5 className='mr-2 mb-0'>
+                                                {products.reduce(
+                                                    (prev, cur) =>
+                                                        (prev +=
+                                                            cur.saled_count),
+                                                    0
+                                                )}
+                                            </h5>
                                         </div>
                                     </div>
                                     <div className='d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-flag mr-3 icon-lg text-danger'></i>
+                                        <i className='mdi mdi-percent mr-3 icon-lg text-danger'></i>
                                         <div className='d-flex flex-column justify-content-around'>
                                             <small className='mb-1 text-muted'>
-                                                Flagged
+                                                Sale Items
                                             </small>
-                                            <h5 className='mr-2 mb-0'>3497843</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                className='tab-pane fade'
-                                id='sales'
-                                role='tabpanel'
-                                aria-labelledby='sales-tab'>
-                                <div className='d-flex flex-wrap justify-content-xl-between'>
-                                    <div className='d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-calendar-heart icon-lg mr-3 text-primary'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Start date
-                                            </small>
-                                            <div className='dropdown'>
-                                                <a
-                                                    className='btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium'
-                                                    href='#'
-                                                    role='button'
-                                                    id='dropdownMenuLinkA'
-                                                    data-toggle='dropdown'
-                                                    aria-haspopup='true'
-                                                    aria-expanded='false'>
-                                                    <h5 className='mb-0 d-inline-block'>
-                                                        26 Jul 2018
-                                                    </h5>
-                                                </a>
-                                                <div
-                                                    className='dropdown-menu'
-                                                    aria-labelledby='dropdownMenuLinkA'>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        12 Aug 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        22 Sep 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        21 Oct 2018
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-download mr-3 icon-lg text-warning'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Downloads
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>2233783</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-eye mr-3 icon-lg text-success'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Total views
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>9833550</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-currency-usd mr-3 icon-lg text-danger'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Revenue
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>$577545</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-flag mr-3 icon-lg text-danger'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Flagged
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>3497843</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                className='tab-pane fade'
-                                id='purchases'
-                                role='tabpanel'
-                                aria-labelledby='purchases-tab'>
-                                <div className='d-flex flex-wrap justify-content-xl-between'>
-                                    <div className='d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-calendar-heart icon-lg mr-3 text-primary'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Start date
-                                            </small>
-                                            <div className='dropdown'>
-                                                <a
-                                                    className='btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium'
-                                                    href='#'
-                                                    role='button'
-                                                    id='dropdownMenuLinkA'
-                                                    data-toggle='dropdown'
-                                                    aria-haspopup='true'
-                                                    aria-expanded='false'>
-                                                    <h5 className='mb-0 d-inline-block'>
-                                                        26 Jul 2018
-                                                    </h5>
-                                                </a>
-                                                <div
-                                                    className='dropdown-menu'
-                                                    aria-labelledby='dropdownMenuLinkA'>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        12 Aug 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        22 Sep 2018
-                                                    </a>
-                                                    <a
-                                                        className='dropdown-item'
-                                                        href='#'>
-                                                        21 Oct 2018
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-currency-usd mr-3 icon-lg text-danger'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Revenue
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>$577545</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-eye mr-3 icon-lg text-success'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Total views
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>9833550</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-download mr-3 icon-lg text-warning'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Downloads
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>2233783</h5>
-                                        </div>
-                                    </div>
-                                    <div className='d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item'>
-                                        <i className='mdi mdi-flag mr-3 icon-lg text-danger'></i>
-                                        <div className='d-flex flex-column justify-content-around'>
-                                            <small className='mb-1 text-muted'>
-                                                Flagged
-                                            </small>
-                                            <h5 className='mr-2 mb-0'>3497843</h5>
+                                            <h5 className='mr-2 mb-0'>
+                                                {products.reduce(
+                                                    (prev, cur) => {
+                                                        if (
+                                                            cur.discount_value >
+                                                            0
+                                                        )
+                                                            return (prev += 1);
+                                                        return prev;
+                                                    },
+                                                    0
+                                                )}
+                                            </h5>
                                         </div>
                                     </div>
                                 </div>

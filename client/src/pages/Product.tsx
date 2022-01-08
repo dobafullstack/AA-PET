@@ -40,7 +40,7 @@ export default function Product({}: Props): ReactElement {
                 isClothes={location.state.isClothes}
                 productId={productId as string}
             />
-            <ProductReview />
+            <ProductReview product={product} />
             <RelatedProduct productId={productId as string} />
         </>
     );

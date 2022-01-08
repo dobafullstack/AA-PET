@@ -2,12 +2,25 @@ import React, { ReactElement } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "../components";
 import AppLayout from "../Layout/AppLayout";
-import { Attributes, Bills, Categories, CategoryDetail, Dashboard, Login, Orders, Products, Roles, Users } from "../pages";
+import {
+    Attributes,
+    Bills,
+    Categories,
+    CategoryDetail,
+    Dashboard,
+    Login,
+    NotFound,
+    Orders,
+    Products,
+    Profile,
+    Roles,
+    Users,
+} from "../pages";
 
 interface Props {}
 
-const MainLayout = React.lazy(() => import('../Layout/AppLayout'))
-const LoginPage = React.lazy(() => import('../pages/Login'))
+const MainLayout = React.lazy(() => import("../Layout/AppLayout"));
+const LoginPage = React.lazy(() => import("../pages/Login"));
 
 export default function Navigation({}: Props): ReactElement {
     return (
@@ -37,7 +50,9 @@ export default function Navigation({}: Props): ReactElement {
                     <Route path='user' element={<Users />} />
                     <Route path='role' element={<Roles />} />
                 </Route>
+                <Route path='/profile' element={<Profile />} />
             </Route>
+            <Route path='*' element={<NotFound />} />
         </Routes>
     );
 }

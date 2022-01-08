@@ -1,8 +1,28 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Accordion, AccordionHeader, AccordionItem } from 'reactstrap';
+import CategoryAction from '../../app/actions/category.action';
+import { useAppSelector } from '../../app/hooks';
+import VND from '../../configs/VND';
+import CategoryModel from '../../models/CategoryModel';
+import ProductModel from '../../models/ProductModel';
+import getDiscountPrice from '../../utils/getDiscountPrice';
 
-interface Props {}
+interface Props {
+    recentProducts: ProductModel[];
+    onSearch: (e: any) => void;
+}
 
-export default function CategorySidebar({}: Props): ReactElement {
+export default function CategorySidebar({ recentProducts, onSearch }: Props): ReactElement {
+    const [categories, setCategories] = useState<CategoryModel[]>([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        CategoryAction.getInstance()
+            .getCategories()
+            .then((res) => setCategories(res));
+    }, []);
+
     return (
         <div className='col-lg-3 col-12'>
             <aside className='sidebar_widget mt-10 mt-lg-0'>
@@ -15,8 +35,10 @@ export default function CategorySidebar({}: Props): ReactElement {
                                 className='form-control'
                                 placeholder='Search Our Store'
                                 aria-label='Search Our Store'
+                                onChange={(e) => setSearch(e.target.value)}
+                                value={search}
                             />
-                            <button className='search-icon' type='button'>
+                            <button className='search-icon' type='button' onClick={() => onSearch(search)}>
                                 <i className='icon-magnifier'></i>
                             </button>
                         </div>
@@ -25,22 +47,22 @@ export default function CategorySidebar({}: Props): ReactElement {
                         <h3 className='widget-title mb-6'>Categories</h3>
                         <div className='sidebar-body'>
                             <ul className='sidebar-list'>
-                                <li>
-                                    <a href='#/'>All Product</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Best Seller (5)</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Featured (4)</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>New Products (6)</a>
-                                </li>
+                                {categories.map((category) =>
+                                    category.childCate.map((child) => (
+                                        <li key={child._id} style={{ textTransform: 'capitalize' }}>
+                                            <Link
+                                                to={`/category/detail/${child._id}`}
+                                                state={{ clothes: category.name === 'clothes' }}
+                                            >
+                                                {child.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                )}
                             </ul>
                         </div>
                     </div>
-                    <div className='widget-list mb-10'>
+                    {/* <div className='widget-list mb-10'>
                         <h3 className='widget-title mb-6'>Color</h3>
                         <div className='sidebar-body'>
                             <ul className='checkbox-container categories-list'>
@@ -53,7 +75,8 @@ export default function CategorySidebar({}: Props): ReactElement {
                                         />
                                         <label
                                             className='custom-control-label'
-                                            htmlFor='customCheck12'>
+                                            htmlFor='customCheck12'
+                                        >
                                             black (20)
                                         </label>
                                     </div>
@@ -67,7 +90,8 @@ export default function CategorySidebar({}: Props): ReactElement {
                                         />
                                         <label
                                             className='custom-control-label'
-                                            htmlFor='customCheck13'>
+                                            htmlFor='customCheck13'
+                                        >
                                             red (6)
                                         </label>
                                     </div>
@@ -81,7 +105,8 @@ export default function CategorySidebar({}: Props): ReactElement {
                                         />
                                         <label
                                             className='custom-control-label'
-                                            htmlFor='customCheck14'>
+                                            htmlFor='customCheck14'
+                                        >
                                             blue (8)
                                         </label>
                                     </div>
@@ -95,7 +120,8 @@ export default function CategorySidebar({}: Props): ReactElement {
                                         />
                                         <label
                                             className='custom-control-label'
-                                            htmlFor='customCheck11'>
+                                            htmlFor='customCheck11'
+                                        >
                                             green (5)
                                         </label>
                                     </div>
@@ -109,128 +135,56 @@ export default function CategorySidebar({}: Props): ReactElement {
                                         />
                                         <label
                                             className='custom-control-label'
-                                            htmlFor='customCheck15'>
+                                            htmlFor='customCheck15'
+                                        >
                                             pink (4)
                                         </label>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div className='widget-list mb-10'>
-                        <h3 className='widget-title mb-6'>Tags</h3>
-                        <div className='sidebar-body'>
-                            <ul className='tags mb-n2'>
-                                <li>
-                                    <a href='#/'>Pet Food</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Animals</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Domestic</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Wild</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Dogs</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Cats</a>
-                                </li>
-                                <li>
-                                    <a href='#/'>Hubby</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    </div> */}
                     <div className='widget-list'>
                         <h3 className='widget-title mb-6'>Recent Products</h3>
                         <div className='sidebar-body product-list-wrapper mb-n6'>
-                            <div className='single-product-list mb-6'>
-                                <div className='product'>
-                                    <div className='thumb'>
-                                        <a
-                                            href='single-product.html'
-                                            className='image'>
-                                            <img
-                                                className='fit-image first-image'
-                                                src='assets/images/products/small-product/1.png'
-                                                alt='Product Image'
-                                            />
-                                        </a>
+                            {recentProducts.map((item) => {
+                                const discountPrice = getDiscountPrice(
+                                    item.price,
+                                    item.discount_value
+                                );
+
+                                return (
+                                    <div className='single-product-list mb-6' key={item._id}>
+                                        <div className='product'>
+                                            <div className='thumb'>
+                                                <Link to={`/product/${item._id}`} className='image'>
+                                                    <img
+                                                        className='fit-image first-image'
+                                                        src={item.images[0]}
+                                                        alt='Product Image'
+                                                    />
+                                                </Link>
+                                            </div>
+                                        </div>
+
+                                        <div className='product-list-content'>
+                                            <h6 className='product-name'>
+                                                <Link to={`/product/${item._id}`}>{item.name}</Link>
+                                            </h6>
+                                            <span className='price'>
+                                                <span className='new'>
+                                                    {VND(
+                                                        discountPrice ? discountPrice : item.price
+                                                    )}
+                                                </span>
+                                                {discountPrice && (
+                                                    <span className='old'>{VND(item.price)}</span>
+                                                )}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div className='product-list-content'>
-                                    <h6 className='product-name'>
-                                        <a href='single-product.html'>
-                                            Pet Leaving House
-                                        </a>
-                                    </h6>
-                                    <span className='price'>
-                                        <span className='new'>$12.50</span>
-                                        <span className='old'>$15.85</span>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className='single-product-list mb-6'>
-                                <div className='product'>
-                                    <div className='thumb'>
-                                        <a
-                                            href='single-product.html'
-                                            className='image'>
-                                            <img
-                                                className='fit-image first-image'
-                                                src='assets/images/products/small-product/2.png'
-                                                alt='Product Image'
-                                            />
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className='product-list-content'>
-                                    <h6 className='product-name'>
-                                        <a href='single-product.html'>
-                                            This is the testing
-                                        </a>
-                                    </h6>
-                                    <span className='price'>
-                                        <span className='new'>$10.50</span>
-                                        <span className='old'>$12.85</span>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className='single-product-list mb-6'>
-                                <div className='product'>
-                                    <div className='thumb'>
-                                        <a
-                                            href='single-product.html'
-                                            className='image'>
-                                            <img
-                                                className='fit-image first-image'
-                                                src='assets/images/products/small-product/3.png'
-                                                alt='Product Image'
-                                            />
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className='product-list-content'>
-                                    <h6 className='product-name'>
-                                        <a href='single-product.html'>
-                                            Animals for life
-                                        </a>
-                                    </h6>
-                                    <span className='price'>
-                                        <span className='new'>$22.50</span>
-                                        <span className='old'>$25.85</span>
-                                    </span>
-                                </div>
-                            </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

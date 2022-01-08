@@ -5,6 +5,7 @@ import { addToCart } from '../../app/reducers/cart.reducer';
 import demoImg from '../../assets/images/products/medium-product/5.png';
 import VND from '../../configs/VND';
 import ProductModel from '../../models/ProductModel';
+import getDiscountPrice from '../../utils/getDiscountPrice';
 
 interface Props {
     newProduct?: boolean;
@@ -23,7 +24,7 @@ export default function ProductItem({ newProduct, saleProduct, product }: Props)
                 </Link>
                 {saleProduct && (
                     <span className='badges'>
-                        <span className='sale'>-18%</span>
+                        <span className='sale'>-{product.discount_value}%</span>
                     </span>
                 )}
 
@@ -67,18 +68,26 @@ export default function ProductItem({ newProduct, saleProduct, product }: Props)
                     </Link>
                 </h5>
                 <span className='rating'>
-                    <i className='fa fa-star'></i>
-                    <i className='fa fa-star'></i>
-                    <i className='fa fa-star'></i>
-                    <i className='fal fa-star'></i>
-                    <i className='fal fa-star'></i>
-                </span>
-                <span className='price'>
-                    <span className='new'>{VND(product.price || 0)}</span>
-                    {product.discount_percent > 0 && (
-                        <span className='old'>{VND(product?.price || 0)}</span>
+                    {Array(5).fill('').map((_, i) =>
+                        product.rating_point > i ? (
+                            <i className='fa fa-star'></i>
+                        ) : (
+                            <i className='fal fa-star'></i>
+                        )
                     )}
                 </span>
+                {getDiscountPrice(product.price, product.discount_value) !== null ? (
+                    <span className='price'>
+                        <span className='new'>
+                            {VND(getDiscountPrice(product.price, product.discount_value) as number)}
+                        </span>
+                        <span className='old'>{VND(product.price)}</span>
+                    </span>
+                ) : (
+                    <span className='price'>
+                        <span className='new'>{VND(product.price)}</span>
+                    </span>
+                )}
             </div>
         </div>
     );

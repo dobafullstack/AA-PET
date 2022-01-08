@@ -20,6 +20,9 @@ const createRequest = (url: string) => ({ url, headers });
 type StateType = {
     product: ProductModel;
     products: ProductModel[];
+    bestSeller: ProductModel[];
+    newArrival: ProductModel[];
+    saleProducts: ProductModel[];
 };
 
 const initialState: StateType = {
@@ -29,16 +32,27 @@ const initialState: StateType = {
         description: '',
         quantity: 0,
         saled_count: 0,
-        discount_percent: 0,
+        discount_value: 0,
         price: 0,
         status: 0,
         category_detail_id: '',
         images: [],
         created_at: '',
         updated_at: '',
+        reviews: [],
+        rating_point: 0
     },
     products: localStorage.getItem('list-products')
         ? JSON.parse(localStorage.getItem('list-products') as string)
+        : [],
+    bestSeller: localStorage.getItem('bestSeller')
+        ? JSON.parse(localStorage.getItem('bestSeller') as string)
+        : [],
+    newArrival: localStorage.getItem('newArrival')
+        ? JSON.parse(localStorage.getItem('newArrival') as string)
+        : [],
+    saleProducts: localStorage.getItem('saleProducts')
+        ? JSON.parse(localStorage.getItem('saleProducts') as string)
         : [],
 };
 
@@ -50,6 +64,21 @@ const productSlice = createSlice({
             state.product = initialState.product;
         },
         getAllProduct(state, { payload }: PayloadAction<ProductModel[]>) {},
+        getBestSeller(state, { payload }: PayloadAction<ProductModel[]>) {
+            state.bestSeller = [];
+            payload.map((item) => state.bestSeller.push(item));
+            localStorage.setItem('bestSeller', JSON.stringify(state.bestSeller))
+        },
+        getNewArrival(state, { payload }: PayloadAction<ProductModel[]>) {
+            state.newArrival = [];
+            payload.map((item) => state.newArrival.push(item));
+            localStorage.setItem('newArrival', JSON.stringify(state.newArrival))
+        },
+        getSaleProducts(state, { payload }: PayloadAction<ProductModel[]>) {
+            state.saleProducts = [];
+            payload.map((item) => state.saleProducts.push(item));
+            localStorage.setItem('saleProducts', JSON.stringify(state.saleProducts))
+        },
         getProductByCategoryId(state, { payload }: PayloadAction<ProductModel[]>) {
             state.products = [];
             payload.forEach((product) => state.products.push(product));
@@ -63,7 +92,10 @@ const productSlice = createSlice({
         getProductById(state, { payload }: PayloadAction<ProductModel>) {
             state.product = payload;
         },
-        changePriceProduct(state, { payload }: PayloadAction<{newPrice: number; newName: string}>) {
+        changePriceProduct(
+            state,
+            { payload }: PayloadAction<{ newPrice: number; newName: string }>
+        ) {
             state.product.price = payload.newPrice;
             state.product.name = payload.newName;
         },
@@ -91,6 +123,9 @@ const productSlice = createSlice({
             sortedList.sort();
             state.products = sortedList.products;
         },
+        searchProducts(state, {payload}: PayloadAction<string>){
+            state.products = state.products.filter(p => p.name.toLowerCase().includes(payload.toLowerCase()));
+        }
     },
 });
 
@@ -104,6 +139,10 @@ export const {
     clearProduct,
     changePriceProduct,
     sortProduct,
+    getBestSeller,
+    getNewArrival,
+    getSaleProducts,
+    searchProducts,
 } = productSlice.actions;
 
 export const productApi = createApi({

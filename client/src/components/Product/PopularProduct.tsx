@@ -5,7 +5,7 @@ import ProductItem from './ProductItem';
 interface Props {}
 
 export default function PopularProduct({}: Props): ReactElement {
-    const products = useAppSelector((state) => state.product.products);
+    const products = useAppSelector((state) => state.product.bestSeller.slice(0, 4));
 
     return (
         <div className='section section-margin'>

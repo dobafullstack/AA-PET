@@ -7,6 +7,7 @@ interface Props {
     onSubmit: (values?: any) => void;
     children: React.ReactNode;
     formik?: boolean
+    title?: string
 }
 
 export default function ModalLayout({
@@ -14,7 +15,8 @@ export default function ModalLayout({
     setIsOpen,
     onSubmit,
     children,
-    formik
+    formik,
+    title = 'Modal title'
 }: Props): ReactElement {
     return (
         <Modal toggle={() => setIsOpen(!isOpen)} isOpen={isOpen}>
@@ -26,12 +28,12 @@ export default function ModalLayout({
                         ×
                     </button>
                 }>
-                Modal title
+                {title}
             </ModalHeader>
             <ModalBody>{children}</ModalBody>
             {!formik && (
                 <ModalFooter>
-                    <Button color='primary' onClick={() => onSubmit()}>
+                    <Button color='primary' onClick={onSubmit}>
                         Submit
                     </Button>{" "}
                     <Button color='danger' onClick={() => setIsOpen(!isOpen)}>

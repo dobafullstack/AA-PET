@@ -1,4 +1,4 @@
-$(function() {
+export default function() {
   /* ChartJS
    * -------
    * Data and config for chartjs
@@ -349,4 +349,4 @@ $(function() {
       options: doughnutPieOptions
     });
   }
-});
+};

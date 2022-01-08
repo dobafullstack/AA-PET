@@ -264,7 +264,7 @@ export default function Checkout({}: Props): ReactElement {
                                                         values={values}
                                                         navigate={navigate}
                                                         cart={cart}
-                                                        userId={data?.result._id}
+                                                        userId={data?.result ? data?.result._id : undefined}
                                                         errors={errors}
                                                     />
                                                 </div>

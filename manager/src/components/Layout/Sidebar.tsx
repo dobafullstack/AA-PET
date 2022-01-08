@@ -1,51 +1,17 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext } from "react";
 import { Link } from "react-router-dom";
-import menu from "../../utils/data-menu";
+import { AuthContext } from "../../context/AuthContext";
+import menuData from "../../utils/data-menu";
 
 interface Props {}
 
 export default function Sidebar({}: Props): ReactElement {
+    const {user} = useContext(AuthContext);
+    const menu = user?.role === 'admin' ? menuData : menuData.filter(m => m.id !== 'auth');
+
     return (
         <nav className='sidebar sidebar-offcanvas' id='sidebar'>
             <ul className='nav'>
-                {/* <li className='nav-item'>
-                    <a className='nav-link' href='index.html'>
-                        <i className='mdi mdi-home menu-icon'></i>
-                        <span className='menu-title'>Dashboard</span>
-                    </a>
-                </li>
-                <li className='nav-item'>
-                    <a
-                        className='nav-link'
-                        data-toggle='collapse'
-                        href='#ui-basic'
-                        aria-expanded='false'
-                        aria-controls='ui-basic'>
-                        <i className='mdi mdi-circle-outline menu-icon'></i>
-                        <span className='menu-title'>UI Elements</span>
-                        <i className='menu-arrow'></i>
-                    </a>
-                    <div className='collapse' id='ui-basic'>
-                        <ul className='nav flex-column sub-menu'>
-                            <li className='nav-item'>
-                                {" "}
-                                <a
-                                    className='nav-link'
-                                    href='pages/ui-features/buttons.html'>
-                                    Buttons
-                                </a>
-                            </li>
-                            <li className='nav-item'>
-                                {" "}
-                                <a
-                                    className='nav-link'
-                                    href='pages/ui-features/typography.html'>
-                                    Typography
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> */}
                 {menu.map((item) => {
                     if (item.subMenu.length === 0 && item.path) {
                         return (

@@ -8,6 +8,7 @@ export default class Product {
     images: Array<string>;
     category_detail_id: string;
     description: string;
+    accessory: {}
     created_at: string;
     updated_at: string;
 
@@ -22,7 +23,8 @@ export default class Product {
         category_detail_id: string,
         description: string,
         created_at: string,
-        updated_at: string
+        updated_at: string,
+        accessory: {}
     ) {
         this._id = _id;
         this.name = name;
@@ -35,5 +37,6 @@ export default class Product {
         this.description = description;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.accessory = accessory;
     }
 }

@@ -1,11 +1,37 @@
-import React, { ReactElement } from 'react'
-import { Chart, Overview, Recent } from '../components';
+import React, { ReactElement, useEffect, useState } from "react";
+import billApi from "../api/billApi";
+import orderApi from "../api/orderApi";
+import ProductApi from "../api/ProductApi";
+import { Chart, Overview, Recent } from "../components";
+import Bill from "../models/Bill";
+import Order from "../models/Order";
+import Product from "../models/Product";
 
-interface Props {
-    
-}
+interface Props {}
 
 export default function Dashboard({}: Props): ReactElement {
+    const [bills, setBills] = useState<Bill[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        billApi
+            .getAllBills()
+            .then((res) => {
+                setBills(res.result);
+            })
+            .catch((err) => console.log(err));
+
+        orderApi
+            .getAllOrders()
+            .then((res) => setOrders(res.result))
+            .catch((err) => console.log(err));
+
+        ProductApi.getAllProducts()
+            .then((res) => setProducts(res.result))
+            .catch((err) => console.log(err));
+    }, []);
+
     return (
         <>
             <div className='row'>
@@ -15,44 +41,15 @@ export default function Dashboard({}: Props): ReactElement {
                             <div className='mr-md-3 mr-xl-5'>
                                 <h2>Welcome back,</h2>
                                 <p className='mb-md-0'>
-                                    Your analytics dashboard template.
+                                    Your analytics dashboard.
                                 </p>
                             </div>
-                            <div className='d-flex'>
-                                <i className='mdi mdi-home text-muted hover-cursor'></i>
-                                <p className='text-muted mb-0 hover-cursor'>
-                                    &nbsp;/&nbsp;Dashboard&nbsp;/&nbsp;
-                                </p>
-                                <p className='text-primary mb-0 hover-cursor'>
-                                    Analytics
-                                </p>
-                            </div>
-                        </div>
-                        <div className='d-flex justify-content-between align-items-end flex-wrap'>
-                            <button
-                                type='button'
-                                className='btn btn-light bg-white btn-icon mr-3 d-none d-md-block '>
-                                <i className='mdi mdi-download text-muted'></i>
-                            </button>
-                            <button
-                                type='button'
-                                className='btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0'>
-                                <i className='mdi mdi-clock-outline text-muted'></i>
-                            </button>
-                            <button
-                                type='button'
-                                className='btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0'>
-                                <i className='mdi mdi-plus text-muted'></i>
-                            </button>
-                            <button className='btn btn-primary mt-2 mt-xl-0'>
-                                Download report
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Overview />
-            <Chart />
+            <Overview bills={bills} orders={orders} products={products} />
+            <Chart bills={bills} orders={orders} products={products} />
             <Recent />
         </>
     );

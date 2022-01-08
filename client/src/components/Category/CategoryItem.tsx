@@ -6,6 +6,7 @@ import { addToCart } from '../../app/reducers/cart.reducer';
 import isNewProduct from '../../configs/MilisecondToDay';
 import VND from '../../configs/VND';
 import ProductModel from '../../models/ProductModel';
+import getDiscountPrice from '../../utils/getDiscountPrice';
 
 interface Props {
     product: ProductModel;
@@ -21,7 +22,7 @@ export default function CategoryItem({ product, isClothes }: Props): ReactElemen
         <div className='col-lg-4 col-md-4 col-sm-6 product'>
             <div className='product-inner'>
                 <div className='thumb'>
-                    <Link state={{isClothes}} to={`/product/${product._id}`} className='image'>
+                    <Link state={{ isClothes }} to={`/product/${product._id}`} className='image'>
                         <img
                             className='fit-image'
                             src={product.images[0]}
@@ -36,9 +37,9 @@ export default function CategoryItem({ product, isClothes }: Props): ReactElemen
                         </span>
                     )}
 
-                    {product.discount_percent > 0 && (
+                    {product.discount_value > 0 && (
                         <span className='badges'>
-                            <span className='sale'>-{product.discount_percent}%</span>
+                            <span className='sale'>-{product.discount_value}%</span>
                         </span>
                     )}
 
@@ -68,20 +69,43 @@ export default function CategoryItem({ product, isClothes }: Props): ReactElemen
                 </div>
                 <div className='content'>
                     <h5 className='title'>
-                        <Link state={{isClothes}} to={`/product/${product._id}`}>{product.name}</Link>
+                        <Link state={{ isClothes }} to={`/product/${product._id}`}>
+                            {product.name}
+                        </Link>
                     </h5>
                     <span className='rating'>
-                        <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                        <i className='fa fa-star'></i>
-                        <i className='fal fa-star'></i>
-                        <i className='fal fa-star'></i>
+                        {Array(5)
+                            .fill('')
+                            .map((_, i) =>
+                                product.rating_point > i ? (
+                                    <i className='fa fa-star'></i>
+                                ) : (
+                                    <i className='fal fa-star'></i>
+                                )
+                            )}
                     </span>
-                    <span className='price'>
-                        <span className='new'>{VND(product.price)}</span>
-                        <span className='old'>{VND(product.price)}</span>
-                    </span>
-                    <p>{product.description}</p>
+                    {product.discount_value > 0 ? (
+                        <span className='price'>
+                            <span className='new'>{VND(product.price)}</span>
+                            <span className='old'>
+                                {VND(
+                                    getDiscountPrice(
+                                        product.price,
+                                        product.discount_value
+                                    ) as number
+                                )}
+                            </span>
+                        </span>
+                    ) : (
+                        <span className='price'>
+                            <span className='new'>{VND(product.price)}</span>
+                        </span>
+                    )}
+                    <p>
+                        {product.description.length > 100
+                            ? `${product.description.slice(0, 100)}...`
+                            : product.description}
+                    </p>
 
                     <div className='cart-btn action-btn'>
                         <div className='action-cart-btn-wrapper d-flex'>

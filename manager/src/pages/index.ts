@@ -8,3 +8,5 @@ export { default as Users } from "./Users";
 export { default as Bills } from "./Bills";
 export { default as Orders } from "./Orders";
 export { default as CategoryDetail } from "./CategoryDetail";
+export { default as NotFound } from "./404";
+export { default as Profile } from "./Profile";

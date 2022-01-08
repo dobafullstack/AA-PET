@@ -5,7 +5,7 @@ const axiosClient = axios.create({
     baseURL: "http://localhost:3500",
     headers: {
         "Content-Type": "application/json",
-        "authorization": `Bearer ${localStorage.getItem('access_token')}`,
+        authorization: `Bearer ${localStorage.getItem("access_token")}`,
         type: "aa-pet",
     },
     paramsSerializer: (params) => queryString.stringify(params),
@@ -39,4 +39,8 @@ export type ResponseType<T> = {
     error: {
         message: string;
     } | null;
+    page_index: number;
+    page_size: number;
+    total: number;
+    page_count: number;
 };

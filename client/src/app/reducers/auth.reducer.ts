@@ -20,6 +20,7 @@ const authApi = createApi({
                     authorization: `Bearer ${token}`,
                 },
             }),
+            keepUnusedDataFor: 5
         }),
     }),
 });

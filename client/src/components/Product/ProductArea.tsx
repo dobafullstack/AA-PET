@@ -5,7 +5,7 @@ import ProductItem from './ProductItem';
 interface Props {}
 
 export default function ProductArea({}: Props): ReactElement {
-  const products = useAppSelector((state) => state.product.products);
+  const {products, bestSeller, newArrival, saleProducts} = useAppSelector((state) => state.product);
 
   return (
       <div className='section position-relative'>
@@ -45,7 +45,7 @@ export default function ProductArea({}: Props): ReactElement {
                       <div className='tab-content'>
                           <div className='tab-pane fade show active' id='tab-product-best-seller'>
                               <div className='row mb-n8'>
-                                  {products.slice(0, 8).map((product) => (
+                                  {bestSeller.slice(0, 8).map((product) => (
                                       <div
                                           className='col-12 col-sm-6 col-lg-3 product-wrapper mb-8'
                                           data-aos='fade-up'
@@ -59,26 +59,26 @@ export default function ProductArea({}: Props): ReactElement {
 
                           <div className='tab-pane fade' id='tab-product-featured'>
                               <div className='row mb-n8'>
-                                  {products.slice(0, 8).map((product) => (
+                                  {saleProducts.slice(0, 8).map((product) => (
                                       <div
                                           className='col-12 col-sm-6 col-lg-3 product-wrapper mb-8'
                                           data-aos='fade-up'
                                           data-aos-duration='1000'
                                       >
-                                          <ProductItem product={product} />
+                                          <ProductItem product={product} saleProduct/>
                                       </div>
                                   ))}
                               </div>
                           </div>
                           <div className='tab-pane fade' id='tab-product-all'>
                               <div className='row mb-n8'>
-                                  {products.slice(0, 8).map((product) => (
+                                  {newArrival.slice(0, 8).map((product) => (
                                       <div
                                           className='col-12 col-sm-6 col-lg-3 product-wrapper mb-8'
                                           data-aos='fade-up'
                                           data-aos-duration='1000'
                                       >
-                                          <ProductItem product={product} />
+                                          <ProductItem product={product} newProduct/>
                                       </div>
                                   ))}
                               </div>

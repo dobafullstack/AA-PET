@@ -46,7 +46,6 @@ const menu: MenuType[] = [
         title: "Auth",
         subMenu: [
             { title: "List Users", path: "/auth/user" },
-            { title: "List Roles", path: "/auth/role" },
         ],
     },
 ];

@@ -163,7 +163,7 @@ function AddModal({ isOpen, setIsOpen }: ModalProps): ReactElement {
             .catch((err) => console.log(err));
 
         accessoryApi
-            .getAllAccessories()
+            .getAllAccessories(undefined, 100)
             .then((res) => {
                 setAccessories(res.result);
             })

@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useContext, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useGetMyAccountQuery } from '../app/reducers/auth.reducer';
 import Breadcrumb from '../components/Layout/Breadcrumb';
@@ -14,13 +14,17 @@ interface Props {}
 export default function Account({}: Props): ReactElement {
     const { setIsLogin } = useContext(AuthContext);
     const [token] = useLocalStorage('access_token', '')
-    const { data, isFetching } = useGetMyAccountQuery(token);
+    const { data, isFetching, refetch } = useGetMyAccountQuery(token);
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         setIsLogin(false);
         return <Navigate to='/' />;
     };
+
+    useEffect(() => {
+        refetch();
+    }, [])
 
     return (
         <>
@@ -77,9 +81,14 @@ export default function Account({}: Props): ReactElement {
                                                     name={data?.result.name as string}
                                                     handleLogout={handleLogout}
                                                 />
-                                                <Order />
-                                                {data && <Address user={data.result} />}
-                                                <AccountDetail user={data?.result as UserModel} />
+                                                {data && <Order user={data.result} />}
+                                                {data && (
+                                                    <Address user={data.result} refetch={refetch} />
+                                                )}
+                                                <AccountDetail
+                                                    user={data?.result as UserModel}
+                                                    refetch={refetch}
+                                                />
                                                 <ChangePassword user={data?.result as UserModel} />
                                             </div>
                                         </div>

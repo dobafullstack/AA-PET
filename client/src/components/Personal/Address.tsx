@@ -23,9 +23,10 @@ import authApi from '../../api/authApi';
 import { toast } from 'react-toastify';
 interface Props {
     user: UserModel;
+    refetch: () => void;
 }
 
-export default function Address({ user }: Props): ReactElement {
+export default function Address({ user, refetch}: Props): ReactElement {
     const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
     const [isOpenModalAdd, setIsOpenModalAdd] = useState(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
@@ -99,7 +100,7 @@ export default function Address({ user }: Props): ReactElement {
                 address: `${values.street}, ${values.district}, ${values.city}`,
             });
 
-            updateUser(delivery as Delivery[], setIsOpenModalAdd);
+            updateUser(delivery as Delivery[], setIsOpenModalAdd).then(() => refetch());
         } else if (method === 'edit') {
           const delivery = [...user.delivery]
           const index = delivery.findIndex(x => x._id === selectedDelivery);
@@ -112,7 +113,7 @@ export default function Address({ user }: Props): ReactElement {
                 _id: delivery[index]._id
               };
 
-              updateUser(delivery as Delivery[], setIsOpenModalEdit);
+              updateUser(delivery as Delivery[], setIsOpenModalEdit).then(() => refetch());
             }
         }
     };

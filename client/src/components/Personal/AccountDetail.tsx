@@ -8,9 +8,10 @@ import { toast } from 'react-toastify';
 
 interface Props {
     user: UserModel;
+    refetch: () => void;
 }
 
-export default function AccountDetail({ user }: Props): ReactElement {
+export default function AccountDetail({ user, refetch }: Props): ReactElement {
     const initialValues = {
         name: user.name,
         phone: user.phone,
@@ -42,7 +43,7 @@ export default function AccountDetail({ user }: Props): ReactElement {
             }
         };
 
-        updateUser();
+        updateUser().then(() => refetch());
     };
 
     return (
@@ -136,11 +137,24 @@ export default function AccountDetail({ user }: Props): ReactElement {
                                                 name='gender'
                                                 onChange={handleChange}
                                             >
-                                                <option value='Male' selected>
+                                                <option
+                                                    value='Male'
+                                                    selected={values.gender === 'Male'}
+                                                >
                                                     Nam
                                                 </option>
-                                                <option value='Female'>Nữ</option>
-                                                <option value='Other'>Khác</option>
+                                                <option
+                                                    value='Female'
+                                                    selected={values.gender === 'Female'}
+                                                >
+                                                    Nữ
+                                                </option>
+                                                <option
+                                                    value='Other'
+                                                    selected={values.gender === 'Other'}
+                                                >
+                                                    Khác
+                                                </option>
                                             </Input>
                                         </div>
                                     </div>

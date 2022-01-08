@@ -11,7 +11,7 @@ export default function Login({}: Props): ReactElement {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const { setIsLogin, isLogin } = useContext(AuthContext);
+    const { setIsLogin, isLogin, setToken } = useContext(AuthContext);
 
     const handleLogin = async () => {
         if (username === "" || password === "") {
@@ -23,13 +23,20 @@ export default function Login({}: Props): ReactElement {
             const { code, result } = await authApi.login(username, password);
             console.log({ code, result });
 
-            if (code !== 200) toast.error(result);
-            else {
+            if (code !== 200) {
+                toast.error(result);
+                setIsLogin(false);
+            } else {
                 localStorage.setItem("access_token", result.token);
+                setToken(result.token);
                 const { result: user } = await authApi.getUser(result.token);
                 if (typeof user !== "string") {
-                    setIsLogin(true);
-                    navigate("/", { replace: true });
+                    if (user.role !== 'customer'){
+                        setIsLogin(true);
+                        navigate("/", { replace: true });
+                    }else{
+                        toast.error("You do not have permission")
+                    }
                 }
             }
         } catch (error: any) {
@@ -100,14 +107,6 @@ export default function Login({}: Props): ReactElement {
                                                 setPassword(e.target.value)
                                             }
                                         />
-                                    </div>
-                                </div>
-                                <div className='my-2 d-flex justify-content-between align-items-center'>
-                                    <div className='form-check'>
-                                        <label className='form-check-label text-muted'>
-                                            <Input type='checkbox' />
-                                            Keep me signed in
-                                        </label>
                                     </div>
                                 </div>
                                 <div className='my-3'>
