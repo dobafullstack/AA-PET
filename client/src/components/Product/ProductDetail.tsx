@@ -15,7 +15,7 @@ import VND from '../../configs/VND';
 import { addToCart } from '../../app/reducers/cart.reducer';
 import { useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
-import DecorateProduct from '../../models/DecorateProduct';
+import SimpleProduct, { DecorColor, DecorSize } from '../../models/DecorateProduct';
 
 interface Props {
     product: ProductModel;
@@ -36,9 +36,17 @@ export default function ProductDetail({ product, isClothes, productId }: Props):
 
     useEffect(() => {
         if (!isLoading) {
-            const decorateProduct = new DecorateProduct(data?.result as ProductModel, size, color);
-            decorateProduct.setPrice();
-            dispatch(changePriceProduct({newPrice: decorateProduct.newPrice, newName: decorateProduct.newName}));
+            const simpleProduct = new SimpleProduct(data?.result as ProductModel);
+            const decorSize = new DecorSize(size, simpleProduct);
+            const decorColor = new DecorColor(color, decorSize);
+
+
+            dispatch(
+                changePriceProduct({
+                    newPrice: decorColor.getPrice(),
+                    newName: decorColor.getName(),
+                })
+            );
         }
     }, [size, color]);
 

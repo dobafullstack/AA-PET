@@ -1,76 +1,143 @@
 import ProductModel from './ProductModel';
+interface Component {
+    getPrice(): number;
+    getName(): string;
+}
 
-export default class DecorateProduct {
-    size: 'S' | 'M' | 'L' | 'XL';
-    color: 'red' | 'orange' | 'black' | 'grey';
+export default class SimpleProduct implements Component {
     product: ProductModel;
-    newPrice: number;
-    newName: string;
+
+    constructor(product: ProductModel) {
+        this.product = product;
+    }
+    getPrice(): number {
+        return this.product.price;
+    }
+    getName(): string {
+        return this.product.name;
+    }
+}
+
+class Decorator implements Component {
+    protected simpleProduct: Component;
+
+    constructor(simpleProduct: Component) {
+        this.simpleProduct = simpleProduct;
+    }
+
+    getPrice(): number {
+        return this.simpleProduct.getPrice();
+    }
+
+    getName(): string {
+        return this.simpleProduct.getName();
+    }
+}
+
+export class DecorSize extends Decorator {
+    size: 'S' | 'M' | 'L' | 'XL';
 
     mPriceBonus = 10000;
     LPriceBonus = 15000;
     XLPriceBonus = 17000;
 
+    constructor(size: 'S' | 'M' | 'L' | 'XL', simpleProduct: Component){
+        super(simpleProduct);
+        this.size = size;
+    };
+
+    public getPrice(): number {
+        let newPrice = 0;
+
+        switch (this.size) {
+            case 'S':
+                newPrice = 0;
+                break;
+            case 'M':
+                newPrice = this.mPriceBonus;
+                break;
+            case 'L':
+                newPrice = this.LPriceBonus;
+                break;
+            case 'XL':
+                newPrice = this.XLPriceBonus;
+                break;
+        }
+
+        return super.getPrice() + newPrice;
+    }
+
+    public getName(): string {
+        let newName;
+        switch (this.size) {
+            case 'S':
+                newName = 'Size S';
+                break;
+            case 'M':
+                newName = 'Size M';
+                break;
+            case 'L':
+                newName = 'Size L';
+                break;
+            case 'XL':
+                newName = 'Size XL';
+                break;
+        }
+
+        return `${super.getName()} ${newName}`;
+    }
+}
+export class DecorColor extends Decorator {
+    color: 'red' | 'orange' | 'black' | 'grey';
+
     orangePriceBonus = 10000;
     blackPriceBonus = 15000;
     greyPriceBonus = 17000;
 
-    constructor(
-        product: ProductModel,
-        size: 'S' | 'M' | 'L' | 'XL',
-        color: 'red' | 'orange' | 'black' | 'grey'
-    ) {
-        this.product = product;
-        this.size = size;
+    constructor(color: 'red' | 'orange' | 'black' | 'grey', simpleProduct: Component) {
+        super(simpleProduct);
         this.color = color;
-        this.newPrice = product.price;
-        this.newName = product.name;
     }
 
-    setPrice() {
-        let newPriceSize;
-        let newNameSize;
-        switch (this.size) {
-            case 'S':
-                newPriceSize = 0;
-                newNameSize = 'Size S';
-                break;
-            case 'M':
-                newPriceSize = this.mPriceBonus;
-                newNameSize = "Size M"
-                break;
-            case 'L':
-                newPriceSize = this.LPriceBonus;
-                newNameSize = "Size L"
-                break;
-            case 'XL':
-                newPriceSize = this.XLPriceBonus;
-                newNameSize = "Size XL"
-                break;
-        }
+    public getPrice(): number {
+        let newPrice = 0;
 
-        let newPriceColor;
-        let newNameColor;
         switch (this.color) {
             case 'red':
-                newPriceColor = 0;
-                newNameColor = "Màu đỏ"
+                newPrice = 0;
                 break;
             case 'orange':
-                newPriceColor = this.orangePriceBonus;
-                newNameColor = "Màu cam"
+                newPrice = this.orangePriceBonus;
                 break;
             case 'black':
-                newPriceColor = this.blackPriceBonus;
-                newNameColor = "Màu đen"
+                newPrice = this.blackPriceBonus;
                 break;
             case 'grey':
-                newPriceColor = this.greyPriceBonus;
-                newNameColor = "Màu xám"
+                newPrice = this.greyPriceBonus;
                 break;
         }
 
-        this.newName = `${this.product.name} ${newNameSize} ${newNameColor}`
-        this.newPrice = this.product.price + newPriceColor + newPriceSize;
+        return super.getPrice() + newPrice;
+    }
+
+    public getName(): string {
+        let newName;
+
+        switch (this.color) {
+            case 'red':
+                newName = 'Màu đỏ';
+                break;
+            case 'orange':
+                newName = 'Màu cam';
+                break;
+            case 'black':
+                newName = 'Màu đen';
+                break;
+            case 'grey':
+                newName = 'Màu xám';
+                break;
+        }
+
+        return `${super.getName()} ${newName}`;
     }
 }

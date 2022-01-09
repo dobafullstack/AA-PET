@@ -49,7 +49,7 @@ export default function CategoryWrapper({ products, isClothes }: Props): ReactEl
                     </div>
                     <div className='shop-top-show'>
                         <span>
-                            Showing {products.length < 9 ? productProxy.getProduct().length : 9} of{' '}
+                            Showing {products.length < 9 ? productProxy.getProducts().length : 9} of{' '}
                             {products.length} results
                         </span>
                     </div>
@@ -76,7 +76,7 @@ export default function CategoryWrapper({ products, isClothes }: Props): ReactEl
             </div>
 
             <div className='row shop_wrapper grid_3'>
-                {productProxy.getProduct().map((product) => (
+                {productProxy.getProducts().map((product) => (
                     <CategoryItem product={product} isClothes={isClothes} />
                 ))}
             </div>

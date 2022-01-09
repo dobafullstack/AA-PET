@@ -1,4 +1,3 @@
-import { ResponseType } from "../../api/axiosClient";
 import categoryApi from "../../api/categoryApi";
 import CategoryModel from "../../models/CategoryModel";
 
